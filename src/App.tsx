@@ -1,20 +1,31 @@
 import React from 'react';
-import { BrowserRouter, Route, Link} from 'react-router-dom'
-import logo from './logo.svg';
+import { 
+  BrowserRouter as Router, 
+  Route, 
+  Link,
+  Switch,
+  Redirect,
+  useLocation
+
+} from 'react-router-dom'
+// import logo from './logo.svg';
 import './App.css';
 
+import Admin from './pages/admin'
+import Mobile from './pages/mobile'
+import NotFound from './pages/notFound'
 function App() {
   
   return (
-    <BrowserRouter>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-        </ul>
-      </div>
-    </BrowserRouter>
+    <Router>
+      <Switch>
+        <Route path="/admin" component={Admin} />
+        <Route path="/mobile" component={Mobile}/>
+        <Route path="*">
+          <NotFound />
+        </Route>
+      </Switch>
+    </Router>
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
