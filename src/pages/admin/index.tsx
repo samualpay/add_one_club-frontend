@@ -24,8 +24,15 @@ import ShouldLoginRouter from '../../components/shouldLoginRouter'
 import ShouldLogoutRouter from '../../components/shouldLogoutRouter'
 import {useSelector,useDispatch}from 'react-redux'
 import {RootState} from '../../redux'
+//antd
 import {logout as logoutAction} from '../../redux/modules/user'
-function Admin() {
+import {Layout,Menu,Breadcrumb} from 'antd'
+import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+
+const { SubMenu } = Menu;
+const { Header, Content, Footer, Sider } = Layout;
+// antd
+function Pages() {
   let { path, url } = useRouteMatch();
   let location = useLocation()
   let history = useHistory();
@@ -78,5 +85,8 @@ function Admin() {
     </div>
   );
 }
+function Admin(){
 
-export default Admin;
+}
+
+export default Pages;
