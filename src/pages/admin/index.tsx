@@ -21,6 +21,7 @@ import MachineSetting from './machineSetting'
 import PublishQuery from './publishQuery'
 import PublishSetting from './publishSetting'
 import ShouldLoginRouter from '../../components/shouldLoginRouter'
+import ShouldLogoutRouter from '../../components/shouldLogoutRouter'
 import {useSelector,useDispatch}from 'react-redux'
 import {RootState} from '../../redux'
 import {logout as logoutAction} from '../../redux/modules/user'
@@ -61,9 +62,9 @@ function Admin() {
         <ShouldLoginRouter path={`${path}/activitySetting`}>
           <ActivitySetting />
         </ShouldLoginRouter>
-        <Route path={`${path}/login`}>
+        <ShouldLogoutRouter path={`${path}/login`}>
           <Login />
-        </Route>
+        </ShouldLogoutRouter>
         <ShouldLoginRouter path={`${path}/machineSetting`}>
           <MachineSetting />
         </ShouldLoginRouter>

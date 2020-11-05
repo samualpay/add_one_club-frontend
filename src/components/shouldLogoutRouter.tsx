@@ -7,20 +7,27 @@ import {
     RouteProps
 } from 'react-router-dom';
 
-function ShouldLoginRoute(props: RouteProps) {
+
+
+function ShouldLogoutRoute(props: RouteProps) {
     const {isLogin} = useSelector((state:RootState)=> state.user)
     const { children, location, ...rest } = props
     return (
         <Route
             {...rest}
-            render={() => isLogin ? (
+            render={() => !isLogin ? (
                 children
             ) : (
-                    <Redirect to={{ pathname: '/admin/login', state: { from: location } }} />
+                    <Redirect to={{ pathname: '/admin', state: { from: location } }} />
                 )
             }
         />
     )
 }
 
-export default ShouldLoginRoute
+// const mapStateToProps = (state:RootState) =>({isLogin:state.user.isLogin})
+export default ShouldLogoutRoute
+// export default (connect(
+//     mapStateToProps,
+//     null
+// )(ShouldLoginRoute))
