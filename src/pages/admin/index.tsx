@@ -1,12 +1,14 @@
-import React from 'react';
-import { 
-  BrowserRouter as Router, 
-  Route, 
+import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
   Link,
   Switch,
   Redirect,
   useLocation,
-  useRouteMatch
+  useRouteMatch,
+  useHistory,
+  RouteProps
 
 } from 'react-router-dom'
 
@@ -18,37 +20,59 @@ import Login from './login'
 import MachineSetting from './machineSetting'
 import PublishQuery from './publishQuery'
 import PublishSetting from './publishSetting'
+import ShouldLoginRouter from '../../components/shouldLoginRouter'
+import {useSelector,useDispatch}from 'react-redux'
+import {RootState} from '../../redux'
+import {logout as logoutAction} from '../../redux/modules/user'
 function Admin() {
-  let {path,url} = useRouteMatch();
-  return (
+  let { path, url } = useRouteMatch();
+  let location = useLocation()
+  let history = useHistory();
+  let {isLogin,username} = useSelector((state: RootState)=>(state.user))
+  let dispatch = useDispatch()
+  function logout() {
+    dispatch(logoutAction())
+    history.push(`${url}`)
+  }
+  function LoginButton() {
+    return isLogin ? (
+      <a
+        onClick={logout}
+      >登出</a>
+    ) : (
+        <Link to={`${url}/login`}>登入</Link>
+      );
+  }
 
+
+  return (
     <div className="App">
-        <h1>Admin</h1>
+      <h1>Admin</h1>
       {/* <header className="App-header">
-        
       </header> */}
+      <LoginButton />
       <Switch>
-          <Route exact path = {path}>
-                <h3>Please select a page</h3>
-          </Route>
-          <Route path={`${path}/activityQuery`}>
+        <Route exact path={path}>
+          <Redirect to={{ pathname: `${path}/activityQuery`, state: { from: location } }} />
+        </Route>
+        <ShouldLoginRouter path={`${path}/activityQuery`}>
           <ActivityQuery />
-        </Route>
-        <Route path={`${path}/activitySetting`}>
+        </ShouldLoginRouter>
+        <ShouldLoginRouter path={`${path}/activitySetting`}>
           <ActivitySetting />
-        </Route>
+        </ShouldLoginRouter>
         <Route path={`${path}/login`}>
           <Login />
         </Route>
-        <Route path={`${path}/machineSetting`}>
+        <ShouldLoginRouter path={`${path}/machineSetting`}>
           <MachineSetting />
-        </Route>
-        <Route path={`${path}/publishQuery`}>
+        </ShouldLoginRouter>
+        <ShouldLoginRouter path={`${path}/publishQuery`}>
           <PublishQuery />
-        </Route>
-        <Route path={`${path}/publishSetting`}>
+        </ShouldLoginRouter>
+        <ShouldLoginRouter path={`${path}/publishSetting`}>
           <PublishSetting />
-        </Route>
+        </ShouldLoginRouter>
       </Switch>
     </div>
   );
