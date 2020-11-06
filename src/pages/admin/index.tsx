@@ -16,7 +16,7 @@ import './index.css';
 
 import ActivityQuery from './activityQuery'
 import ActivitySetting from './activitySetting'
-import Login from './login'
+// import Login from './login'
 import MachineSetting from './machineSetting'
 import PublishQuery from './publishQuery'
 import PublishSetting from './publishSetting'
@@ -56,31 +56,26 @@ function Pages() {
   return (
     <div className="App">
       <h1>Admin</h1>
-      {/* <header className="App-header">
-      </header> */}
       <LoginButton />
       <Switch>
         <Route exact path={path}>
           <Redirect to={{ pathname: `${path}/activityQuery`, state: { from: location } }} />
         </Route>
-        <ShouldLoginRouter path={`${path}/activityQuery`}>
+        <Route path={`${path}/activityQuery`}>
           <ActivityQuery />
-        </ShouldLoginRouter>
-        <ShouldLoginRouter path={`${path}/activitySetting`}>
+        </Route>
+        <Route path={`${path}/activitySetting`}>
           <ActivitySetting />
-        </ShouldLoginRouter>
-        <ShouldLogoutRouter path={`${path}/login`}>
-          <Login />
-        </ShouldLogoutRouter>
-        <ShouldLoginRouter path={`${path}/machineSetting`}>
+        </Route>
+        <Route path={`${path}/machineSetting`}>
           <MachineSetting />
-        </ShouldLoginRouter>
-        <ShouldLoginRouter path={`${path}/publishQuery`}>
+        </Route>
+        <Route path={`${path}/publishQuery`}>
           <PublishQuery />
-        </ShouldLoginRouter>
-        <ShouldLoginRouter path={`${path}/publishSetting`}>
+        </Route>
+        <Route path={`${path}/publishSetting`}>
           <PublishSetting />
-        </ShouldLoginRouter>
+        </Route>
       </Switch>
     </div>
   );

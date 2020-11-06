@@ -1,7 +1,7 @@
 import React from 'react';
-import { 
-  BrowserRouter as Router, 
-  Route, 
+import {
+  BrowserRouter as Router,
+  Route,
   Link,
   Switch,
   Redirect,
@@ -14,13 +14,20 @@ import './App.css';
 import Admin from './pages/admin'
 import Mobile from './pages/mobile'
 import NotFound from './pages/notFound'
+import Login from './pages/admin/login'
+import ShouldLoginRoute from './components/shouldLoginRouter';
+import ShouldLogoutRoute from './components/shouldLogoutRouter';
 function App() {
-  
   return (
     <Router>
       <Switch>
-        <Route path="/admin" component={Admin} />
-        <Route path="/mobile" component={Mobile}/>
+        <ShouldLogoutRoute path="/admin/login">
+          <Login />
+        </ShouldLogoutRoute>
+        <ShouldLoginRoute path="/admin">
+          <Admin />
+        </ShouldLoginRoute>
+        <Route path="/mobile" component={Mobile} />
         <Route path="*">
           <NotFound />
         </Route>

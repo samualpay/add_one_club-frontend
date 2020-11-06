@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import {login} from '../../../redux/modules/user'
 import { 
+  useHistory,
   BrowserRouter as Router, 
   Route, 
   Link,
@@ -12,11 +13,13 @@ import {
 } from 'react-router-dom'
 
 import './index.css';
+import { RootState } from '../../../redux';
 
 function Admin() {
   const [username,setUsername] = useState('')
   const [password,setPassword] = useState('')
   const dispatch = useDispatch()
+  const history = useHistory()
   function inputChange(type:string){
     return (ev:React.ChangeEvent<HTMLInputElement>):void=> {
       let value = ev.target.value
@@ -30,8 +33,14 @@ function Admin() {
       }
     }
   }
-  function clickHandle():void {
-    dispatch(login(username,password))
+  async function clickHandle() {
+    dispatch(login(username,password,(result => {
+      if(result){
+        history.push('/admin')
+      }else{
+        console.log('failed')
+      }
+    })))
   }
   return (
     <div className="App">

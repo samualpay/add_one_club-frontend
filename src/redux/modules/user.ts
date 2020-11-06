@@ -1,3 +1,5 @@
+import { rejects } from "assert";
+import { resolve } from "dns";
 import { ThunkAction } from "redux-thunk";
 
 type UserState = {
@@ -18,11 +20,18 @@ type UserAction = {
 //     type: 'user/LOGIN',
 //     payload: { username, password }
 // })
-export const login = (username: string, password: string):  ThunkAction<void,UserState,unknown,UserAction> => {
+export const login = (username: string, password: string, cb: (result:boolean) => void): ThunkAction<Promise<void>, UserState, unknown, UserAction> => {
     return async dispatch => {
         if (username === '123' && password === '123') {
-            dispatch({type: 'user/LOGIN',payload: {username,token:'123'}})
+            const { username, token } = await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({ username: '123', token: '123' })
+                }, 1000)
+            })
+            dispatch({ type: 'user/LOGIN', payload: { username, token } })
+            cb(true)
         }
+        cb(false)
     }
 }
 
@@ -36,7 +45,7 @@ export function userReducer(state = initialState, action: UserAction): UserState
         case 'user/LOGIN':
             if (action.payload != null) {
                 const { username, token } = action.payload
-                return {username, token,isLogin:true}
+                return { username, token, isLogin: true }
             }
             return initialState
         case 'user/LOGOUT':
