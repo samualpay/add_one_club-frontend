@@ -1,57 +1,70 @@
-import { rejects } from "assert";
-import { resolve } from "dns";
 import { ThunkAction } from "redux-thunk";
-
+import authService from "../../service/auth.service";
+import {show,dismiss,LoadingAction} from './loading'
+// State
 type UserState = {
-    username: string | null;
-    token: string | null;
-    isLogin: boolean;
+  username: string | null;
+  token: string | null;
+  isLogin: boolean;
 };
 
-const initialState: UserState = { username: null, token: null, isLogin: false }
+const initialState: UserState = { username: null, token: null, isLogin: false };
+function getState(): UserState {
+  const state = authService.checkTokenExpire();
+  if (state.isValid && state.user !== null) {
+    let user = state.user;
+    return { username: user.username, token: user.token, isLogin: true };
+  }
+  return initialState;
+}
+//  Action
 type UserAction = {
-    type: string,
-    payload: {
-        username: string,
-        token: string
-    } | null
-}
-// export const login = (username: string, password: string): UserAction => ({
-//     type: 'user/LOGIN',
-//     payload: { username, password }
-// })
-export const login = (username: string, password: string, cb: (result:boolean) => void): ThunkAction<Promise<void>, UserState, unknown, UserAction> => {
-    return async dispatch => {
-        if (username === '123' && password === '123') {
-            const { username, token } = await new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({ username: '123', token: '123' })
-                }, 1000)
-            })
-            dispatch({ type: 'user/LOGIN', payload: { username, token } })
-            cb(true)
-        }
-        cb(false)
+  type: string;
+  payload: {
+    username: string;
+    token: string;
+  } | null;
+};
+// Action Creator
+export const login = (
+  username: string,
+  password: string,
+  cb: (result: boolean) => void
+): ThunkAction<Promise<void>, UserState, unknown, UserAction| LoadingAction> => {
+  return async (dispatch) => {
+      dispatch(show())
+    let result = await authService.login(username, password);
+    if (result.isValid === true && result.user !== null) {
+      let user = result.user;
+      dispatch({
+        type: "user/LOGIN",
+        payload: { username: user.username, token: user.token },
+      });
+      dispatch(dismiss())
+      cb(true);
+    } else {
+      cb(false);
     }
-}
+  };
+};
 
 export const logout = (): UserAction => ({
-    type: 'user/LOGOUT',
-    payload: null
-})
+  type: "user/LOGOUT",
+  payload: null,
+});
 
-export function userReducer(state = initialState, action: UserAction): UserState {
-    switch (action.type) {
-        case 'user/LOGIN':
-            if (action.payload != null) {
-                const { username, token } = action.payload
-                return { username, token, isLogin: true }
-            }
-            return initialState
-        case 'user/LOGOUT':
-            return initialState
-        default:
-            return state
-
-    }
+// Reducer
+export function userReducer(state = getState(), action: UserAction): UserState {
+  switch (action.type) {
+    case "user/LOGIN":
+      if (action.payload != null) {
+        const { username, token } = action.payload;
+        return { username, token, isLogin: true };
+      }
+      return initialState;
+    case "user/LOGOUT":
+      return initialState;
+    default:
+      return state;
+  }
 }

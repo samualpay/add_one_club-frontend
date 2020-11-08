@@ -17,9 +17,34 @@ import NotFound from './pages/notFound'
 import Login from './pages/admin/login'
 import ShouldLoginRoute from './components/shouldLoginRouter';
 import ShouldLogoutRoute from './components/shouldLogoutRouter';
+import {useSelector,useDispatch} from 'react-redux'
+import {Spin} from 'antd'
+import { RootState } from './redux';
+import axios from 'axios'
+import authService from './service/auth.service'
+import {show,dismiss}from './redux/modules/loading'
 function App() {
+  const dispatch = useDispatch()
+  const {isLoading} = useSelector((state:RootState)=>state.loading)
+  axios.interceptors.request.use((config)=>{
+    const {isValid,user} =authService.checkTokenExpire()
+    if(isValid&& user!==null){
+      const {token }= user
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    dispatch(show())
+    return config
+  })
+  axios.interceptors.response.use((resp)=>{
+    dispatch(dismiss())
+    return resp
+  },(error)=>{
+    dispatch(dismiss())
+    console.log(error)
+  })
   return (
-    <Router>
+    <Spin spinning={isLoading >0}>
+      <Router>
       <Switch>
         <ShouldLogoutRoute path="/admin/login">
           <Login />
@@ -33,22 +58,8 @@ function App() {
         </Route>
       </Switch>
     </Router>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.tsx</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React GGG
-    //     </a>
-    //   </header>
-    // </div>
+    </Spin>
+    
   );
 }
 
