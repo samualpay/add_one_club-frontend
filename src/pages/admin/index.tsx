@@ -125,10 +125,10 @@ function Pages() {
         </Sider>
         <Layout>
           <Header className="site-layout-sub-header-background" style={{ padding: 0 }} >
-          <h1>{menuItem.title}</h1>
+          <h1 style={{color: 'white'}}>{menuItem.title}</h1>
           </Header>
-          <Content style={{ margin: '24px 16px 0' }}>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <Content style={{ margin: '24px 16px 24' }}>
+            <div className="site-layout-background" style={{ textAlign: 'left',padding: 24, minHeight: 640 }}>
               <Switch>
                 <Route exact path={path}>
                   <Redirect to={{ pathname: `${path}/machineSetting`, state: { from: location } }} />
@@ -151,7 +151,7 @@ function Pages() {
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer className="site-layout-sub-footer-background" style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
       </Layout>
 
