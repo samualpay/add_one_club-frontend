@@ -1,8 +1,12 @@
 import { Space, Table } from "antd";
 import React from "react";
 import Data from "../type/data";
-import TableProps from "../type/tableProps";
 
+type TableProps = {
+    datas: Array<Data>;
+    onModifyClick: (data: Data) => void;
+    onDeleteClick: (id: string) => void;
+}
 function MyTable({datas:outerData,onDeleteClick,onModifyClick}:TableProps){
     const columns = [
       {
