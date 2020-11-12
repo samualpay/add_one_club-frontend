@@ -1,10 +1,11 @@
-import React, {useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Form,
   Input,
   Select,
-  Button
+  Button,
+  Modal
 } from 'antd'
 import './index.css';
 import {
@@ -14,30 +15,78 @@ import {
 } from '../../../data'
 import Data from './type/data';
 import MyTable from './component/table';
+import ModifyModal from './component/modifyModal';
+import machineService from '../../../service/machine.service';
 const { Option } = Select
 
 
 function Admin() {
-  const [datas,setDatas] = useState<Array<Data>>([])
-  function onFinish(data: Data) {
-    datas.push(data)
-    setDatas(new Array(...datas))
+  const initalData: Data = { id: '', city: '', dist: '', address: '', area: '', machineType: '', storeAttribute: '' }
+  const [datas, setDatas] = useState<Array<Data>>([])
+  const [modalData, setModalData] = useState<Data>(initalData)
+  const [modalShow, setModalShow] = useState(false)
+  const [form] = Form.useForm<Data>()
+  function showErrorMessage(message:string){
+    Modal.error({title: '錯誤',content:message})
   }
-  function onDeleteClick(id:string){
-    const items = datas.filter(data=> data.id !== id)
-    setDatas(items)
+  async function onAdd(data: Data) {
+    await machineService.createMachine(data)
+    findMachines()
+    // datas.push(data)
+    // setDatas(new Array(...datas))
   }
-  function onModifyClick(data:Data){
-    console.log('modify',data)
+  function onDeleteClick(id: string) {
+    Modal.confirm({
+      title: "確認刪除",
+      content: (
+        <p>{`確定要刪除廣告機[${id}]`}</p>
+      ),
+      onOk: () => {
+        onDeleteHandle(id)
+      }
+    })
   }
+  async function onDeleteHandle(id: string) {
+    await machineService.deleteMachine(id)
+    findMachines()
+  }
+  async function findMachines() {
+    const datas = await machineService.findAllMachines()
+    setDatas([...datas])
+  }
+  function onModifyClick(data: Data) {
+    setModalData({...data})
+    showModal()
+  }
+  async function onModifyHandle(data: Data) {
+    try {
+      await machineService.updateMachine(data)
+      findMachines()
+    }catch(err){
+      showErrorMessage(err.message)
+    }finally{
+      hideModal()
+    }
+  }
+  function showModal() {
+    setModalShow(true)
+  }
+  function hideModal() {
+    setModalShow(false)
+  }
+  useEffect(() => {
+    form.setFieldsValue(initalData)
+    findMachines()
+  }, [])
+
   return (
     <div>
-      <Form name="complex-form" onFinish={onFinish} >
-        <Form.Item label="廣告代碼">
+      <Form name="complex-form" form={form} onFinish={onAdd} >
+        <Form.Item label="廣告機代碼">
           <Form.Item
             name="id"
             noStyle
-            rules={[{ required: true, message: '未填廣告代碼' }]}
+            rules={[{ required: true, message: '未填廣告機代碼' }]}
           >
             <Input style={{ width: 160 }} placeholder="" />
           </Form.Item>
@@ -126,7 +175,8 @@ function Admin() {
           </Button>
         </Form.Item>
       </Form>
-      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick}/>
+      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick} />
+      <ModifyModal data={modalData} visible={modalShow} onCancel={hideModal} onOK={onModifyHandle} />
     </div>
   );
 }
