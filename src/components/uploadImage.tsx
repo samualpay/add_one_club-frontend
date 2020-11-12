@@ -1,102 +1,151 @@
-import { Upload, message, Modal } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload/interface';
-import React, { useState } from 'react';
-import { resolve } from 'url';
+import {
+  Upload,
+  message,
+  Modal,
+  Tooltip,
+  Progress,
+  Image,
+  Divider,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import {
+  RcFile,
+  UploadChangeParam,
+  UploadFile,
+  RcCustomRequestOptions,
+} from "antd/lib/upload/interface";
+import React, { useState } from "react";
+import uploadService from "../service/upload.service";
 
-function getBase64(img: Blob | File | undefined) {
+type UploadImageProps = {};
+function UploadImage({}: UploadImageProps) {
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [progress, setProgress] = useState(0);
+  function beforeUpload(file: RcFile) {
+    setProgress(0);
+    setLoading(true);
+    return true;
 
-    return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-            if (typeof reader.result === 'string') {
-                resolve(reader.result)
-                // callback(reader.result)
-            }
-            resolve('')
-        });
-        if (img != undefined) {
-            reader.readAsDataURL(img);
-        }else{
-            resolve('')
-        }
-    })
-}
-
-function beforeUpload(file: RcFile) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
+    // const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    // if (!isJpgOrPng) {
+    //     message.error('You can only upload JPG/PNG file!');
+    // }
+    // const isLt2M = file.size / 1024 / 1024 < 2;
+    // if (!isLt2M) {
+    //     message.error('Image must smaller than 2MB!');
+    // }
+    // return isJpgOrPng && isLt2M;
+  }
+  async function handleChange({
+    file,
+    event,
+  }: UploadChangeParam<UploadFile<{ url: string }>>) {
+    //console.log(info.file.status)
+    if (file.status === "uploading") {
+      setLoading(true);
+      if (event) {
+        setProgress(event.percent);
+      }
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+    if (file.status === "done") {
+      setLoading(false);
+      setProgress(0);
+      if (file.response !== undefined) {
+        console.log(file.response.url);
+        setImageUrl(file.response.url);
+      }
     }
-    return isJpgOrPng && isLt2M;
-}
-type UploadImageProps = {
-
-}
-function UploadImage({ }: UploadImageProps) {
-    const [loading, setLoading] = useState(false)
-    const [imageUrl, setImageUrl] = useState('')
-    const [previewVisisble, setPreviewVisible] = useState(false)
-    async function handleChange(info: UploadChangeParam) {
-        if (info.file.status === 'uploading') {
-            setLoading(true)
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            let imageUrl = await getBase64(info.file.originFileObj)
-            setLoading(false)
-            setImageUrl(imageUrl)
-        }
+    if (file.status === "error") {
+      Modal.error({
+        title: "上傳失敗",
+      });
     }
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-    )
-    function handleCancel() {
-        setPreviewVisible(false)
-    }
-    async function handlePreview(file: UploadFile) {
-        // if (!file.url && !file.preview) {
-        //     file.preview = await getBase64(file.originFileObj)
-        // }
-        // if(file.url || file.preview){
-
-        // }
-        if(imageUrl){
-            setPreviewVisible(true)
-        }
-    }
-    return (
+  }
+  const uploadButton = (
+    <div>
+      {loading ? (
+        <Progress type="circle" percent={progress} width={60} />
+      ) : (
+        <PlusOutlined />
+      )}
+      <div style={{ marginTop: 8 }}>上傳</div>
+    </div>
+  );
+  const imageButton = (
+    <Tooltip
+      placement="top"
+      title={() => (
         <>
-            <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-                onPreview={handlePreview}
-            >
-                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>
-            <Modal
-                visible={previewVisisble}
-                footer={null}
-                onCancel={handleCancel}
-            >
-                <img alt="example" style={{ width: '100%' }} src={imageUrl} />
-            </Modal>
+          <Upload
+            name="avatar"
+            className="image-upload-grid"
+            showUploadList={false}
+            accept="image/*"
+            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            customRequest={customRequest}
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            <a style={{ color: "#FFF" }}>重新上傳</a>
+          </Upload>
+          <Divider type="vertical" style={{ width: "2px" }} />
+          <a style={{ color: "#FFF" }}>刪除</a>
         </>
-
-    )
+      )}
+      trigger="hover"
+    >
+      {loading ? (
+        <div className="ant-upload ant-upload-select ant-upload-select-picture-card">
+          {uploadButton}
+        </div>
+      ) : (
+        <Image
+          src={imageUrl}
+          width={104}
+          height={104}
+          style={{ marginRight: 8, marginBottom: 8 }}
+        ></Image>
+      )}
+    </Tooltip>
+  );
+  async function customRequest({
+    onSuccess,
+    onProgress,
+    onError,
+    file,
+  }: RcCustomRequestOptions) {
+    try {
+      const { url } = await uploadService.uploadImage(file, (percent) => {
+        onProgress({ percent }, file);
+      });
+      onSuccess({ url }, file);
+    } catch (err) {
+      onError(err);
+    }
+  }
+  return (
+    <>
+      {imageUrl ? (
+        imageButton
+      ) : (
+        <Upload
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          // className="image-upload-grid"
+          showUploadList={false}
+          accept="image/*"
+          // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          customRequest={customRequest}
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          {uploadButton}
+        </Upload>
+      )}
+    </>
+  );
 }
 
-export default UploadImage
+export default UploadImage;
