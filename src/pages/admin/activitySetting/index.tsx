@@ -1,8 +1,8 @@
 import React from 'react';
 import UploadImage from '../../../components/uploadImage'
-import { 
-  BrowserRouter as Router, 
-  Route, 
+import {
+  BrowserRouter as Router,
+  Route,
   Link,
   Switch,
   Redirect,
@@ -11,15 +11,26 @@ import {
 } from 'react-router-dom'
 
 import './index.css';
+import { Form } from 'antd';
 
 function Admin() {
-  
   return (
 
     <div className="App">
       <header className="App-header">
         <h1>活動產品設定</h1>
-        <UploadImage />
+        <Form
+          initialValues={{
+            ['upload']: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          }}
+        >
+          <Form.Item
+            name="upload"
+          >
+            <UploadImage />
+          </Form.Item>
+        </Form>
+
       </header>
     </div>
   );

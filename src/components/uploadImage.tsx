@@ -18,19 +18,13 @@ import React, { useEffect, useState } from "react";
 import uploadService from "../service/upload.service";
 
 type UploadImageProps = {
-    url?:string
+    value?:string,
+    onChange?:(value:string)=>void
 };
-function UploadImage({url}: UploadImageProps) {
+function UploadImage({value,onChange}: UploadImageProps) {
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
   const [progress, setProgress] = useState(0);
-  useEffect(()=>{
-      if(url){
-          setImageUrl(url)
-      }else{
-          setImageUrl('')
-      }
-  },[url])
+  
   function beforeUpload(file: RcFile) {
     setProgress(0);
     setLoading(true);
@@ -45,6 +39,11 @@ function UploadImage({url}: UploadImageProps) {
     //     message.error('Image must smaller than 2MB!');
     // }
     // return isJpgOrPng && isLt2M;
+  }
+  function setImageUrl(url:string){
+      if(onChange){
+          onChange(url)
+      }
   }
   function onDeleteClick(){
       Modal.confirm({
@@ -115,7 +114,7 @@ function UploadImage({url}: UploadImageProps) {
         </div>
       ) : (
         <Image
-          src={imageUrl}
+          src={value}
           width={104}
           height={104}
           style={{ marginRight: 8, marginBottom: 8 }}
@@ -140,7 +139,7 @@ function UploadImage({url}: UploadImageProps) {
   }
   return (
     <>
-      {imageUrl ? (
+      {value ? (
         imageButton
       ) : (
         <Upload
