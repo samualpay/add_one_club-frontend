@@ -14,14 +14,23 @@ import {
   UploadFile,
   RcCustomRequestOptions,
 } from "antd/lib/upload/interface";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import uploadService from "../service/upload.service";
 
-type UploadImageProps = {};
-function UploadImage({}: UploadImageProps) {
+type UploadImageProps = {
+    url?:string
+};
+function UploadImage({url}: UploadImageProps) {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [progress, setProgress] = useState(0);
+  useEffect(()=>{
+      if(url){
+          setImageUrl(url)
+      }else{
+          setImageUrl('')
+      }
+  },[url])
   function beforeUpload(file: RcFile) {
     setProgress(0);
     setLoading(true);
@@ -36,6 +45,12 @@ function UploadImage({}: UploadImageProps) {
     //     message.error('Image must smaller than 2MB!');
     // }
     // return isJpgOrPng && isLt2M;
+  }
+  function onDeleteClick(){
+      Modal.confirm({
+          title:"確認刪除",
+          onOk:()=>{setImageUrl('')}
+      })
   }
   async function handleChange({
     file,
@@ -82,7 +97,6 @@ function UploadImage({}: UploadImageProps) {
             className="image-upload-grid"
             showUploadList={false}
             accept="image/*"
-            // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             customRequest={customRequest}
             beforeUpload={beforeUpload}
             onChange={handleChange}
@@ -90,7 +104,7 @@ function UploadImage({}: UploadImageProps) {
             <a style={{ color: "#FFF" }}>重新上傳</a>
           </Upload>
           <Divider type="vertical" style={{ width: "2px" }} />
-          <a style={{ color: "#FFF" }}>刪除</a>
+          <a style={{ color: "#FFF" }} onClick={onDeleteClick}>刪除</a>
         </>
       )}
       trigger="hover"
