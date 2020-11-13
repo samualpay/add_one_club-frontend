@@ -1,39 +1,160 @@
-import React from 'react';
-import UploadImage from '../../../components/uploadImage'
+import React, { useEffect, useState } from 'react';
+
 import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-  useLocation
-
-} from 'react-router-dom'
-
+  Form,
+  Input,
+  Select,
+  Button,
+  Modal
+} from 'antd'
 import './index.css';
-import { Form } from 'antd';
+import {
+  areas,
+  storeAttributes,
+  machineTypes
+} from '../../../data'
+import Data from './type/data';
+import MyTable from './component/table';
+import ModifyModal from './component/modifyModal';
+import machineService from '../../../service/machine.service';
+import { PlusOutlined } from "@ant-design/icons";
+const { Option } = Select
+
 
 function Admin() {
+  const initalData: Data = { id: '', imgUrl: '',videoUrl: '', description:'',start_at:null,end_at:null,discounts:[],price:null}
+  const [datas, setDatas] = useState<Array<Data>>([])
+  const [modalData, setModalData] = useState<Data>(initalData)
+  const [modalShow, setModalShow] = useState(false)
+  const [form] = Form.useForm<Data>()
+  function showErrorMessage(message:string){
+    Modal.error({title: '錯誤',content:message})
+  }
+  async function onAdd(data: Data) {
+    
+  }
+  function onDeleteClick(id: string) {
+    Modal.confirm({
+      title: "確認刪除",
+      content: (
+        <p>{`確定要刪除廣告機[${id}]`}</p>
+      ),
+      onOk: () => {
+        onDeleteHandle(id)
+      }
+    })
+  }
+  async function onDeleteHandle(id: string) {
+    await machineService.deleteMachine(id)
+    findMachines()
+  }
+  async function findMachines() {
+    
+  }
+  function onModifyClick(data: Data) {
+    setModalData({...data})
+    showModal()
+  }
+  async function onModifyHandle(data: Data) {
+    try {
+     
+      findMachines()
+    }catch(err){
+      showErrorMessage(err.message)
+    }finally{
+      hideModal()
+    }
+  }
+  function showModal() {
+    setModalShow(true)
+  }
+  function hideModal() {
+    setModalShow(false)
+  }
+  useEffect(() => {
+    form.setFieldsValue(initalData)
+    findMachines()
+  }, [])
+
   return (
-
-    <div className="App">
-      <header className="App-header">
-        <h1>活動產品設定</h1>
-        <Form
-          initialValues={{
-            ['upload']: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          }}
-        >
+    <div>
+      <Form name="complex-form" form={form} onFinish={onAdd} >
+        <Form.Item label="活動代碼">
           <Form.Item
-            name="upload"
+            name="id"
+            noStyle
+            rules={[{ required: true, message: '未填活動代碼' }]}
           >
-            <UploadImage />
+            <Input style={{ width: 160 }} placeholder="" />
           </Form.Item>
-        </Form>
+        </Form.Item>
+        <Form.Item label="產品視覺圖">
+          <Form.Item
+            name="imgUrl"
+            noStyle
+            rules={[{ required: true, message: '未填產品視覺圖' }]}
+          >
+            <Input style={{ width: 160 }} placeholder="" />
+          </Form.Item>
+        </Form.Item>
+        <Form.Item label="產品影片">
+          <Form.Item
+            name='videoUrl'
+            noStyle
+            rules={[{ required: true, message: '未填產品影片' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="詳細地址" />
+          </Form.Item>
+        </Form.Item>
+        <Form.Item label="產品資訊">
+          <Form.Item
+            name='description'
+            noStyle
+            rules={[{ required: true, message: '未填產品資訊' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="產品資訊" />
+          </Form.Item>
+        </Form.Item>
+        <Form.Item label="活動起迄時間">
 
-      </header>
+          <Form.Item
+            name='start_at'
+            noStyle
+            rules={[{ required: true, message: '未填開始時間' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="開始時間" />
+          </Form.Item>
+          <Form.Item
+            name='end_at'
+            noStyle
+            rules={[{ required: true, message: '未填結束時間' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="結束時間" />
+          </Form.Item>
+        </Form.Item>
+        <Form.Item label="產品定價">
+          <Form.Item
+            name='price'
+            noStyle
+            rules={[{ required: true, message: '未填產品定價' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="產品定價" />
+          </Form.Item>
+        </Form.Item>
+        <Form.Item label="降價階層數">
+          <PlusOutlined />
+        </Form.Item>
+        <Form.Item label=" " colon={false}>
+          <Button type="primary" htmlType="submit">
+            新增
+          </Button>
+        </Form.Item>
+      </Form>
+      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick} />
+      <ModifyModal data={modalData} visible={modalShow} onCancel={hideModal} onOK={onModifyHandle} />
     </div>
   );
 }
+
 
 export default Admin;
