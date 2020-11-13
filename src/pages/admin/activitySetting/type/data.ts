@@ -1,3 +1,5 @@
+import { Moment } from "moment"
+
 type Discount = {
     level: number;
     peopleCount: number;
@@ -8,8 +10,7 @@ type Data = {
     imgUrl: string;
     videoUrl: string;
     description: string;
-    start_at: Date | null;
-    end_at: Date | null;
+    timeRange:Moment | null;
     price: number | null;
     discounts: Discount[]
 }

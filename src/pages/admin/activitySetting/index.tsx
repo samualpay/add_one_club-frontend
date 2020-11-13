@@ -5,7 +5,8 @@ import {
   Input,
   Select,
   Button,
-  Modal
+  Modal,
+  DatePicker
 } from 'antd'
 import './index.css';
 import {
@@ -19,10 +20,11 @@ import ModifyModal from './component/modifyModal';
 import machineService from '../../../service/machine.service';
 import { PlusOutlined } from "@ant-design/icons";
 const { Option } = Select
+const {RangePicker} = DatePicker
 
 
 function Admin() {
-  const initalData: Data = { id: '', imgUrl: '',videoUrl: '', description:'',start_at:null,end_at:null,discounts:[],price:null}
+  const initalData: Data = { id: '', imgUrl: '',videoUrl: '', description:'',timeRange:null,discounts:[],price:null}
   const [datas, setDatas] = useState<Array<Data>>([])
   const [modalData, setModalData] = useState<Data>(initalData)
   const [modalShow, setModalShow] = useState(false)
@@ -30,8 +32,8 @@ function Admin() {
   function showErrorMessage(message:string){
     Modal.error({title: '錯誤',content:message})
   }
-  async function onAdd(data: Data) {
-    
+  async function onAdd(data: any) {
+    debugger
   }
   function onDeleteClick(id: string) {
     Modal.confirm({
@@ -116,21 +118,14 @@ function Admin() {
           </Form.Item>
         </Form.Item>
         <Form.Item label="活動起迄時間">
-
           <Form.Item
-            name='start_at'
+            name='timeRange'
             noStyle
-            rules={[{ required: true, message: '未填開始時間' }]}
+            // rules={[{ required: true, message: '未填活動起迄時間' }]}
           >
-            <Input style={{ width: '100%' }} placeholder="開始時間" />
+            <RangePicker showTime />
           </Form.Item>
-          <Form.Item
-            name='end_at'
-            noStyle
-            rules={[{ required: true, message: '未填結束時間' }]}
-          >
-            <Input style={{ width: '100%' }} placeholder="結束時間" />
-          </Form.Item>
+          
         </Form.Item>
         <Form.Item label="產品定價">
           <Form.Item
