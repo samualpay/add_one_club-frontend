@@ -30,8 +30,17 @@ function Admin() {
     Modal.error({title: '錯誤',content:message})
   }
   async function onAdd(data: Data) {
-    await machineService.createMachine(data)
-    findMachines()
+    try{
+      await machineService.createMachine(data)
+      form.setFieldsValue(initalData)
+      findMachines()
+    }catch(err){
+      Modal.error({
+        title: '錯誤',
+        content: err.message
+      })
+    }
+    
     // datas.push(data)
     // setDatas(new Array(...datas))
   }

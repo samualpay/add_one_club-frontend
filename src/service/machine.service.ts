@@ -1,4 +1,3 @@
-import { ExceptionMap } from "antd/lib/result";
 import Data from "../pages/admin/machineSetting/type/data";
 const fakeData:Data[] = [{id:'111',city:'Zhejiang',dist:'Zhejiang',address:'111',area:'百貨公司',machineType:'戶外大型廣告面板',storeAttribute:'都會型商圈'}]
 class MachineService {

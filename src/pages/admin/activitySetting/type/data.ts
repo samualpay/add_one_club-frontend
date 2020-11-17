@@ -10,7 +10,7 @@ type Data = {
     imgUrl: string;
     videoUrl: string;
     description: string;
-    timeRange:Moment | null;
+    timeRange:Moment[] | null;
     price: number | null;
     discounts: Discount[]
 }

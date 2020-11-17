@@ -19,6 +19,7 @@ import MyTable from './component/table';
 import ModifyModal from './component/modifyModal';
 import machineService from '../../../service/machine.service';
 import { PlusOutlined } from "@ant-design/icons";
+import activityService from '../../../service/activity.service';
 const { Option } = Select
 const {RangePicker} = DatePicker
 
@@ -32,14 +33,19 @@ function Admin() {
   function showErrorMessage(message:string){
     Modal.error({title: '錯誤',content:message})
   }
-  async function onAdd(data: any) {
-    debugger
+  async function onAdd(data: Data) {
+    try{
+      await activityService.create(data)
+      await findAll()
+    }catch(err){
+      showErrorMessage(err.message)
+    }
   }
   function onDeleteClick(id: string) {
     Modal.confirm({
       title: "確認刪除",
       content: (
-        <p>{`確定要刪除廣告機[${id}]`}</p>
+        <p>{`確定要刪除活動[${id}]`}</p>
       ),
       onOk: () => {
         onDeleteHandle(id)
@@ -47,11 +53,12 @@ function Admin() {
     })
   }
   async function onDeleteHandle(id: string) {
-    await machineService.deleteMachine(id)
-    findMachines()
+    await activityService.delete(id)
+    findAll()
   }
-  async function findMachines() {
-    
+  async function findAll() {
+    let datas = await activityService.findAll()
+    setDatas(datas)
   }
   function onModifyClick(data: Data) {
     setModalData({...data})
@@ -59,8 +66,8 @@ function Admin() {
   }
   async function onModifyHandle(data: Data) {
     try {
-     
-      findMachines()
+      await activityService.update(data)
+      findAll()
     }catch(err){
       showErrorMessage(err.message)
     }finally{
@@ -75,7 +82,7 @@ function Admin() {
   }
   useEffect(() => {
     form.setFieldsValue(initalData)
-    findMachines()
+    findAll()
   }, [])
 
   return (
