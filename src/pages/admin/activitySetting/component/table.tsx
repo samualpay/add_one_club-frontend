@@ -8,6 +8,7 @@ type TableProps = {
   datas: Array<Data>;
   onModifyClick: (data: Data) => void;
   onDeleteClick: (id: string) => void;
+  onEndClick?: (id: string) => void;
 }
 // type InnerDataType = {
 //   id: string;
@@ -18,7 +19,7 @@ type TableProps = {
 //   end_at: string;
 //   price: number | null;
 // }
-function MyTable({ datas: outerDatas, onDeleteClick, onModifyClick }: TableProps) {
+function MyTable({ datas: outerDatas, onDeleteClick, onModifyClick,onEndClick }: TableProps) {
   // function outerData2Data(outerData:Data):InnerDataType{
   //   let start_at = ''
   //   let end_at = ''
@@ -94,12 +95,21 @@ function MyTable({ datas: outerDatas, onDeleteClick, onModifyClick }: TableProps
       key: 'price',
     },
     {
+      title: "狀態",
+      dataIndex: 'status',
+      key: 'status'
+    },
+    {
       title: '動作',
       dataIndex: "action",
       render: (_: any, data: Data) => (
         <Space size="middle">
           <a onClick={() => onModifyClick(data)}>修改</a>
           <a onClick={() => onDeleteClick(data.id)}>刪除</a>
+          {
+            onEndClick && data.status === 'start'? (<a onClick={() => onEndClick(data.id)}>停止</a>):(<></>)
+          }
+          
         </Space>
       )
     }

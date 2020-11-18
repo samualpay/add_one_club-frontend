@@ -61,6 +61,21 @@ function Admin() {
     await activityService.delete(id)
     findAll()
   }
+  function onEndClick(id: string) {
+    Modal.confirm({
+      title: "確認停止",
+      content: (
+        <p>{`確定要停止活動[${id}]`}</p>
+      ),
+      onOk: () => {
+        onEndHandle(id)
+      }
+    })
+  }
+  async function onEndHandle(id: string) {
+    await activityService.end(id)
+    findAll()
+  }
   async function findAll() {
     let datas = await activityService.findAll()
     setDatas(datas)
@@ -94,7 +109,7 @@ function Admin() {
   return (
     <div>
       <MyForm onFinish={onAdd}/>
-      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick} />
+      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick} onEndClick={onEndClick}/>
       <ModifyModal data={modalData} visible={modalShow} onCancel={hideModal} onOK={onModifyHandle} />
     </div>
   );

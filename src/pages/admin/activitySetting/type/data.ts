@@ -11,6 +11,7 @@ type Data = {
     description: string;
     timeRange:Moment[] | null;
     price: number | null;
-    discounts: Discount[]
+    discounts: Discount[];
+    status?: "not_started" | "start" | "end"
 }
 export default Data
