@@ -2,6 +2,7 @@ import { Button, Form, Input, Modal, Select, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { areas, machineTypes, storeAttributes } from "../../../../data";
 import Data from '../type/data'
+import MyForm from "./form";
 const { Option } = Select
 type ModifyModalProps = {
     data: Data;
@@ -12,6 +13,16 @@ type ModifyModalProps = {
 
 function ModifyModal({ data: outerData, onOK, onCancel, visible }: ModifyModalProps) {
     // const [data, setData] = useState(outerData)
+    function Footer(){
+        return (
+            <Button.Group size='middle' style={{ float: 'right' }}>
+                        <Space>
+                            <Button type="primary" htmlType="button" onClick={onCancel}>取消</Button>
+                            <Button type="primary" htmlType="submit">更新</Button>
+                        </Space>
+            </Button.Group>
+        )
+    }
     const [form] = Form.useForm()
     useEffect(() => {
         form.setFieldsValue(outerData)
@@ -20,12 +31,13 @@ function ModifyModal({ data: outerData, onOK, onCancel, visible }: ModifyModalPr
     return (
         <Modal
             visible={visible}
-            title="修改廣告機"
+            title="修改活動"
             // onOk={() => { onOK(data) }}
             onCancel={onCancel}
             footer={null}
         >
-            <Form name="complex-form" form={form} onFinish={onOK} >
+            <MyForm data={outerData} onFinish={onOK} footer={<Footer />}/>
+            {/* <Form name="complex-form" form={form} onFinish={onOK} >
                 <Form.Item label="廣告機代碼">
                     <Form.Item
                         name="id"
@@ -34,11 +46,6 @@ function ModifyModal({ data: outerData, onOK, onCancel, visible }: ModifyModalPr
                     >
                         <Input readOnly={true} style={{ width: 160 }} placeholder="" />
                     </Form.Item>
-                    {/* <Tooltip title="Useful information">
-            <a href="#API" style={{ margin: '0 8px' }}>
-              Need Help?
-          </a>
-          </Tooltip> */}
                 </Form.Item>
                 <Form.Item label="廣告機位置">
                     <Input.Group compact>
@@ -122,7 +129,7 @@ function ModifyModal({ data: outerData, onOK, onCancel, visible }: ModifyModalPr
                     </Button.Group>
 
                 </Form.Item>
-            </Form>
+            </Form> */}
         </Modal>
     )
 }

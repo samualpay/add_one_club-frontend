@@ -1,7 +1,6 @@
 import { Moment } from "moment"
 
 type Discount = {
-    level: number;
     peopleCount: number;
     percent: number;
 }

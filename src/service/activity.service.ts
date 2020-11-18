@@ -2,7 +2,6 @@ import Data from "../pages/admin/activitySetting/type/data";
 import moment from "moment";
 
 type APIDiscount = {
-  level: number;
   peopleCount: number;
   percent: number;
 };
@@ -29,7 +28,7 @@ class ActivityService {
         imgUrl: data.imgUrl,
         videoUrl: data.videoUrl,
         description: data.description,
-        timeRange: [moment.unix(data.start_at), moment.unix(data.end_at)],
+        timeRange: [moment(data.start_at), moment(data.end_at)],
         price: data.price,
         discounts: data.discounts,
       };

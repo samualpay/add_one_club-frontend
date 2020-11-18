@@ -4,7 +4,6 @@ import {
   Modal,
   Tooltip,
   Progress,
-  Image,
   Divider,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -16,6 +15,7 @@ import {
 } from "antd/lib/upload/interface";
 import React, { useEffect, useState } from "react";
 import uploadService from "../service/upload.service";
+import MyImage from "./image";
 
 type UploadImageProps = {
     value?:string,
@@ -113,12 +113,12 @@ function UploadImage({value,onChange}: UploadImageProps) {
           {uploadButton}
         </div>
       ) : (
-        <Image
+        <MyImage
           src={value}
           width={104}
           height={104}
           style={{ marginRight: 8, marginBottom: 8 }}
-        ></Image>
+        ></MyImage>
       )}
     </Tooltip>
   );
