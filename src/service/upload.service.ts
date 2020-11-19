@@ -2,7 +2,7 @@ type UploadImageResp = {
   url: string;
 };
 class UploadService {
-  async uploadImage(file:File,
+  async uploadImage(file: File,
     onProgress?: (percent: number) => void
   ): Promise<UploadImageResp> {
     if (onProgress) {

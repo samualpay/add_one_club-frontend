@@ -1,18 +1,19 @@
 import { Form, Input, DatePicker, Space, Button } from "antd";
-import React, { useEffect, useImperativeHandle, useState } from "react";
+import React, { useEffect } from "react";
 import UploadImage from "../../../../components/uploadImage";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import Data from "../type/data";
+// import Data from "../type/data";
+import { ActivityDto } from '../../../../DTO/component/activity'
 const { RangePicker } = DatePicker
 type MyFormPropsType = {
-    onFinish: (data: Data, clearFn: () => void) => void,
-    data?: Data,
+    onFinish: (data: ActivityDto, clearFn: () => void) => void,
+    data?: ActivityDto,
     footer?: JSX.Element
 }
-const initalData: Data = { id: '', imgUrl: '', videoUrl: '', description: '', timeRange: null, discounts: [], price: null }
+const initalData: ActivityDto = { id: '', imgUrl: '', videoUrl: '', description: '', timeRange: null, discounts: [], price: null }
 const defaultFooter: JSX.Element = (<Button type="primary" htmlType="submit">新增</Button>)
 function MyForm({ onFinish, data = initalData, footer = defaultFooter }: MyFormPropsType) {
-    const [form] = Form.useForm<Data>()
+    const [form] = Form.useForm<ActivityDto>()
     useEffect(() => {
         form.setFieldsValue(data)
     }, [data])

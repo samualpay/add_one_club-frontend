@@ -13,7 +13,7 @@ import {
   storeAttributes,
   machineTypes
 } from '../../../data'
-import Data from './type/data';
+import { MachineDto as Data } from '../../../DTO/component/machine'
 import MyTable from './component/table';
 import ModifyModal from './component/modifyModal';
 import machineService from '../../../service/machine.service';
@@ -26,23 +26,20 @@ function Admin() {
   const [modalData, setModalData] = useState<Data>(initalData)
   const [modalShow, setModalShow] = useState(false)
   const [form] = Form.useForm<Data>()
-  function showErrorMessage(message:string){
-    Modal.error({title: '錯誤',content:message})
+  function showErrorMessage(message: string) {
+    Modal.error({ title: '錯誤', content: message })
   }
   async function onAdd(data: Data) {
-    try{
+    try {
       await machineService.createMachine(data)
       form.setFieldsValue(initalData)
       findMachines()
-    }catch(err){
+    } catch (err) {
       Modal.error({
         title: '錯誤',
         content: err.message
       })
     }
-    
-    // datas.push(data)
-    // setDatas(new Array(...datas))
   }
   function onDeleteClick(id: string) {
     Modal.confirm({
@@ -64,16 +61,16 @@ function Admin() {
     setDatas([...datas])
   }
   function onModifyClick(data: Data) {
-    setModalData({...data})
+    setModalData({ ...data })
     showModal()
   }
   async function onModifyHandle(data: Data) {
     try {
       await machineService.updateMachine(data)
       findMachines()
-    }catch(err){
+    } catch (err) {
       showErrorMessage(err.message)
-    }finally{
+    } finally {
       hideModal()
     }
   }
@@ -99,11 +96,6 @@ function Admin() {
           >
             <Input style={{ width: 160 }} placeholder="" />
           </Form.Item>
-          {/* <Tooltip title="Useful information">
-            <a href="#API" style={{ margin: '0 8px' }}>
-              Need Help?
-          </a>
-          </Tooltip> */}
         </Form.Item>
         <Form.Item label="廣告機位置">
           <Input.Group compact>

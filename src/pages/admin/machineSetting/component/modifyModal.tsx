@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Select, Space } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { areas, machineTypes, storeAttributes } from "../../../../data";
-import Data from '../type/data'
+import { MachineDto as Data } from '../../../../DTO/component/machine'
 const { Option } = Select
 type ModifyModalProps = {
     data: Data;
@@ -11,17 +11,14 @@ type ModifyModalProps = {
 }
 
 function ModifyModal({ data: outerData, onOK, onCancel, visible }: ModifyModalProps) {
-    // const [data, setData] = useState(outerData)
     const [form] = Form.useForm()
     useEffect(() => {
         form.setFieldsValue(outerData)
-        // setData(outerData)
     }, [outerData])
     return (
         <Modal
             visible={visible}
             title="修改廣告機"
-            // onOk={() => { onOK(data) }}
             onCancel={onCancel}
             footer={null}
         >

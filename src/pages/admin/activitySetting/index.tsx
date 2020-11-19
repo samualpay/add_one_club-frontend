@@ -2,41 +2,26 @@ import React, { useEffect, useState } from 'react';
 
 import {
   Form,
-  Input,
-  Select,
-  Button,
-  Modal,
-  DatePicker,
-  Space
+  Modal
 } from 'antd'
 import './index.css';
-import {
-  areas,
-  storeAttributes,
-  machineTypes
-} from '../../../data'
-import Data from './type/data';
+import { ActivityDto } from '../../../DTO/component/activity'
 import MyTable from './component/table';
 import ModifyModal from './component/modifyModal';
-import machineService from '../../../service/machine.service';
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import activityService from '../../../service/activity.service';
-import UploadImage from '../../../components/uploadImage';
 import MyForm from './component/form';
-const { Option } = Select
-const { RangePicker } = DatePicker
 
 
 function Admin() {
-  const initalData: Data = { id: '', imgUrl: '', videoUrl: '', description: '', timeRange: null, discounts: [], price: null }
-  const [datas, setDatas] = useState<Array<Data>>([])
-  const [modalData, setModalData] = useState<Data>(initalData)
+  const initalData: ActivityDto = { id: '', imgUrl: '', videoUrl: '', description: '', timeRange: null, discounts: [], price: null }
+  const [datas, setDatas] = useState<Array<ActivityDto>>([])
+  const [modalData, setModalData] = useState<ActivityDto>(initalData)
   const [modalShow, setModalShow] = useState(false)
-  const [form] = Form.useForm<Data>()
+  const [form] = Form.useForm<ActivityDto>()
   function showErrorMessage(message: string) {
     Modal.error({ title: '錯誤', content: message })
   }
-  async function onAdd(data: Data,clearFn: ()=>void) {
+  async function onAdd(data: ActivityDto, clearFn: () => void) {
     try {
       data.discounts = data.discounts.filter(elem => elem.peopleCount !== undefined && elem.percent !== undefined)
       await activityService.create(data)
@@ -80,11 +65,11 @@ function Admin() {
     let datas = await activityService.findAll()
     setDatas(datas)
   }
-  function onModifyClick(data: Data) {
+  function onModifyClick(data: ActivityDto) {
     setModalData({ ...data })
     showModal()
   }
-  async function onModifyHandle(data: Data) {
+  async function onModifyHandle(data: ActivityDto) {
     try {
       data.discounts = data.discounts.filter(elem => elem.peopleCount !== undefined && elem.percent !== undefined)
       await activityService.update(data)
@@ -108,8 +93,8 @@ function Admin() {
 
   return (
     <div>
-      <MyForm onFinish={onAdd}/>
-      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick} onEndClick={onEndClick}/>
+      <MyForm onFinish={onAdd} />
+      <MyTable datas={datas} onDeleteClick={onDeleteClick} onModifyClick={onModifyClick} onEndClick={onEndClick} />
       <ModifyModal data={modalData} visible={modalShow} onCancel={hideModal} onOK={onModifyHandle} />
     </div>
   );

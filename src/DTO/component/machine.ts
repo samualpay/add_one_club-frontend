@@ -1,4 +1,4 @@
-type Data = {
+export type MachineDto = {
     id: string;
     city: string;
     dist: string;
@@ -7,4 +7,3 @@ type Data = {
     storeAttribute: string;
     machineType: string;
 }
-export default Data

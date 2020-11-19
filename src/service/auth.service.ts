@@ -6,51 +6,48 @@ type User = {
     expireTime: number
 }
 type LoginResult = {
-    isValid:boolean;
+    isValid: boolean;
     user: User | null;
 }
 type RegisterResult = {
-    isSuccess:boolean;
-    message:string | null
+    isSuccess: boolean;
+    message: string | null
 }
 class AuthService {
-    async login(username:string,password:string){ //server login並回傳結果
+    async login(username: string, password: string) { //server login並回傳結果
         //todo call login api
         let token = '123'
-        let expireTime = new Date().getTime() + 1000*1000
-        localStorage.setItem(storageKey,JSON.stringify({username,token,expireTime}))
-        const result = await new Promise<LoginResult>(reslove=>{
-            setTimeout(()=>{
-                reslove({isValid:true,user:{username:username,token:token,expireTime:expireTime}})
-            },1000)
+        let expireTime = new Date().getTime() + 1000 * 1000
+        localStorage.setItem(storageKey, JSON.stringify({ username, token, expireTime }))
+        const result = await new Promise<LoginResult>(reslove => {
+            setTimeout(() => {
+                reslove({ isValid: true, user: { username: username, token: token, expireTime: expireTime } })
+            }, 1000)
         })
         return result
     }
-    checkTokenExpire():LoginResult{// 於重load時確認當前頁面是否登入過
-        const userStr:string|null = localStorage.getItem(storageKey)
+    checkTokenExpire(): LoginResult {// 於重load時確認當前頁面是否登入過
+        const userStr: string | null = localStorage.getItem(storageKey)
         const now = new Date().getTime()
-        if(userStr!= null){
-            const user:User = JSON.parse(userStr)
-            if(user.expireTime> now){
-                return {isValid:true,user}
+        if (userStr != null) {
+            const user: User = JSON.parse(userStr)
+            if (user.expireTime > now) {
+                return { isValid: true, user }
             }
         }
-        return {isValid:false,user:null}
+        return { isValid: false, user: null }
     }
-    logout(){
+    logout() {
         localStorage.removeItem(storageKey)
     }
-    async getProfile(token:string){//跟server要使用者資訊
+    async getProfile(token: string) {//跟server要使用者資訊
         //todo call getProfile api
-        return {username: 'xxx'}
+        return { username: 'xxx' }
     }
-    async register(username:string,password:string):Promise<RegisterResult> {
+    async register(username: string, password: string): Promise<RegisterResult> {
         //todo call register api
-        return {isSuccess:true,message:null}
+        return { isSuccess: true, message: null }
         // return {isSuccess:false,message:'帳號已存在'}
     }
-    // async test(){
-    //     await axios.get('https://www.youtube.com/watch?v=PPPOBWPUP-4&index=14&list=PLIhwbtfyUlJo-BPWB-k2tW5EZA7wt3-Nq')
-    // }
 }
 export default new AuthService()

@@ -1,14 +1,11 @@
-import React, { Component,useState } from 'react';
+import React, { Component, useState } from 'react';
 import {
-  BrowserRouter as Router,
   Route,
-  Link,
   Switch,
   Redirect,
   useLocation,
   useRouteMatch,
   useHistory,
-  RouteProps
 
 } from 'react-router-dom'
 
@@ -16,19 +13,16 @@ import './index.css';
 
 import ActivityQuery from './activityQuery'
 import ActivitySetting from './activitySetting'
-// import Login from './login'
 import MachineSetting from './machineSetting'
 import PublishQuery from './publishQuery'
 import PublishSetting from './publishSetting'
-import ShouldLoginRouter from '../../components/shouldLoginRouter'
-import ShouldLogoutRouter from '../../components/shouldLogoutRouter'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux'
 
 import { logout as logoutAction } from '../../redux/modules/user'
 //antd
 import { Layout, Menu } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
 // antd
@@ -70,11 +64,11 @@ const menuItems = [
     icon: <UserOutlined />
   }
 ]
-function findMenuItemByKey(key: string){
+function findMenuItemByKey(key: string) {
   let items = menuItems.filter(elem => (elem.key === key))
-  if(items.length>0){
+  if (items.length > 0) {
     return items[0]
-  }else{
+  } else {
     return menuItems[0]
   }
 }
@@ -82,7 +76,6 @@ function Pages() {
   let { path, url } = useRouteMatch();
   let location = useLocation()
   let history = useHistory();
-  let { isLogin, username } = useSelector((state: RootState) => (state.user))
   let menuItem = findMenuItemByKey(location.pathname.split('/')[2])
   let dispatch = useDispatch()
   function logout() {
@@ -92,10 +85,10 @@ function Pages() {
   type onSelectEventType = {
     key: React.Key;
   }
-  function onSelectHandle(info:onSelectEventType){
-    if(info.key === 'logout'){
+  function onSelectHandle(info: onSelectEventType) {
+    if (info.key === 'logout') {
       logout()
-    }else{
+    } else {
       history.push(`${url}/${info.key}`)
     }
   }
@@ -117,7 +110,7 @@ function Pages() {
             {
               menuItems.map(elem => (
                 <Menu.Item key={elem.key} icon={elem.icon}>
-                    {elem.name}
+                  {elem.name}
                 </Menu.Item>
               ))
             }
@@ -125,10 +118,10 @@ function Pages() {
         </Sider>
         <Layout>
           <Header className="site-layout-sub-header-background" style={{ padding: 0 }} >
-          <h1 style={{color: 'white'}}>{menuItem.title}</h1>
+            <h1 style={{ color: 'white' }}>{menuItem.title}</h1>
           </Header>
           <Content style={{ margin: '24px 16px 24' }}>
-            <div className="site-layout-background" style={{ textAlign: 'left',padding: 24, minHeight: 640 }}>
+            <div className="site-layout-background" style={{ textAlign: 'left', padding: 24, minHeight: 640 }}>
               <Switch>
                 <Route exact path={path}>
                   <Redirect to={{ pathname: `${path}/machineSetting`, state: { from: location } }} />
@@ -157,9 +150,6 @@ function Pages() {
 
     </div>
   );
-}
-function Admin() {
-
 }
 
 export default Pages;
