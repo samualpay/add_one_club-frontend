@@ -47,8 +47,8 @@ const menuItems = [
   },
   {
     key: 'publishQuery',
-    title: '廣告發怖',
-    name: '廣告發怖',
+    title: '廣告發怖查詢',
+    name: '廣告發怖查詢',
     icon: <UserOutlined />
   },
   {
