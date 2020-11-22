@@ -18,6 +18,7 @@ class ActivityMachineService {
           price: 100,
           discounts: [],
           status: "start",
+          finalPrice: null,
         },
         machine: {
           id: "111",
@@ -47,6 +48,7 @@ class ActivityMachineService {
           price: 90,
           discounts: [],
           status: "end",
+          finalPrice: 90,
         },
         machine: {
           id: "222",

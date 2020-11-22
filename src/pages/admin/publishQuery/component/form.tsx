@@ -12,8 +12,10 @@ function MyForm({ label, options, onFinish }: MyFormPropsType) {
       <Form.Item label={label}>
         <Form.Item name="id" noStyle>
           <Select>
-            {options.map((option) => (
-              <Option value={option}>{option}</Option>
+            {options.map((option, index) => (
+              <Option value={option} key={index}>
+                {option}
+              </Option>
             ))}
           </Select>
         </Form.Item>
