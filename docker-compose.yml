@@ -1,0 +1,9 @@
+version: "2"
+services:
+  web:
+    image: samualpay/add_one_club-frontend:latest
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - "./nginx.conf:/etc/nginx/conf.d/default.conf"
