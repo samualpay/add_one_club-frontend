@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import authService from "../../service/auth.service";
-import {show,dismiss,LoadingAction} from './loading'
+import { show, dismiss, LoadingAction } from "./loading";
 // State
 type UserState = {
   username: string | null;
@@ -29,21 +29,23 @@ type UserAction = {
 export const login = (
   username: string,
   password: string,
-  cb: (result: boolean) => void
-): ThunkAction<Promise<void>, UserState, unknown, UserAction| LoadingAction> => {
+  cb: (err?: any) => void
+): ThunkAction<
+  Promise<void>,
+  UserState,
+  unknown,
+  UserAction | LoadingAction
+> => {
   return async (dispatch) => {
-      dispatch(show())
-    let result = await authService.login(username, password);
-    if (result.isValid === true && result.user !== null) {
-      let user = result.user;
+    try {
+      let user = await authService.login(username, password);
       dispatch({
         type: "user/LOGIN",
         payload: { username: user.username, token: user.token },
       });
-      dispatch(dismiss())
-      cb(true);
-    } else {
-      cb(false);
+      cb();
+    } catch (err) {
+      cb(err);
     }
   };
 };

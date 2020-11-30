@@ -27,10 +27,8 @@ export function loadingReducer(
   const { isLoading } = state;
   switch (action.type) {
     case LoadingEnum.SHOW:
-      console.log(isLoading +1)
       return { isLoading: isLoading + 1 };
     case LoadingEnum.DISMISS:
-      console.log(isLoading - 1)
       return { isLoading: isLoading - 1 };
     default:
       return state;
