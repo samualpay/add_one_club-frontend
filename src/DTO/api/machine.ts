@@ -1,9 +1,10 @@
 export type MachineApiDto = {
-    id: string;
-    city: string;
-    dist: string;
-    address: string;
-    area: string;
-    storeAttribute: string;
-    machineType: string;
-}
+  id: number;
+  code: string;
+  city: string;
+  dist: string;
+  address: string;
+  area: string;
+  storeAttribute: string;
+  machineType: string;
+};

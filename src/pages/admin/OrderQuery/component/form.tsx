@@ -1,14 +1,16 @@
 import { Form, Button, Select } from "antd";
 import React from "react";
+import { MachineDto } from "../../../../DTO/component/machine";
+import { ActivityDto } from "../../../../DTO/component/activity";
 const { Option } = Select;
 type OnFinshProps = {
-  machineId?: string;
+  machineId?: number;
   activityId?: string;
   status?: "preorder" | "paid" | "finish";
 };
 type MyFormPropsType = {
-  machineOptions: string[];
-  activityOptions: string[];
+  machineOptions: MachineDto[];
+  activityOptions: ActivityDto[];
   onFinish: (query: OnFinshProps) => void;
 };
 const defaultValue = { machineId: "", activityId: "", status: "" };
@@ -27,8 +29,8 @@ function MyForm({
               -{" "}
             </Option>
             {machineOptions.map((option, index) => (
-              <Option value={option} key={index}>
-                {option}
+              <Option value={option.id} key={index}>
+                {option.code}
               </Option>
             ))}
           </Select>
@@ -42,8 +44,8 @@ function MyForm({
               -{" "}
             </Option>
             {activityOptions.map((option, index) => (
-              <Option value={option} key={index}>
-                {option}
+              <Option value={option.id} key={index}>
+                {option.id}
               </Option>
             ))}
           </Select>

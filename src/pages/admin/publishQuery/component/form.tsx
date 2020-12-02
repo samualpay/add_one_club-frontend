@@ -3,7 +3,7 @@ import React from "react";
 const { Option } = Select;
 type MyFormPropsType = {
   label: string;
-  options: string[];
+  options: { id: string | number; name: string }[];
   onFinish: (query: string) => void;
 };
 function MyForm({ label, options, onFinish }: MyFormPropsType) {
@@ -13,8 +13,8 @@ function MyForm({ label, options, onFinish }: MyFormPropsType) {
         <Form.Item name="id" noStyle>
           <Select>
             {options.map((option, index) => (
-              <Option value={option} key={index}>
-                {option}
+              <Option value={option.id} key={index}>
+                {option.name}
               </Option>
             ))}
           </Select>

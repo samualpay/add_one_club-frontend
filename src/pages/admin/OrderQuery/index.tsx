@@ -8,17 +8,19 @@ import MyForm from "./component/form";
 import OrderDto from "../../../DTO/component/order";
 import orderService from "../../../service/order.service";
 import machineService from "../../../service/machine.service";
+import { MachineDto } from "../../../DTO/component/machine";
+import { ActivityDto } from "../../../DTO/component/activity";
 
 const { TabPane } = Tabs;
 type OnFinshProps = {
-  machineId?: string;
+  machineId?: number;
   activityId?: string;
   status?: "preorder" | "paid" | "finish";
 };
 function Admin() {
   const [datas, setDatas] = useState<OrderDto[]>([]);
-  const [machineOptions, setMachineOptions] = useState<string[]>([]);
-  const [activityOptions, setActivityOptions] = useState<string[]>([]);
+  const [machineOptions, setMachineOptions] = useState<MachineDto[]>([]);
+  const [activityOptions, setActivityOptions] = useState<ActivityDto[]>([]);
   function showErrorMessage(message: string) {
     Modal.error({ title: "錯誤", content: message });
   }
@@ -29,8 +31,8 @@ function Admin() {
   async function findOptions() {
     let machines = await machineService.findAllMachines();
     let activitys = await activityService.findAll();
-    setMachineOptions(machines.map((machine) => machine.id));
-    setActivityOptions(activitys.map((activity) => activity.id));
+    setMachineOptions(machines);
+    setActivityOptions(activitys);
   }
   useEffect(() => {
     findOptions();

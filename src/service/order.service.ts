@@ -1,7 +1,7 @@
 import OrderDto from "../DTO/component/order";
 import moment from "moment";
 type FindProps = {
-  machineId?: string;
+  machineId?: number;
   activityId?: string;
   status?: "preorder" | "paid" | "finish";
 };
@@ -30,7 +30,8 @@ class OrderService {
             finalPrice: null,
           },
           machine: {
-            id: "111",
+            id: 1,
+            code: "111",
             city: "Zhejiang",
             dist: "Zhejiang",
             address: "111",
@@ -70,7 +71,8 @@ class OrderService {
             finalPrice: null,
           },
           machine: {
-            id: "111",
+            id: 2,
+            code: "111",
             city: "Zhejiang",
             dist: "Zhejiang",
             address: "111",

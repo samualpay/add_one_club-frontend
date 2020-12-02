@@ -2,7 +2,7 @@ import { MachineApiDto } from "../DTO/api/machine";
 import { PublishDto } from "../DTO/component/publish";
 import moment from "moment";
 class ActivityMachineService {
-  async bind(activityId: string, machineIds: string[]) {
+  async bind(activityId: string, machineIds: number[]) {
     //todo: activityMachine bind api
   }
   async findByMachine(malchineId: string): Promise<PublishDto[]> {
@@ -21,7 +21,8 @@ class ActivityMachineService {
           finalPrice: null,
         },
         machine: {
-          id: "111",
+          id: 1,
+          code: "111",
           city: "Zhejiang",
           dist: "Zhejiang",
           address: "111",
@@ -51,7 +52,8 @@ class ActivityMachineService {
           finalPrice: 90,
         },
         machine: {
-          id: "222",
+          id: 2,
+          code: "222",
           city: "222",
           dist: "222",
           address: "222",

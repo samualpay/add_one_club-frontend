@@ -1,5 +1,6 @@
 export type MachineDto = {
-    id: string;
+    id:number;
+    code: string;
     city: string;
     dist: string;
     address: string;

@@ -27,8 +27,9 @@ import myAxios from "./config/myAxios";
 function App() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state: RootState) => state.loading);
+  myAxios.init(dispatch);
   useEffect(() => {
-    myAxios.init(dispatch);
+    // myAxios.init(dispatch);
   }, []);
 
   return (

@@ -12,8 +12,12 @@ const { TabPane } = Tabs;
 
 function Admin() {
   const [datas, setDatas] = useState<PublishDto[]>([]);
-  const [machineOptions, setMachineOptions] = useState<string[]>([]);
-  const [activityOptions, setActivityOptions] = useState<string[]>([]);
+  const [machineOptions, setMachineOptions] = useState<
+    { id: string | number; name: string }[]
+  >([]);
+  const [activityOptions, setActivityOptions] = useState<
+    { id: string | number; name: string }[]
+  >([]);
   function showErrorMessage(message: string) {
     Modal.error({ title: "錯誤", content: message });
   }
@@ -35,8 +39,12 @@ function Admin() {
   async function findOptions() {
     let machines = await machineService.findAllMachines();
     let activitys = await activityService.findAll();
-    setMachineOptions(machines.map((machine) => machine.id));
-    setActivityOptions(activitys.map((activity) => activity.id));
+    setMachineOptions(
+      machines.map((machine) => ({ id: machine.id, name: machine.code }))
+    );
+    setActivityOptions(
+      activitys.map((activity) => ({ id: activity.id, name: activity.id }))
+    );
   }
   useEffect(() => {
     findOptions();
