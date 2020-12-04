@@ -1,18 +1,18 @@
-import { Select } from "antd"
-import React from "react"
-const { Option } = Select
+import { Select } from "antd";
+import React from "react";
+const { Option } = Select;
 type MySelectPropsType = {
-    options: string[];
-    onChange: (value: string) => void;
-    value: string
-}
+  options: { id: number; name: string }[];
+  onChange: (value: number) => void;
+  value: number;
+};
 function MySelect({ options, onChange, value }: MySelectPropsType) {
-    return (
-        <Select style={{ width: 120 }} onChange={onChange} value={value}>
-            {options.map(option => (
-                <Option value={option}>{option}</Option>
-            ))}
-        </Select>
-    )
+  return (
+    <Select style={{ width: 120 }} onChange={onChange} value={value}>
+      {options.map((option) => (
+        <Option value={option.id}>{option.name}</Option>
+      ))}
+    </Select>
+  );
 }
-export default MySelect
+export default MySelect;

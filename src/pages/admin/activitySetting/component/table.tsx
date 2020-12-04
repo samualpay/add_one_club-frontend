@@ -6,8 +6,8 @@ const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 type TableProps = {
   datas: Array<ActivityDto>;
   onModifyClick: (data: ActivityDto) => void;
-  onDeleteClick: (id: string) => void;
-  onEndClick?: (id: string) => void;
+  onDeleteClick: (id: number) => void;
+  onEndClick?: (id: number) => void;
 };
 function MyTable({
   datas: outerDatas,
@@ -18,8 +18,8 @@ function MyTable({
   const columns = [
     {
       title: "活動代碼",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "code",
+      key: "code",
     },
     {
       title: "產品視覺圖",
@@ -76,7 +76,15 @@ function MyTable({
     {
       title: "狀態",
       dataIndex: "status",
-      key: "status",
+      render: (_: any, data: ActivityDto) => {
+        let text = "未開始";
+        if (data.status === "start") {
+          text = "開始";
+        } else if (data.status === "end") {
+          text = "結束";
+        }
+        return <p>{text}</p>;
+      },
     },
     {
       title: "動作",

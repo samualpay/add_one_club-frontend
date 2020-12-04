@@ -5,7 +5,8 @@ export type DiscountApiDto = {
   percent: number;
 };
 export type ActivityApiDto = {
-  id: string;
+  id: number;
+  code: string;
   imgUrl: string;
   videoUrl: string;
   description: string;
@@ -21,11 +22,12 @@ export function transfer(data: ActivityDto): ActivityApiDto {
   if (data.timeRange && data.timeRange.length === 2 && data.price) {
     return {
       id: data.id,
+      code: data.code,
       imgUrl: data.imgUrl,
       videoUrl: data.videoUrl,
       description: data.description,
-      start_at: data.timeRange[0].valueOf(),
-      end_at: data.timeRange[1].valueOf(),
+      start_at: Math.round(data.timeRange[0].valueOf() / 1000),
+      end_at: Math.round(data.timeRange[1].valueOf() / 1000),
       price: data.price,
       discounts: data.discounts,
       finalPrice: data.finalPrice,

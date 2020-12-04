@@ -53,7 +53,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
           }
           trigger="hover"
         >
-          <a>{data.publish.machine.id}</a>
+          <a>{data.publish.machine.code}</a>
         </Tooltip>
       ),
     },
@@ -81,7 +81,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
           }
           trigger="hover"
         >
-          <a>{data.publish.activity.id}</a>
+          <a>{data.publish.activity.code}</a>
         </Tooltip>
       ),
     },

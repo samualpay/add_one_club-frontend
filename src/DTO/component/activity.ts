@@ -7,7 +7,8 @@ export type DiscountDto = {
   percent: number;
 };
 export type ActivityDto = {
-  id: string;
+  id: number;
+  code: string;
   imgUrl: string;
   videoUrl: string;
   description: string;
@@ -21,10 +22,11 @@ export type ActivityDto = {
 export function transfer(data: ActivityApiDto): ActivityDto {
   return {
     id: data.id,
+    code: data.code,
     imgUrl: data.imgUrl,
     videoUrl: data.videoUrl,
     description: data.description,
-    timeRange: [moment(data.start_at), moment(data.end_at)],
+    timeRange: [moment(data.start_at * 1000), moment(data.end_at * 1000)],
     price: data.price,
     discounts: data.discounts,
     finalPrice: data.finalPrice,

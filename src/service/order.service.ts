@@ -19,7 +19,8 @@ class OrderService {
         publish: {
           id: 1,
           activity: {
-            id: "123",
+            id: 1,
+            code: "123",
             imgUrl: "123",
             videoUrl: "",
             description: "123",
@@ -60,7 +61,8 @@ class OrderService {
         publish: {
           id: 2,
           activity: {
-            id: "223",
+            id: 2,
+            code: "223",
             imgUrl: "223",
             videoUrl: "222",
             description: "223",

@@ -10,7 +10,8 @@ import MyForm from "./component/form";
 
 function Admin() {
   const initalData: ActivityDto = {
-    id: "",
+    id: -1,
+    code: "",
     imgUrl: "",
     videoUrl: "",
     description: "",
@@ -37,7 +38,7 @@ function Admin() {
       showErrorMessage(err.message);
     }
   }
-  function onDeleteClick(id: string) {
+  function onDeleteClick(id: number) {
     Modal.confirm({
       title: "確認刪除",
       content: <p>{`確定要刪除活動[${id}]`}</p>,
@@ -46,11 +47,11 @@ function Admin() {
       },
     });
   }
-  async function onDeleteHandle(id: string) {
+  async function onDeleteHandle(id: number) {
     await activityService.delete(id);
     findAll();
   }
-  function onEndClick(id: string) {
+  function onEndClick(id: number) {
     Modal.confirm({
       title: "確認停止",
       content: <p>{`確定要停止活動[${id}]`}</p>,
@@ -59,7 +60,7 @@ function Admin() {
       },
     });
   }
-  async function onEndHandle(id: string) {
+  async function onEndHandle(id: number) {
     await activityService.end(id);
     findAll();
   }

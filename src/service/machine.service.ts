@@ -19,7 +19,7 @@ class MachineService {
     let response = await axios.get<{ machines: Data[] }>("/api/machines");
     return response.data.machines;
   }
-  async findMachinesByActivityId(activtyId: string) {
+  async findMachinesByActivityId(activtyId: number) {
     //todo get machines by activity
     fakeCount++;
     if (fakeCount > 3) {

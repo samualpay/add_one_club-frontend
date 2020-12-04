@@ -11,7 +11,8 @@ type MyFormPropsType = {
   footer?: JSX.Element;
 };
 const initalData: ActivityDto = {
-  id: "",
+  id: -1,
+  code: "",
   imgUrl: "",
   videoUrl: "",
   description: "",
@@ -41,11 +42,14 @@ function MyForm({
     <Form
       name="complex-form"
       form={form}
-      onFinish={(data) => onFinish(data, clear)}
+      onFinish={(obj) => {
+        obj.id = data.id;
+        onFinish(obj, clear);
+      }}
     >
       <Form.Item label="活動代碼">
         <Form.Item
-          name="id"
+          name="code"
           noStyle
           rules={[{ required: true, message: "未填活動代碼" }]}
         >

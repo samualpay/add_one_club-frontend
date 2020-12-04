@@ -43,7 +43,7 @@ function Admin() {
       machines.map((machine) => ({ id: machine.id, name: machine.code }))
     );
     setActivityOptions(
-      activitys.map((activity) => ({ id: activity.id, name: activity.id }))
+      activitys.map((activity) => ({ id: activity.id, name: activity.code }))
     );
   }
   useEffect(() => {
