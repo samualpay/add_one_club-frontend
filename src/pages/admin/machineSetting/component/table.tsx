@@ -14,7 +14,7 @@ function MyTable({
 }: TableProps) {
   const columns = [
     {
-      title: "廣告代碼",
+      title: "廣告機代碼",
       dataIndex: "code",
       key: "code",
     },

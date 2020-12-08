@@ -20,7 +20,7 @@ import { RootState } from "../../redux";
 
 import { logout as logoutAction } from "../../redux/modules/user";
 //antd
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -81,12 +81,17 @@ function Pages() {
     dispatch(logoutAction());
     history.push(`${url}`);
   }
+
   type onSelectEventType = {
     key: React.Key;
   };
   function onSelectHandle(info: onSelectEventType) {
     if (info.key === "logout") {
-      logout();
+      Modal.confirm({
+        title: "登出",
+        content: "是否確定要登出",
+        onOk: logout,
+      });
     } else {
       history.push(`${url}/${info.key}`);
     }

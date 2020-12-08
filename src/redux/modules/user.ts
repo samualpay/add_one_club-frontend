@@ -50,10 +50,13 @@ export const login = (
   };
 };
 
-export const logout = (): UserAction => ({
-  type: "user/LOGOUT",
-  payload: null,
-});
+export const logout = (): UserAction => {
+  authService.logout();
+  return {
+    type: "user/LOGOUT",
+    payload: null,
+  };
+};
 
 // Reducer
 export function userReducer(state = getState(), action: UserAction): UserState {

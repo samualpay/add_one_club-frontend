@@ -4,6 +4,7 @@ import UploadImage from "../../../../components/uploadImage";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 // import Data from "../type/data";
 import { ActivityDto } from "../../../../DTO/component/activity";
+import moment, { Moment } from "moment";
 const { RangePicker } = DatePicker;
 type MyFormPropsType = {
   onFinish: (data: ActivityDto, clearFn: () => void) => void;
@@ -38,6 +39,9 @@ function MyForm({
   function clear() {
     form.setFieldsValue(initalData);
   }
+  function disabledDate(currentDate: Moment) {
+    return currentDate.diff(moment(), "minutes") < 1;
+  }
   return (
     <Form
       name="complex-form"
@@ -70,7 +74,7 @@ function MyForm({
         <Form.Item
           name="videoUrl"
           noStyle
-          rules={[{ required: true, message: "未填產品影片" }]}
+          // rules={[{ required: true, message: "未填產品影片" }]}
         >
           <UploadImage />
           {/* <Input style={{ width: '100%' }} placeholder="詳細地址" /> */}
@@ -91,7 +95,7 @@ function MyForm({
           noStyle
           // rules={[{ required: true, message: '未填活動起迄時間' }]}
         >
-          <RangePicker showTime />
+          <RangePicker showTime disabledDate={disabledDate} />
         </Form.Item>
       </Form.Item>
       <Form.Item label="產品定價">

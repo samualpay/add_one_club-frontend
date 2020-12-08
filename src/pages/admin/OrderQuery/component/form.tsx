@@ -36,7 +36,7 @@ function MyForm({
           </Select>
         </Form.Item>
       </Form.Item>
-      <Form.Item label="廣告代碼">
+      <Form.Item label="活動代碼">
         <Form.Item name="activityId" noStyle>
           <Select>
             <Option value="" key={-1}>
