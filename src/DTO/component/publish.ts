@@ -3,21 +3,23 @@ import { ActivityDto, transfer as activityTransfer } from "./activity";
 import { MachineDto } from "./machine";
 
 export type PublishDto = {
-    id: number;
-    activity: ActivityDto;
-    machine: MachineDto;
-    linkCount: number;
-    registeredCount: number;
-    url: string;
-}
+  id: number;
+  activity: ActivityDto;
+  machine: MachineDto;
+  linkCount: number;
+  registeredCount: number;
+  url: string;
+  publish: boolean;
+};
 
 export function transfer(data: PublishApiDto): PublishDto {
-    return {
-        id: data.id,
-        activity: activityTransfer(data.activity),
-        machine: data.machine,
-        linkCount: data.linkCount,
-        registeredCount: data.registeredCount,
-        url: data.url
-    }
+  return {
+    id: data.id,
+    activity: activityTransfer(data.activity),
+    machine: data.machine,
+    linkCount: data.linkCount,
+    registeredCount: data.registeredCount,
+    url: data.url,
+    publish: data.publish,
+  };
 }

@@ -4,7 +4,7 @@ const { Option } = Select;
 type MyFormPropsType = {
   label: string;
   options: { id: string | number; name: string }[];
-  onFinish: (query: string) => void;
+  onFinish: (query: number) => void;
 };
 function MyForm({ label, options, onFinish }: MyFormPropsType) {
   return (

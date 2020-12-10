@@ -21,11 +21,11 @@ function Admin() {
   function showErrorMessage(message: string) {
     Modal.error({ title: "錯誤", content: message });
   }
-  async function machineQuery(id: string) {
+  async function machineQuery(id: number) {
     let publishs = await activityMachineService.findByMachine(id);
     setDatas(publishs);
   }
-  async function activityQuery(id: string) {
+  async function activityQuery(id: number) {
     let publishs = await activityMachineService.findByActivity(id);
     setDatas(publishs);
   }

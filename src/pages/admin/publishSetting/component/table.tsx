@@ -1,4 +1,4 @@
-import { Table, Tooltip } from "antd";
+import { Space, Table, Tooltip } from "antd";
 import React from "react";
 import MyImage from "../../../../components/image";
 import { PublishDto } from "../../../../DTO/component/publish";
@@ -6,8 +6,14 @@ import { Moment } from "moment";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 type TableProps = {
   datas: Array<PublishDto>;
+  onPublishＣlick: (id: number, publish: boolean) => void;
+  onDeleteClick: (id: number) => void;
 };
-function MyTable({ datas: outerDatas }: TableProps) {
+function MyTable({
+  datas: outerDatas,
+  onPublishＣlick,
+  onDeleteClick,
+}: TableProps) {
   function getTimeFormat(timeRange: Moment[] | null): string {
     if (timeRange && timeRange.length === 2) {
       return `${timeRange[0].format(DATE_FORMAT)} ~ ${timeRange[1].format(
@@ -89,19 +95,23 @@ function MyTable({ datas: outerDatas }: TableProps) {
       ),
     },
     {
-      title: "網址",
-      dataIndex: "url",
-      key: "url",
+      title: "狀態",
+      render: (_: any, data: PublishDto) => (
+        <p>{data.publish ? "發布中" : "未發布"}</p>
+      ),
     },
     {
-      title: "連線人數",
-      dataIndex: "linkCount",
-      key: "linkCount",
-    },
-    {
-      title: "預定人數",
-      dataIndex: "registeredCount",
-      key: "registeredCount",
+      title: "動作",
+      render: (_: any, data: PublishDto) => (
+        <Space size="middle">
+          {data.publish ? (
+            <a onClick={() => onPublishＣlick(data.id, false)}>取消發布</a>
+          ) : (
+            <a onClick={() => onPublishＣlick(data.id, true)}>發布</a>
+          )}
+          <a onClick={() => onDeleteClick(data.id)}>移除廣告機</a>
+        </Space>
+      ),
     },
   ];
 
