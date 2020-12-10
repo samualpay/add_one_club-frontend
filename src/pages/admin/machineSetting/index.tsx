@@ -24,20 +24,10 @@ function Admin() {
   const [modalData, setModalData] = useState<Data>(initalData);
   const [modalShow, setModalShow] = useState(false);
   const [form] = Form.useForm<Data>();
-  function showErrorMessage(message: string) {
-    Modal.error({ title: "錯誤", content: message });
-  }
   async function onAdd(data: Data) {
-    try {
-      await machineService.createMachine(data);
-      form.setFieldsValue(initalData);
-      findMachines();
-    } catch (err) {
-      Modal.error({
-        title: "錯誤",
-        content: err.message,
-      });
-    }
+    await machineService.createMachine(data);
+    form.setFieldsValue(initalData);
+    findMachines();
   }
   function onDeleteClick(id: number) {
     Modal.confirm({
@@ -61,14 +51,9 @@ function Admin() {
     showModal();
   }
   async function onModifyHandle(data: Data) {
-    try {
-      await machineService.updateMachine(data);
-      findMachines();
-    } catch (err) {
-      showErrorMessage(err.message);
-    } finally {
-      hideModal();
-    }
+    await machineService.updateMachine(data);
+    findMachines();
+    hideModal();
   }
   function showModal() {
     setModalShow(true);

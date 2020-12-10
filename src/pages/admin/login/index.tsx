@@ -27,23 +27,17 @@ function Admin() {
       case ButtonEnum.login:
         dispatch(
           login(username, password, (err) => {
-            if (err) {
-              common.showErrorModal(err);
-            } else {
+            if (!err) {
               history.push("/admin");
             }
           })
         );
         break;
       case ButtonEnum.register:
-        try {
-          await authService.register(username, password);
-          Modal.success({
-            content: "註冊成功",
-          });
-        } catch (err) {
-          common.showErrorModal(err);
-        }
+        await authService.register(username, password);
+        Modal.success({
+          content: "註冊成功",
+        });
         break;
     }
   };

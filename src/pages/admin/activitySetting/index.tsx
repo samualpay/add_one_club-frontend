@@ -23,20 +23,13 @@ function Admin() {
   const [datas, setDatas] = useState<Array<ActivityDto>>([]);
   const [modalData, setModalData] = useState<ActivityDto>(initalData);
   const [modalShow, setModalShow] = useState(false);
-  function showErrorMessage(message: string) {
-    Modal.error({ title: "錯誤", content: message });
-  }
   async function onAdd(data: ActivityDto, clearFn: () => void) {
-    try {
-      data.discounts = data.discounts.filter(
-        (elem) => elem.peopleCount !== undefined && elem.percent !== undefined
-      );
-      await activityService.create(data);
-      await findAll();
-      clearFn();
-    } catch (err) {
-      showErrorMessage(err.message);
-    }
+    data.discounts = data.discounts.filter(
+      (elem) => elem.peopleCount !== undefined && elem.percent !== undefined
+    );
+    await activityService.create(data);
+    await findAll();
+    clearFn();
   }
   function onDeleteClick(id: number) {
     Modal.confirm({
@@ -73,17 +66,12 @@ function Admin() {
     showModal();
   }
   async function onModifyHandle(data: ActivityDto) {
-    try {
-      data.discounts = data.discounts.filter(
-        (elem) => elem.peopleCount !== undefined && elem.percent !== undefined
-      );
-      await activityService.update(data);
-      findAll();
-    } catch (err) {
-      showErrorMessage(err.message);
-    } finally {
-      hideModal();
-    }
+    data.discounts = data.discounts.filter(
+      (elem) => elem.peopleCount !== undefined && elem.percent !== undefined
+    );
+    await activityService.update(data);
+    findAll();
+    hideModal();
   }
   function showModal() {
     setModalShow(true);
