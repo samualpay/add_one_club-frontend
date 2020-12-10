@@ -91,10 +91,19 @@ function MyTable({
       dataIndex: "action",
       render: (_: any, data: ActivityDto) => (
         <Space size="middle">
-          <a onClick={() => onModifyClick(data)}>修改</a>
-          <a onClick={() => onDeleteClick(data.id)}>刪除</a>
+          <button className="link-button" onClick={() => onModifyClick(data)}>
+            修改
+          </button>
+          <button
+            className="link-button"
+            onClick={() => onDeleteClick(data.id)}
+          >
+            刪除
+          </button>
           {onEndClick && data.status === "start" ? (
-            <a onClick={() => onEndClick(data.id)}>停止</a>
+            <button className="Link-button" onClick={() => onEndClick(data.id)}>
+              停止
+            </button>
           ) : (
             <></>
           )}

@@ -79,7 +79,7 @@ function Admin() {
   useEffect(() => {
     form.setFieldsValue(initalData);
     findMachines();
-  }, []);
+  }, [form]);
 
   return (
     <div>

@@ -1,12 +1,10 @@
 import Axios from "axios";
-import moment from "moment";
 import { ActivityApiDto, transfer as data2APIData } from "../DTO/api/activity";
 import {
   ActivityDto,
   transfer as apiData2Data,
 } from "../DTO/component/activity";
 
-const fakeData: ActivityApiDto[] = [];
 class ActivityService {
   async findAll(): Promise<ActivityDto[]> {
     let response = await Axios.get<{ list: ActivityApiDto[] }>(

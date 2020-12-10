@@ -1,12 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-  useLocation,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import logo from './logo.svg';
 import "./App.css";
 
@@ -17,20 +10,25 @@ import Login from "./pages/admin/login";
 import ShouldLoginRoute from "./components/shouldLoginRouter";
 import ShouldLogoutRoute from "./components/shouldLogoutRouter";
 import { useSelector, useDispatch } from "react-redux";
-import { Spin, Modal } from "antd";
+import { Spin } from "antd";
 import { RootState } from "./redux";
-import axios from "axios";
-import authService from "./service/auth.service";
-import { show, dismiss } from "./redux/modules/loading";
 import myAxios from "./config/myAxios";
+import { dismiss, show } from "./redux/modules/loading";
+import { logout } from "./redux/modules/user";
 
 function App() {
   const dispatch = useDispatch();
+  function showLoading() {
+    dispatch(show());
+  }
+  function dismissLoading() {
+    dispatch(dismiss());
+  }
+  function onLogout() {
+    dispatch(logout());
+  }
   const { isLoading } = useSelector((state: RootState) => state.loading);
-  myAxios.init(dispatch);
-  useEffect(() => {
-    // myAxios.init(dispatch);
-  }, []);
+  myAxios.init({ showLoading, dismissLoading, onLogout });
 
   return (
     <Spin spinning={isLoading > 0}>

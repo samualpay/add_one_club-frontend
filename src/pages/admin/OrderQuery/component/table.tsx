@@ -53,7 +53,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
           }
           trigger="hover"
         >
-          <a>{data.publish.machine.code}</a>
+          <button className="link-button">{data.publish.machine.code}</button>
         </Tooltip>
       ),
     },
@@ -81,7 +81,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
           }
           trigger="hover"
         >
-          <a>{data.publish.activity.code}</a>
+          <button className="link-button">{data.publish.activity.code}</button>
         </Tooltip>
       ),
     },

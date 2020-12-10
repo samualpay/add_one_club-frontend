@@ -1,10 +1,14 @@
 import axios from "axios";
-import { Dispatch } from "react";
 import authService from "../service/auth.service";
-import { show, dismiss } from "../redux/modules/loading";
+import { Modal } from "antd";
 let isInit = false;
+type initProps = {
+  showLoading: () => void;
+  dismissLoading: () => void;
+  onLogout: () => void;
+};
 class MyAxios {
-  init(dispatch: Dispatch<any>) {
+  init({ showLoading, dismissLoading, onLogout }: initProps) {
     if (isInit) return;
     isInit = true;
     axios.interceptors.request.use(
@@ -14,7 +18,7 @@ class MyAxios {
           const { token } = user;
           config.headers.authorization = token;
         }
-        dispatch(show());
+        showLoading();
         return config;
       },
       (err) => {
@@ -23,11 +27,19 @@ class MyAxios {
     );
     axios.interceptors.response.use(
       (resp) => {
-        dispatch(dismiss());
+        dismissLoading();
         return resp;
       },
       (error) => {
-        dispatch(dismiss());
+        if (error.response.data.status === 401) {
+          onLogout();
+        } else {
+          Modal.error({
+            title: `錯誤:${error.response.data.status}`,
+            content: error.response.data.message,
+          });
+        }
+        dismissLoading();
         return Promise.reject(error);
       }
     );

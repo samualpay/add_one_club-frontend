@@ -1,6 +1,6 @@
 import { ThunkAction } from "redux-thunk";
 import authService from "../../service/auth.service";
-import { show, dismiss, LoadingAction } from "./loading";
+import { LoadingAction } from "./loading";
 // State
 type UserState = {
   username: string | null;

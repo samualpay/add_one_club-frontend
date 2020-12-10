@@ -1,4 +1,3 @@
-import { MachineApiDto } from "../DTO/api/machine";
 import { PublishDto } from "../DTO/component/publish";
 import moment from "moment";
 class ActivityMachineService {

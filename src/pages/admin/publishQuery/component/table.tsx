@@ -1,6 +1,5 @@
 import { Table, Tooltip } from "antd";
 import React from "react";
-import MyImage from "../../../../components/image";
 import { PublishDto } from "../../../../DTO/component/publish";
 import { Moment } from "moment";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
@@ -55,7 +54,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
           }
           trigger="hover"
         >
-          <a>{data.machine.code}</a>
+          <button className="link-button">{data.machine.code}</button>
         </Tooltip>
       ),
     },
@@ -84,7 +83,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
           }
           trigger="hover"
         >
-          <a>{data.activity.code}</a>
+          <button className="link-button">{data.activity.code}</button>
         </Tooltip>
       ),
     },

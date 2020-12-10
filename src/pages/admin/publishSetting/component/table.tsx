@@ -1,6 +1,5 @@
 import { Space, Table, Tooltip } from "antd";
 import React from "react";
-import MyImage from "../../../../components/image";
 import { PublishDto } from "../../../../DTO/component/publish";
 import { Moment } from "moment";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
@@ -61,7 +60,7 @@ function MyTable({
           }
           trigger="hover"
         >
-          <a>{data.machine.code}</a>
+          <button className="link-button">{data.machine.code}</button>
         </Tooltip>
       ),
     },
@@ -90,7 +89,7 @@ function MyTable({
           }
           trigger="hover"
         >
-          <a>{data.activity.code}</a>
+          <button className="link-button">{data.activity.code}</button>
         </Tooltip>
       ),
     },
@@ -105,11 +104,26 @@ function MyTable({
       render: (_: any, data: PublishDto) => (
         <Space size="middle">
           {data.publish ? (
-            <a onClick={() => onPublishＣlick(data.id, false)}>取消發布</a>
+            <button
+              className="link-button"
+              onClick={() => onPublishＣlick(data.id, false)}
+            >
+              取消發布
+            </button>
           ) : (
-            <a onClick={() => onPublishＣlick(data.id, true)}>發布</a>
+            <button
+              className="link-button"
+              onClick={() => onPublishＣlick(data.id, true)}
+            >
+              發布
+            </button>
           )}
-          <a onClick={() => onDeleteClick(data.id)}>移除廣告機</a>
+          <button
+            className="link-button"
+            onClick={() => onDeleteClick(data.id)}
+          >
+            移除廣告機
+          </button>
         </Space>
       ),
     },

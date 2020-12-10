@@ -35,7 +35,7 @@ function MyForm({
   const [form] = Form.useForm<ActivityDto>();
   useEffect(() => {
     form.setFieldsValue(data);
-  }, [data]);
+  }, [data, form]);
   function clear() {
     form.setFieldsValue(initalData);
   }

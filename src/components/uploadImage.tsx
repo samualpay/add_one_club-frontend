@@ -1,11 +1,4 @@
-import {
-  Upload,
-  message,
-  Modal,
-  Tooltip,
-  Progress,
-  Divider,
-} from "antd";
+import { Upload, Modal, Tooltip, Progress, Divider } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   RcFile,
@@ -13,18 +6,18 @@ import {
   UploadFile,
   RcCustomRequestOptions,
 } from "antd/lib/upload/interface";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import uploadService from "../service/upload.service";
 import MyImage from "./image";
 
 type UploadImageProps = {
-    value?:string,
-    onChange?:(value:string)=>void
+  value?: string;
+  onChange?: (value: string) => void;
 };
-function UploadImage({value,onChange}: UploadImageProps) {
+function UploadImage({ value, onChange }: UploadImageProps) {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  
+
   function beforeUpload(file: RcFile) {
     setProgress(0);
     setLoading(true);
@@ -40,16 +33,18 @@ function UploadImage({value,onChange}: UploadImageProps) {
     // }
     // return isJpgOrPng && isLt2M;
   }
-  function setImageUrl(url:string){
-      if(onChange){
-          onChange(url)
-      }
+  function setImageUrl(url: string) {
+    if (onChange) {
+      onChange(url);
+    }
   }
-  function onDeleteClick(){
-      Modal.confirm({
-          title:"確認刪除",
-          onOk:()=>{setImageUrl('')}
-      })
+  function onDeleteClick() {
+    Modal.confirm({
+      title: "確認刪除",
+      onOk: () => {
+        setImageUrl("");
+      },
+    });
   }
   async function handleChange({
     file,
@@ -100,10 +95,18 @@ function UploadImage({value,onChange}: UploadImageProps) {
             beforeUpload={beforeUpload}
             onChange={handleChange}
           >
-            <a style={{ color: "#FFF" }}>重新上傳</a>
+            <button className="link-button" style={{ color: "#FFF" }}>
+              重新上傳
+            </button>
           </Upload>
           <Divider type="vertical" style={{ width: "2px" }} />
-          <a style={{ color: "#FFF" }} onClick={onDeleteClick}>刪除</a>
+          <button
+            className="link-button"
+            style={{ color: "#FFF" }}
+            onClick={onDeleteClick}
+          >
+            刪除
+          </button>
         </>
       )}
       trigger="hover"

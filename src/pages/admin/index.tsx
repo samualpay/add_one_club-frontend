@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import {
   Route,
   Switch,
@@ -15,8 +15,7 @@ import ActivitySetting from "./activitySetting";
 import MachineSetting from "./machineSetting";
 import PublishQuery from "./publishQuery";
 import PublishSetting from "./publishSetting";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../redux";
+import { useDispatch } from "react-redux";
 
 import { logout as logoutAction } from "../../redux/modules/user";
 //antd
@@ -79,7 +78,6 @@ function Pages() {
   let dispatch = useDispatch();
   function logout() {
     dispatch(logoutAction());
-    history.push(`${url}`);
   }
 
   type onSelectEventType = {

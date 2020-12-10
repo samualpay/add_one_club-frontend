@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Tabs } from "antd";
+import { Tabs } from "antd";
 import "./index.css";
 import MyTable from "./component/table";
 import activityService from "../../../service/activity.service";
@@ -18,9 +18,6 @@ function Admin() {
   const [activityOptions, setActivityOptions] = useState<
     { id: string | number; name: string }[]
   >([]);
-  function showErrorMessage(message: string) {
-    Modal.error({ title: "錯誤", content: message });
-  }
   async function machineQuery(id: number) {
     let publishs = await activityMachineService.findByMachine(id);
     setDatas(publishs);

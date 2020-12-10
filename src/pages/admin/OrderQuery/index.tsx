@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Tabs } from "antd";
 import "./index.css";
 import MyTable from "./component/table";
 import activityService from "../../../service/activity.service";
@@ -10,8 +9,6 @@ import orderService from "../../../service/order.service";
 import machineService from "../../../service/machine.service";
 import { MachineDto } from "../../../DTO/component/machine";
 import { ActivityDto } from "../../../DTO/component/activity";
-
-const { TabPane } = Tabs;
 type OnFinshProps = {
   machineId?: number;
   activityId?: string;
@@ -21,9 +18,6 @@ function Admin() {
   const [datas, setDatas] = useState<OrderDto[]>([]);
   const [machineOptions, setMachineOptions] = useState<MachineDto[]>([]);
   const [activityOptions, setActivityOptions] = useState<ActivityDto[]>([]);
-  function showErrorMessage(message: string) {
-    Modal.error({ title: "錯誤", content: message });
-  }
   async function onSearch({ machineId, activityId, status }: OnFinshProps) {
     let result = await orderService.find({ machineId, activityId, status });
     setDatas(result);

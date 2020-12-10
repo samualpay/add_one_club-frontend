@@ -1,41 +1,49 @@
-import { Button, Form, Modal, Select, Space } from "antd";
+import { Button, Form, Modal, Space } from "antd";
 import React, { useEffect } from "react";
-import { ActivityDto } from '../../../../DTO/component/activity'
+import { ActivityDto } from "../../../../DTO/component/activity";
 import MyForm from "./form";
-const { Option } = Select
 type ModifyModalProps = {
-    data: ActivityDto;
-    onOK: (data: ActivityDto) => void
-    onCancel: () => void
-    visible: boolean
-}
+  data: ActivityDto;
+  onOK: (data: ActivityDto) => void;
+  onCancel: () => void;
+  visible: boolean;
+};
 
-function ModifyModal({ data: outerData, onOK, onCancel, visible }: ModifyModalProps) {
-    function Footer() {
-        return (
-            <Button.Group size='middle' style={{ float: 'right' }}>
-                <Space>
-                    <Button type="primary" htmlType="button" onClick={onCancel}>取消</Button>
-                    <Button type="primary" htmlType="submit">更新</Button>
-                </Space>
-            </Button.Group>
-        )
-    }
-    const [form] = Form.useForm()
-    useEffect(() => {
-        form.setFieldsValue(outerData)
-        // setData(outerData)
-    }, [outerData])
+function ModifyModal({
+  data: outerData,
+  onOK,
+  onCancel,
+  visible,
+}: ModifyModalProps) {
+  function Footer() {
     return (
-        <Modal
-            visible={visible}
-            title="修改活動"
-            // onOk={() => { onOK(data) }}
-            onCancel={onCancel}
-            footer={null}
-        >
-            <MyForm data={outerData} onFinish={onOK} footer={<Footer />} />
-        </Modal>
-    )
+      <Button.Group size="middle" style={{ float: "right" }}>
+        <Space>
+          <Button type="primary" htmlType="button" onClick={onCancel}>
+            取消
+          </Button>
+          <Button type="primary" htmlType="submit">
+            更新
+          </Button>
+        </Space>
+      </Button.Group>
+    );
+  }
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldsValue(outerData);
+    // setData(outerData)
+  }, [outerData, form]);
+  return (
+    <Modal
+      visible={visible}
+      title="修改活動"
+      // onOk={() => { onOK(data) }}
+      onCancel={onCancel}
+      footer={null}
+    >
+      <MyForm data={outerData} onFinish={onOK} footer={<Footer />} />
+    </Modal>
+  );
 }
-export default ModifyModal
+export default ModifyModal;

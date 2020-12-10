@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Form, Modal } from "antd";
+import { Modal } from "antd";
 import "./index.css";
 import { ActivityDto } from "../../../DTO/component/activity";
 import MyTable from "./component/table";

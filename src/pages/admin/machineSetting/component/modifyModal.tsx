@@ -19,7 +19,7 @@ function ModifyModal({
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue(outerData);
-  }, [outerData]);
+  }, [outerData, form]);
   return (
     <Modal
       visible={visible}
