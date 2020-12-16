@@ -8,6 +8,7 @@ export type PublishDto = {
   machine: MachineDto;
   linkCount: number;
   registeredCount: number;
+  buyCount: number;
   url: string;
   publish: boolean;
 };
@@ -19,6 +20,7 @@ export function transfer(data: PublishApiDto): PublishDto {
     machine: data.machine,
     linkCount: data.linkCount,
     registeredCount: data.registeredCount,
+    buyCount: data.buyCount,
     url: data.url,
     publish: data.publish,
   };

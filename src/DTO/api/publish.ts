@@ -7,6 +7,7 @@ export type PublishApiDto = {
   machine: MachineApiDto;
   linkCount: number;
   registeredCount: number;
+  buyCount: number;
   url: string;
   publish: boolean;
 };
