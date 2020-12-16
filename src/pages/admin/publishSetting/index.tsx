@@ -103,7 +103,6 @@ function Admin() {
     const allMachines = await machineService.findAllMachines();
     setOptions(activitys.map((activity) => activityDto2Option(activity)));
     setMachines(allMachines);
-    await updateTable();
     if (activitys.length > 0) {
       const selected = activitys[0].id;
       await handleSelectChange(selected);
@@ -112,6 +111,12 @@ function Admin() {
   useEffect(() => {
     onMount();
   }, []);
+  useEffect(() => {
+    updateMachineOptions();
+  }, [machines, publishs]);
+  useEffect(() => {
+    updateTable();
+  }, [select]);
   async function updateTable() {
     if (select) {
       const publishs = await publishService.findByActivity(select);
@@ -134,10 +139,7 @@ function Admin() {
     }
   }
   async function handleSelectChange(value: number) {
-    // const savedMachine = await machineService.findMachinesByActivityId(value);
     setSelect(value);
-    await updateTable();
-    await updateMachineOptions();
   }
   async function handleMachineSelectChange(value: number) {
     setMachineSelect(value);
@@ -145,19 +147,17 @@ function Admin() {
   async function handleClick() {
     if (select && machineSelect) {
       await activityMachineService.bind(select, machineSelect);
+      setMachineSelect(undefined);
       await updateTable();
-      await updateMachineOptions();
     }
   }
   async function handlePublishClick(id: number, publish: boolean) {
     await publishService.publish(id, publish);
     await updateTable();
-    await updateMachineOptions();
   }
   async function handleDeleteClick(id: number) {
     await publishService.delete(id);
     await updateTable();
-    await updateMachineOptions();
   }
   return (
     <div>
