@@ -16,6 +16,9 @@ export type ActivityApiDto = {
   discounts: DiscountApiDto[];
   finalPrice: number | null;
   status?: "not_started" | "start" | "end";
+  linkCount?: number;
+  registeredCount?: number;
+  buyCount?: number;
 };
 
 export function transfer(data: ActivityDto): ActivityApiDto {
@@ -32,6 +35,9 @@ export function transfer(data: ActivityDto): ActivityApiDto {
       discounts: data.discounts,
       finalPrice: data.finalPrice,
       status: data.status,
+      linkCount: data.linkCount,
+      registeredCount: data.registeredCount,
+      buyCount: data.buyCount,
     };
   } else {
     throw new Error("data2APIData failed");

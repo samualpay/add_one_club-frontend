@@ -17,6 +17,9 @@ export type ActivityDto = {
   discounts: DiscountDto[];
   finalPrice: number | null;
   status?: "not_started" | "start" | "end";
+  linkCount?: number;
+  registeredCount?: number;
+  buyCount?: number;
 };
 
 export function transfer(data: ActivityApiDto): ActivityDto {
@@ -31,5 +34,8 @@ export function transfer(data: ActivityApiDto): ActivityDto {
     discounts: data.discounts,
     finalPrice: data.finalPrice,
     status: data.status,
+    linkCount: data.linkCount,
+    registeredCount: data.registeredCount,
+    buyCount: data.buyCount,
   };
 }

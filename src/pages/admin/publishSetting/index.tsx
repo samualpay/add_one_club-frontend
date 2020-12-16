@@ -10,6 +10,7 @@ import { PublishDto } from "../../../DTO/component/publish";
 import MySelect from "./component/select";
 import MyTable from "./component/table";
 import "./index.css";
+import { ActivityStatus } from "../../../enum/ActivityStatus";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 type ActivityOption = {
   id: number;
@@ -96,7 +97,9 @@ function Admin() {
   const [machines, setMachines] = useState<MachineDto[]>([]);
   const [publishs, setPublishs] = useState<PublishDto[]>([]);
   async function onMount() {
-    const activitys = await activityService.findAll();
+    const activitys = await activityService.findAllWithoutStatus(
+      ActivityStatus.END
+    );
     const allMachines = await machineService.findAllMachines();
     setOptions(activitys.map((activity) => activityDto2Option(activity)));
     setMachines(allMachines);

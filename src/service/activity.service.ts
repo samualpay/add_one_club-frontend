@@ -4,11 +4,27 @@ import {
   ActivityDto,
   transfer as apiData2Data,
 } from "../DTO/component/activity";
+import { ActivityStatus } from "../enum/ActivityStatus";
 
 class ActivityService {
-  async findAll(): Promise<ActivityDto[]> {
+  async findAll(
+    query: { status?: ActivityStatus } = {}
+  ): Promise<ActivityDto[]> {
     let response = await Axios.get<{ list: ActivityApiDto[] }>(
-      "/api/activitys"
+      "/api/activitys",
+      {
+        params: query,
+      }
+    );
+    let list = response.data.list;
+    return list.map((elem) => apiData2Data(elem));
+  }
+  async findAllWithoutStatus(status: ActivityStatus): Promise<ActivityDto[]> {
+    let response = await Axios.get<{ list: ActivityApiDto[] }>(
+      "/api/activitys/withoutStatus",
+      {
+        params: { status },
+      }
     );
     let list = response.data.list;
     return list.map((elem) => apiData2Data(elem));
