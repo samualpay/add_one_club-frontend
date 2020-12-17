@@ -1,4 +1,4 @@
-import OrderDto from "../DTO/component/order";
+import { OrderDto } from "../DTO/component/order";
 import moment from "moment";
 type FindProps = {
   machineId?: number;
@@ -46,7 +46,7 @@ class OrderService {
           url: "http://xxx.html",
           publish: true,
         },
-        user: {
+        customer: {
           id: 1,
           email: "xxx@gmail.com",
           name: "xxx",
@@ -90,7 +90,7 @@ class OrderService {
           url: "http://xxx.html",
           publish: true,
         },
-        user: {
+        customer: {
           id: 2,
           email: "xxx@gmail.com",
           name: "xxx",

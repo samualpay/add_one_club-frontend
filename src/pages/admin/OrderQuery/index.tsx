@@ -4,7 +4,7 @@ import "./index.css";
 import MyTable from "./component/table";
 import activityService from "../../../service/activity.service";
 import MyForm from "./component/form";
-import OrderDto from "../../../DTO/component/order";
+import { OrderDto } from "../../../DTO/component/order";
 import orderService from "../../../service/order.service";
 import machineService from "../../../service/machine.service";
 import { MachineDto } from "../../../DTO/component/machine";

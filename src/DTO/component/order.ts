@@ -1,13 +1,18 @@
-import { PublishDto } from "./publish";
-import UserDto from "../user";
+import { PublishDto, transfer as publishTransfer } from "./publish";
+import { CustomerDto } from "../customerDto";
+import { OrderApiDto } from "../api/order";
 
-type OrderDto = {
+export type OrderDto = {
   id: number;
   publish: PublishDto;
-  user: UserDto;
+  customer: CustomerDto;
   preCount: number | null;
   buyCount: number | null;
   totalPrice: number | null;
   status: "preorder" | "paid" | "finish";
 };
-export default OrderDto;
+
+export function transfer(order: OrderApiDto): OrderDto {
+  let publish = publishTransfer(order.publish);
+  return { ...order, publish };
+}

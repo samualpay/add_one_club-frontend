@@ -1,7 +1,7 @@
 import { Table, Tooltip } from "antd";
 import React from "react";
 import { Moment } from "moment";
-import OrderDto from "../../../../DTO/component/order";
+import { OrderDto } from "../../../../DTO/component/order";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 type TableProps = {
   datas: Array<OrderDto>;
@@ -88,7 +88,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
     {
       title: "Email",
       key: "email",
-      render: (_: any, data: OrderDto) => <span>{data.user.email}</span>,
+      render: (_: any, data: OrderDto) => <span>{data.customer.email}</span>,
     },
     {
       title: "預購數量",
@@ -98,7 +98,7 @@ function MyTable({ datas: outerDatas }: TableProps) {
     {
       title: "客戶",
       key: "name",
-      render: (_: any, data: OrderDto) => <span>{data.user.name}</span>,
+      render: (_: any, data: OrderDto) => <span>{data.customer.name}</span>,
     },
     {
       title: "購買數量",
@@ -108,12 +108,12 @@ function MyTable({ datas: outerDatas }: TableProps) {
     {
       title: "電話",
       key: "phone",
-      render: (_: any, data: OrderDto) => <span>{data.user.phone}</span>,
+      render: (_: any, data: OrderDto) => <span>{data.customer.phone}</span>,
     },
     {
       title: "地址",
       key: "address",
-      render: (_: any, data: OrderDto) => <span>{data.user.address}</span>,
+      render: (_: any, data: OrderDto) => <span>{data.customer.address}</span>,
     },
     {
       title: "結帳金額",
