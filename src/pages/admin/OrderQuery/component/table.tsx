@@ -121,6 +121,19 @@ function MyTable({ datas: outerDatas }: TableProps) {
       key: "totalPrice",
     },
     {
+      title: "狀態",
+      key: "status",
+      render: (_: any, data: OrderDto) => (
+        <span>
+          {data.status === "preorder"
+            ? "預約"
+            : data.status === "paid"
+            ? "已付款"
+            : "已完成"}
+        </span>
+      ),
+    },
+    {
       title: "是否結帳",
       key: "status",
       render: (_: any, data: OrderDto) => (

@@ -45,7 +45,7 @@ function MyForm({
             </Option>
             {activityOptions.map((option, index) => (
               <Option value={option.id} key={index}>
-                {option.id}
+                {option.code}
               </Option>
             ))}
           </Select>
