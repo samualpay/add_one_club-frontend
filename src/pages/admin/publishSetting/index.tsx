@@ -155,6 +155,12 @@ function Admin() {
     await publishService.publish(id, publish);
     await updateTable();
   }
+  async function handlePublishAllClick() {
+    if (select) {
+      await publishService.publishByActivityId(select);
+      await updateTable();
+    }
+  }
   async function handleDeleteClick(id: number) {
     await publishService.delete(id);
     await updateTable();
@@ -193,7 +199,7 @@ function Admin() {
           />
         </Col>
         <Col span={4}>
-          <Button type="primary" size="large">
+          <Button type="primary" size="large" onClick={handlePublishAllClick}>
             全部發布
           </Button>
         </Col>

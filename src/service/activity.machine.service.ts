@@ -25,5 +25,8 @@ class ActivityMachineService {
   async publish(id: number, publish: boolean) {
     await Axios.patch(`/api/publishs/${id}`, { publish });
   }
+  async publishByActivityId(activityId: number) {
+    await Axios.patch(`/api/publishs/activity/${activityId}`);
+  }
 }
 export default new ActivityMachineService();
