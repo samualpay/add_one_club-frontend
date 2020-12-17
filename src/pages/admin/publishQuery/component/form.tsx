@@ -8,7 +8,14 @@ type MyFormPropsType = {
 };
 function MyForm({ label, options, onFinish }: MyFormPropsType) {
   return (
-    <Form name="complex-form" onFinish={(data) => onFinish(data.id)}>
+    <Form
+      name="complex-form"
+      onFinish={(data) => {
+        if (data.id) {
+          onFinish(data.id);
+        }
+      }}
+    >
       <Form.Item label={label}>
         <Form.Item name="id" noStyle>
           <Select>
