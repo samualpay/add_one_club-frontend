@@ -6,4 +6,8 @@ module.exports = function (app) {
     "/images",
     createProxyMiddleware({ target: "http://localhost:5000" })
   );
+  app.use(
+    "/videos",
+    createProxyMiddleware({ target: "http://localhost:5000" })
+  );
 };
