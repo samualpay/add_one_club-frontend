@@ -5,6 +5,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 // import Data from "../type/data";
 import { ActivityDto } from "../../../../DTO/component/activity";
 import moment, { Moment } from "moment";
+import UploadVideo from "../../../../components/uploadVideo";
 const { RangePicker } = DatePicker;
 type MyFormPropsType = {
   onFinish: (data: ActivityDto, clearFn: () => void) => void;
@@ -76,7 +77,7 @@ function MyForm({
           noStyle
           // rules={[{ required: true, message: "未填產品影片" }]}
         >
-          <UploadImage />
+          <UploadVideo />
           {/* <Input style={{ width: '100%' }} placeholder="詳細地址" /> */}
         </Form.Item>
       </Form.Item>
