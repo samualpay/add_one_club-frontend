@@ -7,14 +7,17 @@ import { MachineDto as Data } from "../../../DTO/component/machine";
 import MyTable from "./component/table";
 import ModifyModal from "./component/modifyModal";
 import machineService from "../../../service/machine.service";
+import CityDistSelect from "../../../components/cityDistSelect";
 const { Option } = Select;
 
 function Admin() {
   const initalData: Data = {
     id: 0,
     code: "",
-    city: "",
-    dist: "",
+    location: {
+      city: "",
+      dist: "",
+    },
     address: "",
     area: "",
     machineType: "",
@@ -79,7 +82,11 @@ function Admin() {
           </Form.Item>
         </Form.Item>
         <Form.Item label="廣告機位置">
-          <Input.Group compact>
+          <Form.Item name="location" noStyle>
+            <CityDistSelect />
+          </Form.Item>
+
+          {/* <Input.Group compact>
             <Form.Item
               name="city"
               noStyle
@@ -100,7 +107,7 @@ function Admin() {
                 <Option value="Jiangsu">Jiangsu</Option>
               </Select>
             </Form.Item>
-          </Input.Group>
+          </Input.Group> */}
         </Form.Item>
         <Form.Item label="詳細地址">
           <Form.Item

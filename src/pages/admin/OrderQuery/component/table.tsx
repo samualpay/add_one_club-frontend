@@ -32,8 +32,8 @@ function MyTable({ datas: outerDatas }: TableProps) {
               <div>
                 <label>位置:</label>
                 <span>
-                  {data.publish.machine.city}
-                  {data.publish.machine.dist}
+                  {data.publish.machine.location.city}
+                  {data.publish.machine.location.dist}
                   {data.publish.machine.address}
                 </span>
               </div>

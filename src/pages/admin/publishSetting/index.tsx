@@ -37,6 +37,20 @@ function activityDto2Option(dto: ActivityDto): ActivityOption {
     price,
   };
 }
+type MachineOption = {
+  id: number;
+  code: string;
+  city: string;
+  dist: string;
+  address: string;
+  area: string;
+  storeAttribute: string;
+  machineType: string;
+};
+function machineDto2Option(dto: MachineDto): MachineOption {
+  let { city, dist } = dto.location;
+  return { ...dto, city, dist };
+}
 const activityColumns = [
   {
     dataIndex: "code",
@@ -93,7 +107,7 @@ function Admin() {
   const [select, setSelect] = useState<number>();
   const [machineSelect, setMachineSelect] = useState<number>();
   const [options, setOptions] = useState<ActivityOption[]>([]);
-  const [machineOptions, setMachineOptions] = useState<MachineDto[]>([]);
+  const [machineOptions, setMachineOptions] = useState<MachineOption[]>([]);
   const [machines, setMachines] = useState<MachineDto[]>([]);
   const [publishs, setPublishs] = useState<PublishDto[]>([]);
   async function onMount() {
@@ -125,9 +139,9 @@ function Admin() {
   }
   async function updateMachineOptions() {
     const publishMachineIds = publishs.map((elem) => elem.machine.id);
-    const machineOptions = machines.filter(
-      (elem) => !publishMachineIds.includes(elem.id)
-    );
+    const machineOptions = machines
+      .filter((elem) => !publishMachineIds.includes(elem.id))
+      .map((elem) => machineDto2Option(elem));
     setMachineOptions(machineOptions);
     const optionIds = machineOptions.map((elem) => elem.id);
     if (
@@ -178,7 +192,7 @@ function Admin() {
       </div>
       <div>
         <label>廣告機代碼:</label>
-        <MySelect<MachineDto>
+        <MySelect<MachineOption>
           options={machineOptions}
           onChange={handleMachineSelectChange}
           value={machineSelect}

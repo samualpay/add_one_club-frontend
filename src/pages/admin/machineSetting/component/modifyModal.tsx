@@ -1,5 +1,6 @@
 import { Button, Form, Input, Modal, Select, Space } from "antd";
 import React, { useEffect } from "react";
+import CityDistSelect from "../../../../components/cityDistSelect";
 import { areas, machineTypes, storeAttributes } from "../../../../data";
 import { MachineDto as Data } from "../../../../DTO/component/machine";
 const { Option } = Select;
@@ -49,7 +50,10 @@ function ModifyModal({
           </Tooltip> */}
         </Form.Item>
         <Form.Item label="廣告機位置">
-          <Input.Group compact>
+          <Form.Item name="location" noStyle>
+            <CityDistSelect />
+          </Form.Item>
+          {/* <Input.Group compact>
             <Form.Item
               name="city"
               noStyle
@@ -70,7 +74,7 @@ function ModifyModal({
                 <Option value="Jiangsu">Jiangsu</Option>
               </Select>
             </Form.Item>
-          </Input.Group>
+          </Input.Group> */}
         </Form.Item>
         <Form.Item label="詳細地址">
           <Form.Item
