@@ -22,16 +22,10 @@ function MyTable({
     return "";
   }
   const columns = [
-    // {
-    //   title: "廣告發布代碼",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
     {
       title: "廣告機代碼",
       dataIndex: "machine.id",
       render: (_: any, data: PublishDto) => (
-        // <MyImage src={data.imgUrl} width={100} height={100} />
         <Tooltip
           placement="top"
           title={
@@ -68,7 +62,6 @@ function MyTable({
       title: "廣告代碼",
       dataIndex: "activity.id",
       render: (_: any, data: PublishDto) => (
-        // <MyImage src={data.imgUrl} width={100} height={100} />
         <Tooltip
           placement="top"
           title={
