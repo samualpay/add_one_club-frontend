@@ -2,6 +2,7 @@ import { Space, Table } from "antd";
 import React from "react";
 import MyImage from "../../../../components/image";
 import { ActivityDto } from "../../../../DTO/component/activity";
+import MyVideo from "../../../../components/video";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
 type TableProps = {
   datas: Array<ActivityDto>;
@@ -32,7 +33,7 @@ function MyTable({
       title: "產品影片",
       dataIndex: "videoUrl",
       render: (_: any, data: ActivityDto) => (
-        <MyImage src={data.videoUrl} width={100} height={100} />
+        <MyVideo src={data.videoUrl} width={100} height={100} />
       ),
     },
     {

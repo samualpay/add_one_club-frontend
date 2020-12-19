@@ -79,7 +79,7 @@ function UploadVideo({ value, onChange }: UploadVideoProps) {
             name="avatar"
             className="image-upload-grid"
             showUploadList={false}
-            accept="image/*"
+            accept="video/*"
             customRequest={customRequest}
             beforeUpload={beforeUpload}
             onChange={handleChange}
@@ -146,7 +146,7 @@ function UploadVideo({ value, onChange }: UploadVideoProps) {
           className="avatar-uploader"
           // className="image-upload-grid"
           showUploadList={false}
-          // accept="image/*"
+          accept="video/*"
           // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           customRequest={customRequest}
           beforeUpload={beforeUpload}

@@ -36,13 +36,6 @@ class ActivityService {
   async update(data: ActivityDto) {
     const item = data2APIData(data);
     await Axios.put("/api/activitys", item);
-    // const index = fakeData.findIndex((item) => item.id === data.id);
-    // if (index >= 0) {
-    //   fakeData[index] = data2APIData(data);
-    //   return data;
-    // } else {
-    //   throw new Error("id not found");
-    // }
   }
   async delete(id: number) {
     await Axios.delete(`/api/activitys/${id}`);

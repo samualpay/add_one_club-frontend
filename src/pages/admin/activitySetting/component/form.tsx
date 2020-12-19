@@ -1,4 +1,4 @@
-import { Form, Input, DatePicker, Space, Button } from "antd";
+import { Form, Input, DatePicker, Space, Button, InputNumber } from "antd";
 import React, { useEffect } from "react";
 import UploadImage from "../../../../components/uploadImage";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
@@ -103,9 +103,16 @@ function MyForm({
         <Form.Item
           name="price"
           noStyle
-          rules={[{ required: true, message: "未填產品定價" }]}
+          rules={[
+            { required: true, message: "未填產品定價" },
+            { type: "number", min: 0, message: "定價不得低於0元" },
+          ]}
         >
-          <Input style={{ width: "100%" }} placeholder="產品定價" />
+          <InputNumber
+            style={{ width: "100%" }}
+            placeholder="產品定價"
+            min={0}
+          />
         </Form.Item>
       </Form.Item>
 
@@ -125,18 +132,32 @@ function MyForm({
                   label="人數"
                   name={[field.name, "peopleCount"]}
                   fieldKey={[field.fieldKey, "peopleCount"]}
-                  rules={[{ required: true, message: "Missing peopleCount" }]}
+                  rules={[
+                    { required: true, message: "Missing peopleCount" },
+                    { type: "number", min: 0, message: "人數不得低於0" },
+                  ]}
                 >
-                  <Input placeholder="peopleCount" type="number" />
+                  <InputNumber placeholder="人數" min={0} />
                 </Form.Item>
                 <Form.Item
                   {...field}
                   label="百分比"
                   name={[field.name, "percent"]}
                   fieldKey={[field.fieldKey, "percent"]}
-                  rules={[{ required: true, message: "Missing peopleCount" }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Missing peopleCount",
+                    },
+                    {
+                      type: "number",
+                      min: 0,
+                      max: 100,
+                      message: "數值須介於0~100",
+                    },
+                  ]}
                 >
-                  <Input placeholder="percent" type="number" />
+                  <InputNumber placeholder="百分比" min={0} max={100} />
                 </Form.Item>
                 <MinusCircleOutlined
                   onClick={() => {
