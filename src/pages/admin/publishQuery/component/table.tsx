@@ -2,7 +2,7 @@ import { Table, Tooltip } from "antd";
 import React from "react";
 import { PublishDto } from "../../../../DTO/component/publish";
 import { Moment } from "moment";
-const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
+const DATE_FORMAT = "YYYY-MM-DD HH:mm";
 type TableProps = {
   datas: Array<PublishDto>;
 };

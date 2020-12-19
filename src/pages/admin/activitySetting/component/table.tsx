@@ -3,7 +3,7 @@ import React from "react";
 import MyImage from "../../../../components/image";
 import { ActivityDto } from "../../../../DTO/component/activity";
 import MyVideo from "../../../../components/video";
-const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
+const DATE_FORMAT = "YYYY-MM-DD HH:mm";
 type TableProps = {
   datas: Array<ActivityDto>;
   onModifyClick: (data: ActivityDto) => void;

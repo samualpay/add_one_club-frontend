@@ -96,7 +96,11 @@ function MyForm({
           noStyle
           // rules={[{ required: true, message: '未填活動起迄時間' }]}
         >
-          <RangePicker showTime disabledDate={disabledDate} />
+          <RangePicker
+            showTime={{ format: "HH:mm" }}
+            format="YYYY-MM-DD HH:mm"
+            disabledDate={disabledDate}
+          />
         </Form.Item>
       </Form.Item>
       <Form.Item label="產品定價">

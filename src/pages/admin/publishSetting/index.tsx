@@ -11,7 +11,7 @@ import MySelect from "./component/select";
 import MyTable from "./component/table";
 import "./index.css";
 import { ActivityStatus } from "../../../enum/ActivityStatus";
-const DATE_FORMAT = "YYYY-MM-DD HH:mm:ss";
+const DATE_FORMAT = "YYYY-MM-DD HH:mm";
 type ActivityOption = {
   id: number;
   code: string;
