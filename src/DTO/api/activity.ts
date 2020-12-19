@@ -24,7 +24,7 @@ export type ActivityApiDto = {
 export function transfer(data: ActivityDto): ActivityApiDto {
   if (data.timeRange && data.timeRange.length === 2 && data.price) {
     let start = data.timeRange[0];
-    let end = data.timeRange[0];
+    let end = data.timeRange[1];
     start.set({ second: 0 });
     end.set({ second: 0 });
     return {
