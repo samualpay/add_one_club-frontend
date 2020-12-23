@@ -1,10 +1,10 @@
 // import Data from "../pages/admin/machineSetting/type/data";
 import { MachineDto, transfer } from "../DTO/component/machine";
 import { MachineApiDto, transfer as transfer2Api } from "../DTO/api/machine";
-import axios from "axios";
+import axiosForAdmin from "../config/axiosForAdmin";
 class MachineService {
   async findAllMachines(): Promise<MachineDto[]> {
-    let response = await axios.get<{ machines: MachineApiDto[] }>(
+    let response = await axiosForAdmin.axios.get<{ machines: MachineApiDto[] }>(
       "/api/machines"
     );
     return response.data.machines.map((elem) => transfer(elem));
@@ -18,14 +18,14 @@ class MachineService {
   //   return fakeData.filter((_, index) => index % fakeCount === 0);
   // }
   async createMachine(data: MachineDto) {
-    await axios.post("/api/machines", transfer2Api(data));
+    await axiosForAdmin.axios.post("/api/machines", transfer2Api(data));
   }
   async updateMachine(data: MachineDto) {
-    await axios.put("/api/machines", transfer2Api(data));
+    await axiosForAdmin.axios.put("/api/machines", transfer2Api(data));
   }
   async deleteMachine(id: number) {
     //todo delete machines api
-    await axios.delete(`/api/machines/${id}`);
+    await axiosForAdmin.axios.delete(`/api/machines/${id}`);
   }
 }
 export default new MachineService();

@@ -1,16 +1,15 @@
-import Axios from "axios";
+import axiosForAdmin from "../config/axiosForAdmin";
 import { ActivityApiDto, transfer as data2APIData } from "../DTO/api/activity";
 import {
   ActivityDto,
   transfer as apiData2Data,
 } from "../DTO/component/activity";
 import { ActivityStatus } from "../enum/ActivityStatus";
-
 class ActivityService {
   async findAll(
     query: { status?: ActivityStatus } = {}
   ): Promise<ActivityDto[]> {
-    let response = await Axios.get<{ list: ActivityApiDto[] }>(
+    let response = await axiosForAdmin.axios.get<{ list: ActivityApiDto[] }>(
       "/api/activitys",
       {
         params: query,
@@ -20,7 +19,7 @@ class ActivityService {
     return list.map((elem) => apiData2Data(elem));
   }
   async findAllWithoutStatus(status: ActivityStatus): Promise<ActivityDto[]> {
-    let response = await Axios.get<{ list: ActivityApiDto[] }>(
+    let response = await axiosForAdmin.axios.get<{ list: ActivityApiDto[] }>(
       "/api/activitys/withoutStatus",
       {
         params: { status },
@@ -31,14 +30,14 @@ class ActivityService {
   }
   async create(data: ActivityDto) {
     const item = data2APIData(data);
-    await Axios.post("/api/activitys", item);
+    await axiosForAdmin.axios.post("/api/activitys", item);
   }
   async update(data: ActivityDto) {
     const item = data2APIData(data);
-    await Axios.put("/api/activitys", item);
+    await axiosForAdmin.axios.put("/api/activitys", item);
   }
   async delete(id: number) {
-    await Axios.delete(`/api/activitys/${id}`);
+    await axiosForAdmin.axios.delete(`/api/activitys/${id}`);
     // const index = fakeData.findIndex(item => item.id === id)
     // if (index >= 0) {
     //   fakeData.splice(index, 1)

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosForAdmin from "../config/axiosForAdmin";
 const storageKey = "user";
 type User = {
   username: string;
@@ -12,7 +12,7 @@ type LoginResult = {
 
 class AuthService {
   async login(username: string, password: string) {
-    let result = await axios.post<{
+    let result = await axiosForAdmin.axios.post<{
       username: string;
       token: string;
       expireTime: number;
@@ -41,7 +41,7 @@ class AuthService {
     return { username: "xxx" };
   }
   async register(username: string, password: string): Promise<void> {
-    await axios.post("/api/register", { username, password });
+    await axiosForAdmin.axios.post("/api/register", { username, password });
   }
 }
 export default new AuthService();

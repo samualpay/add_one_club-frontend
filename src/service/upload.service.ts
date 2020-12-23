@@ -1,5 +1,5 @@
-import Axios from "axios";
-
+// import Axios from "axios";
+import axiosForAdmin from "../config/axiosForAdmin";
 type UploadImageResp = {
   url: string;
 };
@@ -10,7 +10,7 @@ class UploadService {
   ): Promise<UploadImageResp> {
     const fmData = new FormData();
     fmData.append("image", file);
-    const response = await Axios.post<{ filename: string }>(
+    const response = await axiosForAdmin.axios.post<{ filename: string }>(
       "/api/upload/image",
       fmData,
       {
@@ -36,7 +36,7 @@ class UploadService {
   ): Promise<UploadImageResp> {
     const fmData = new FormData();
     fmData.append("video", file);
-    const response = await Axios.post<{ filename: string }>(
+    const response = await axiosForAdmin.axios.post<{ filename: string }>(
       "/api/upload/video",
       fmData,
       {
