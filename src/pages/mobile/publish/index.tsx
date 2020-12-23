@@ -1,9 +1,59 @@
-import React from "react";
-import { Button, WhiteSpace, WingBlank, List, InputItem } from "antd-mobile";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  WhiteSpace,
+  WingBlank,
+  List,
+  InputItem,
+  Toast,
+} from "antd-mobile";
+import { useHistory, useParams } from "react-router-dom";
+import activityMachineService from "../../../service/activity.machine.service";
+import orderService from "../../../service/order.service";
 
 function Publish() {
   let { id } = useParams<{ id: string }>();
+  const [email, setEmail] = useState("");
+  const [count, setCount] = useState("");
+  const [image, setImage] = useState<string>();
+  const history = useHistory();
+  function handleEmailChange(value: string) {
+    setEmail(value);
+  }
+  function handleCountChange(value: string) {
+    setCount(value);
+  }
+  async function mount() {
+    try {
+      let publish = await activityMachineService.findByIdForMobile(
+        parseInt(id)
+      );
+      if (publish) {
+        let image = `/images/${publish.activity.imgUrl}`;
+        setImage(image);
+      } else {
+        throw new Error("not found");
+      }
+    } catch (err) {
+      //   history.push("/notfound");
+    }
+  }
+  async function handleClick() {
+    let result = await orderService.createForMobile(
+      parseInt(id),
+      email,
+      parseInt(count)
+    );
+    if (result) {
+      Toast.success("預購成功");
+      setCount("");
+    }
+  }
+
+  useEffect(() => {
+    mount();
+  }, []);
+
   return (
     <WingBlank size="lg">
       <List>
@@ -14,13 +64,16 @@ function Publish() {
         </List.Item>
         <List.Item>
           <div style={{ width: "100%", textAlign: "center" }}>
-            <img
-              style={{ width: "100%", height: "auto" }}
-              src="https://elt.rti.org.tw/wp-content/uploads/2020/06/960x540_learning-english-take-away-english-what-does-a-dog-mean-when-it-wags-its-tail-imagesgetty.jpg"
-            ></img>
+            <img style={{ width: "100%", height: "auto" }} src={image}></img>
           </div>
         </List.Item>
-        <InputItem type="text" clear placeholder="請輸入Email">
+        <InputItem
+          type="text"
+          clear
+          placeholder="請輸入Email"
+          onChange={handleEmailChange}
+          value={email}
+        >
           Email
         </InputItem>
         <InputItem
@@ -28,12 +81,16 @@ function Publish() {
           clear
           moneyKeyboardAlign="right"
           placeholder="請輸入數量"
+          onChange={handleCountChange}
+          value={count}
         >
           數量
         </InputItem>
       </List>
       <WhiteSpace />
-      <Button type="primary">預購</Button>
+      <Button type="primary" onClick={handleClick}>
+        預購
+      </Button>
     </WingBlank>
   );
 }

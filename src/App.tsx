@@ -12,23 +12,9 @@ import ShouldLogoutRoute from "./components/shouldLogoutRouter";
 import { useSelector, useDispatch } from "react-redux";
 import { Spin } from "antd";
 import { RootState } from "./redux";
-import { dismiss, show } from "./redux/modules/loading";
-import { logout } from "./redux/modules/user";
-import axiosForAdmin from "./config/axiosForAdmin";
 
 function App() {
-  const dispatch = useDispatch();
-  function showLoading() {
-    dispatch(show());
-  }
-  function dismissLoading() {
-    dispatch(dismiss());
-  }
-  function onLogout() {
-    dispatch(logout());
-  }
   const { isLoading } = useSelector((state: RootState) => state.loading);
-  axiosForAdmin.init({ showLoading, dismissLoading, onLogout });
 
   return (
     <Spin spinning={isLoading > 0}>

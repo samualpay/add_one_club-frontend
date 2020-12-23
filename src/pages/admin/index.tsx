@@ -21,7 +21,8 @@ import { logout as logoutAction } from "../../redux/modules/user";
 //antd
 import { Layout, Menu, Modal } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-
+import { show, dismiss } from "../../redux/modules/loading";
+import axiosForAdmin from "../../config/axiosForAdmin";
 const { Header, Content, Footer, Sider } = Layout;
 // antd
 const menuItems = [
@@ -71,6 +72,13 @@ function findMenuItemByKey(key: string) {
   }
 }
 function Pages() {
+  function showLoading() {
+    dispatch(show());
+  }
+  function dismissLoading() {
+    dispatch(dismiss());
+  }
+
   let { path, url } = useRouteMatch();
   let location = useLocation();
   let history = useHistory();
@@ -79,7 +87,7 @@ function Pages() {
   function logout() {
     dispatch(logoutAction());
   }
-
+  axiosForAdmin.init({ showLoading, dismissLoading, onLogout: logout });
   type onSelectEventType = {
     key: React.Key;
   };

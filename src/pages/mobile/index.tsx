@@ -1,4 +1,5 @@
-import React from "react";
+import { ActivityIndicator } from "antd-mobile";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,6 +9,7 @@ import {
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
+import axiosForMobile from "../../config/axiosForMobile";
 
 import "./index.css";
 import Order from "./order";
@@ -15,6 +17,14 @@ import Publish from "./publish";
 
 function Mobile() {
   let { path, url } = useRouteMatch();
+  let [loading, setLoading] = useState(0);
+  function showLoading() {
+    setLoading(loading + 1);
+  }
+  function dismissLoading() {
+    setLoading(loading - 1);
+  }
+  axiosForMobile.init({ showLoading, dismissLoading });
   return (
     <div className="App">
       <Switch>
@@ -25,6 +35,7 @@ function Mobile() {
           <Order />
         </Route>
       </Switch>
+      <ActivityIndicator toast text="載入中..." animating={loading > 0} />
     </div>
   );
 }

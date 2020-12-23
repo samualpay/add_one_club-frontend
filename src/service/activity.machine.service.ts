@@ -1,6 +1,7 @@
 import { PublishDto, transfer } from "../DTO/component/publish";
 import axiosForAdmin from "../config/axiosForAdmin";
 import { PublishApiDto } from "../DTO/api/publish";
+import axiosForMobile from "../config/axiosForMobile";
 
 class ActivityMachineService {
   async bind(activityId: number, machineId: number) {
@@ -27,6 +28,16 @@ class ActivityMachineService {
   }
   async publishByActivityId(activityId: number) {
     await axiosForAdmin.axios.patch(`/api/publishs/activity/${activityId}`);
+  }
+  async findByIdForMobile(publishId: number): Promise<PublishDto | null> {
+    let response = await axiosForMobile.axios.get<PublishApiDto>(
+      `/api/mobile/publishs/${publishId}`
+    );
+    if (response.data) {
+      return transfer(response.data);
+    } else {
+      return null;
+    }
   }
 }
 export default new ActivityMachineService();

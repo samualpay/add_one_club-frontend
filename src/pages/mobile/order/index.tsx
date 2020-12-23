@@ -20,6 +20,9 @@ function Order() {
             ></img>
           </div>
         </List.Item>
+        <InputItem type="digit" clear placeholder="購買數量">
+          購買數量
+        </InputItem>
         <List.Item>
           <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
             客戶資料填寫

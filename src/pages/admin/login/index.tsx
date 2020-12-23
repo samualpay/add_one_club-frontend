@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/modules/user";
+import { login, logout } from "../../../redux/modules/user";
 import { useHistory } from "react-router-dom";
 
 import "./index.css";
@@ -8,6 +8,8 @@ import { Form, Input, Button, Modal } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import authService from "../../../service/auth.service";
 import common from "../../../common";
+import axiosForAdmin from "../../../config/axiosForAdmin";
+import { dismiss, show } from "../../../redux/modules/loading";
 type FormInputs = {
   username: string;
   password: string;
@@ -21,6 +23,16 @@ function Admin() {
   const history = useHistory();
   const [form] = Form.useForm();
   const [btn, setBtn] = useState<ButtonEnum>(ButtonEnum.login);
+  function showLoading() {
+    dispatch(show());
+  }
+  function dismissLoading() {
+    dispatch(dismiss());
+  }
+  function logoutHandle() {
+    dispatch(logout());
+  }
+  axiosForAdmin.init({ showLoading, dismissLoading, onLogout: logoutHandle });
   const onFinish = async (values: FormInputs) => {
     const { username, password } = values;
     switch (btn) {

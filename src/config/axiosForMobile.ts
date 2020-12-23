@@ -1,10 +1,8 @@
+import { Toast } from "antd-mobile";
 import Axios, { AxiosInstance } from "axios";
-import authService from "../service/auth.service";
-import { Modal } from "antd";
 type initProps = {
   showLoading: () => void;
   dismissLoading: () => void;
-  onLogout: () => void;
 };
 class AxiosForAdmin {
   axios: AxiosInstance;
@@ -13,18 +11,13 @@ class AxiosForAdmin {
     this.isInit = false;
     this.axios = Axios.create();
   }
-  init({ showLoading, dismissLoading, onLogout }: initProps) {
+  init({ showLoading, dismissLoading }: initProps) {
     if (this.isInit) {
       return;
     }
     this.isInit = true;
     this.axios.interceptors.request.use(
       (config) => {
-        const { isValid, user } = authService.checkTokenExpire();
-        if (isValid && user !== null) {
-          const { token } = user;
-          config.headers.authorization = token;
-        }
         showLoading();
         return config;
       },
@@ -38,15 +31,8 @@ class AxiosForAdmin {
         return resp;
       },
       (error) => {
-        if (error.response.data.status === 401) {
-          onLogout();
-        } else {
-          Modal.error({
-            title: `錯誤:${error.response.status}`,
-            content: error.response.data.message,
-          });
-        }
         dismissLoading();
+        Toast.offline(`Network connection failed! (${error.response.status})`);
         return Promise.reject(error);
       }
     );
