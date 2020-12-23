@@ -14,5 +14,6 @@
 
 .site-layout-sub-footer-background {
   background: #001529;
-  color: #fff
+  color: #fff;
 }
+@import "~antd/dist/antd.css";
