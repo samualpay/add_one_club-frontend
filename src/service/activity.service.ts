@@ -38,20 +38,9 @@ class ActivityService {
   }
   async delete(id: number) {
     await axiosForAdmin.axios.delete(`/api/activitys/${id}`);
-    // const index = fakeData.findIndex(item => item.id === id)
-    // if (index >= 0) {
-    //   fakeData.splice(index, 1)
-    // } else {
-    //   throw new Error('id not found')
-    // }
   }
   async end(id: number) {
-    // const index = fakeData.findIndex(item => item.id === id)
-    // if (index >= 0) {
-    //   fakeData[index].status = "end"
-    // } else {
-    //   throw new Error('id not found')
-    // }
+    await axiosForAdmin.axios.patch("/api/activitys/end", { id });
   }
 }
 export default new ActivityService();
