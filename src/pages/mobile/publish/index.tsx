@@ -35,7 +35,7 @@ function Publish() {
         throw new Error("not found");
       }
     } catch (err) {
-      //   history.push("/notfound");
+      history.push("/notfound");
     }
   }
   async function handleClick() {

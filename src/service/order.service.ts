@@ -8,6 +8,13 @@ type FindProps = {
   activityId?: string;
   status?: "preorder" | "paid" | "finish";
 };
+type BuyProps = {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  buyCount: number;
+};
 class OrderService {
   async find({
     machineId,
@@ -34,6 +41,20 @@ class OrderService {
       publishId,
       email,
       preCount,
+    });
+    if (response.data) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  async buyForMobile({ id, name, address, phone, buyCount }: BuyProps) {
+    let response = await axiosForMobile.axios.patch("/api/mobile/orders/buy", {
+      id,
+      name,
+      address,
+      phone,
+      buyCount,
     });
     if (response.data) {
       return true;
