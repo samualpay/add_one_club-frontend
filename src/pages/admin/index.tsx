@@ -40,8 +40,8 @@ const menuItems = [
   },
   {
     key: "publishSetting",
-    title: "廣告發布設定",
-    name: "廣告發布設定",
+    title: "廣告發怖設定",
+    name: "廣告發怖設定",
     icon: <UserOutlined />,
   },
   {
