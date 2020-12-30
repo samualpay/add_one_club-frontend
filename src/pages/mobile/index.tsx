@@ -13,6 +13,7 @@ import axiosForMobile from "../../config/axiosForMobile";
 
 import "./index.css";
 import Order from "./order";
+import OrderSuccess from "./order/success";
 import Publish from "./publish";
 
 function Mobile() {
@@ -30,6 +31,9 @@ function Mobile() {
       <Switch>
         <Route path={`${path}/publish/:id`}>
           <Publish />
+        </Route>
+        <Route path={`${path}/order/finish/:id`}>
+          <OrderSuccess />
         </Route>
         <Route path={`${path}/order/:id`}>
           <Order />
