@@ -43,7 +43,6 @@ function MyVideo({ src, ...props }: ImageProps) {
   async function getThumb(url: string): Promise<string> {
     let canv = document.createElement("canvas");
     let video = document.createElement("video");
-    console.log("123");
     video.src = url;
     await waitVideoReady(video);
     canv.height = video.videoHeight;
