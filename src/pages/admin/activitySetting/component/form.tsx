@@ -6,6 +6,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { ActivityDto } from "../../../../DTO/component/activity";
 import moment, { Moment } from "moment";
 import UploadVideo from "../../../../components/uploadVideo";
+import UploadImages from "../../../../components/uploadImages";
 const { RangePicker } = DatePicker;
 type MyFormPropsType = {
   onFinish: (data: ActivityDto, clearFn: () => void) => void;
@@ -70,6 +71,12 @@ function MyForm({
           <UploadImage />
           {/* <Input style={{ width: 160 }} placeholder="" /> */}
         </Form.Item>
+      </Form.Item>
+      <Form.Item label="測試">
+        {/* <Form.Item name="imgUrls" noStyle> */}
+        <UploadImages />
+        {/* <Input style={{ width: 160 }} placeholder="" /> */}
+        {/* </Form.Item> */}
       </Form.Item>
       <Form.Item label="產品影片">
         <Form.Item
