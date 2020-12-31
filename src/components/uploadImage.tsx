@@ -9,12 +9,13 @@ import {
 import React, { useState } from "react";
 import uploadService from "../service/upload.service";
 import MyImage from "./image";
-
+import "./upload.css";
 type UploadImageProps = {
   value?: string;
   onChange?: (value: string) => void;
+  onDelete?: () => void;
 };
-function UploadImage({ value, onChange }: UploadImageProps) {
+function UploadImage({ value, onChange, onDelete }: UploadImageProps) {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -42,7 +43,9 @@ function UploadImage({ value, onChange }: UploadImageProps) {
     Modal.confirm({
       title: "確認刪除",
       onOk: () => {
-        setImageUrl("");
+        if (onDelete) {
+          onDelete();
+        }
       },
     });
   }

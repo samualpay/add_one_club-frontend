@@ -1,0 +1,13 @@
+.ant-upload-picture-card-wrapper {
+  display: unset;
+  width: unset;
+}
+.ant-upload-picture-card-wrapper::before {
+  display: unset;
+  content: unset;
+}
+.ant-upload-picture-card-wrapper::after {
+  display: unset;
+  clear: unset;
+  content: unset;
+}
