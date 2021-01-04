@@ -24,16 +24,9 @@ function MyTable({
     },
     {
       title: "產品視覺圖",
-      dataIndex: "imgUrl",
+      dataIndex: "images",
       render: (_: any, data: ActivityDto) => (
-        <MyImage src={data.imgUrl} width={100} height={100} />
-      ),
-    },
-    {
-      title: "產品影片",
-      dataIndex: "videoUrl",
-      render: (_: any, data: ActivityDto) => (
-        <MyVideo src={data.videoUrl} width={100} height={100} />
+        <MyImage src={data.images[0]} width={100} height={100} />
       ),
     },
     {

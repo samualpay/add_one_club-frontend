@@ -24,7 +24,7 @@ function OrderSuccess() {
       if (order.status === "preorder") {
         history.push(`/mobile/order/${id}`);
       }
-      let image = `/images/${order.publish.activity.imgUrl}`;
+      let image = `/images/${order.publish.activity.images[0]}`;
       setImage(image);
       setFinalPrice(order.publish.activity.finalPrice + "");
       setBuyCount(order.buyCount + "");

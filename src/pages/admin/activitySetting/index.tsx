@@ -12,8 +12,8 @@ function Admin() {
   const initalData: ActivityDto = {
     id: -1,
     code: "",
-    imgUrl: "",
-    videoUrl: "",
+    images: [],
+    videos: [],
     description: "",
     timeRange: null,
     discounts: [],
@@ -27,6 +27,7 @@ function Admin() {
     data.discounts = data.discounts.filter(
       (elem) => elem.peopleCount !== undefined && elem.percent !== undefined
     );
+    console.log(data);
     await activityService.create(data);
     await findAll();
     clearFn();

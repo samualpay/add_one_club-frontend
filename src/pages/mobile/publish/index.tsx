@@ -29,7 +29,7 @@ function Publish() {
         parseInt(id)
       );
       if (publish) {
-        let image = `/images/${publish.activity.imgUrl}`;
+        let image = `/images/${publish.activity.images[0]}`;
         setImage(image);
       } else {
         throw new Error("not found");

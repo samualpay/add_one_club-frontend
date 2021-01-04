@@ -7,6 +7,7 @@ import { ActivityDto } from "../../../../DTO/component/activity";
 import moment, { Moment } from "moment";
 import UploadVideo from "../../../../components/uploadVideo";
 import UploadImages from "../../../../components/uploadImages";
+import UploadVideos from "../../../../components/uploadVideos";
 const { RangePicker } = DatePicker;
 type MyFormPropsType = {
   onFinish: (data: ActivityDto, clearFn: () => void) => void;
@@ -16,8 +17,8 @@ type MyFormPropsType = {
 const initalData: ActivityDto = {
   id: -1,
   code: "",
-  imgUrl: "",
-  videoUrl: "",
+  images: [],
+  videos: [],
   description: "",
   timeRange: null,
   discounts: [],
@@ -64,27 +65,21 @@ function MyForm({
       </Form.Item>
       <Form.Item label="產品視覺圖">
         <Form.Item
-          name="imgUrl"
+          name="images"
           noStyle
-          rules={[{ required: true, message: "未填產品視覺圖" }]}
+          // rules={[{ required: true, message: "未填產品視覺圖" }]}
         >
-          <UploadImage />
+          <UploadImages />
           {/* <Input style={{ width: 160 }} placeholder="" /> */}
         </Form.Item>
       </Form.Item>
-      <Form.Item label="測試">
-        {/* <Form.Item name="imgUrls" noStyle> */}
-        <UploadImages />
-        {/* <Input style={{ width: 160 }} placeholder="" /> */}
-        {/* </Form.Item> */}
-      </Form.Item>
       <Form.Item label="產品影片">
         <Form.Item
-          name="videoUrl"
+          name="videos"
           noStyle
           // rules={[{ required: true, message: "未填產品影片" }]}
         >
-          <UploadVideo />
+          <UploadVideos />
           {/* <Input style={{ width: '100%' }} placeholder="詳細地址" /> */}
         </Form.Item>
       </Form.Item>

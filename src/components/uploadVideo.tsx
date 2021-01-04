@@ -9,11 +9,13 @@ import {
 import React, { useEffect, useState } from "react";
 import uploadService from "../service/upload.service";
 import MyVideo from "./video";
+import "./upload.css";
 type UploadVideoProps = {
   value?: string;
   onChange?: (value: string) => void;
+  onDelete?: () => void;
 };
-function UploadVideo({ value, onChange }: UploadVideoProps) {
+function UploadVideo({ value, onChange, onDelete }: UploadVideoProps) {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   function beforeUpload(file: RcFile) {
@@ -30,7 +32,9 @@ function UploadVideo({ value, onChange }: UploadVideoProps) {
     Modal.confirm({
       title: "確認刪除",
       onOk: () => {
-        setVideoUrl("");
+        if (onDelete) {
+          onDelete();
+        }
       },
     });
   }

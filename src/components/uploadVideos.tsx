@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import UploadImage from "./uploadImage";
+import UploadVideo from "./uploadVideo";
+
 type UploadImagesProps = {
   value?: string[];
   onChange?: (value: string[]) => void;
@@ -78,14 +79,14 @@ function UploadImages({ value, onChange }: UploadImagesProps) {
   return (
     <>
       {fileList.map((elem, index) => (
-        <UploadImage
+        <UploadVideo
           value={elem.fileName}
           key={index}
           onChange={handleOnUpdate(elem.uid)}
           onDelete={handleRemove(elem.uid)}
         />
       ))}
-      <UploadImage onChange={handleOnInsert} />
+      <UploadVideo onChange={handleOnInsert} />
     </>
   );
 }
