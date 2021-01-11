@@ -15,7 +15,7 @@ function Order() {
   const history = useHistory();
   const [buyCount, setBuyCount] = useState("");
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [image, setImage] = useState("");
   const [isRead, setIsRead] = useState(false);
@@ -46,8 +46,8 @@ function Order() {
       if (order.customer.name) {
         setName(order.customer.name);
       }
-      if (order.customer.phone) {
-        setPhone(order.customer.phone);
+      if (order.customer.email) {
+        setEmail(order.customer.email);
       }
       if (order.customer.address) {
         setAddress(order.customer.address);
@@ -56,7 +56,7 @@ function Order() {
       history.push("/notfound");
     }
   }
-  function handleOnChange(type: "buyCount" | "name" | "phone" | "address") {
+  function handleOnChange(type: "buyCount" | "name" | "email" | "address") {
     return function (value: string) {
       switch (type) {
         case "buyCount":
@@ -73,8 +73,8 @@ function Order() {
         case "name":
           setName(value);
           break;
-        case "phone":
-          setPhone(value);
+        case "email":
+          setEmail(value);
           break;
         case "address":
           setAddress(value);
@@ -91,14 +91,14 @@ function Order() {
         id: parseInt(id),
         name,
         address,
-        phone,
+        email,
         buyCount: parseInt(buyCount),
       });
       mount();
     }
   }
   function validForm() {
-    if (!name || !address || !phone || !buyCount) {
+    if (!name || !address || !email || !buyCount) {
       Toast.fail("請完整填寫");
       return false;
     }
@@ -153,9 +153,9 @@ function Order() {
         <InputItem
           type="number"
           clear
-          placeholder="電話"
-          value={phone}
-          onChange={handleOnChange("phone")}
+          placeholder="電子信箱"
+          value={email}
+          onChange={handleOnChange("email")}
         >
           電話
         </InputItem>

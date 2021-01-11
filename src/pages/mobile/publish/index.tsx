@@ -13,12 +13,12 @@ import orderService from "../../../service/order.service";
 
 function Publish() {
   let { id } = useParams<{ id: string }>();
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [count, setCount] = useState("");
   const [image, setImage] = useState<string>();
   const history = useHistory();
-  function handleEmailChange(value: string) {
-    setEmail(value);
+  function handlePhoneChange(value: string) {
+    setPhone(value);
   }
   function handleCountChange(value: string) {
     setCount(value);
@@ -41,7 +41,7 @@ function Publish() {
   async function handleClick() {
     let result = await orderService.createForMobile(
       parseInt(id),
-      email,
+      phone,
       parseInt(count)
     );
     if (result) {
@@ -70,11 +70,11 @@ function Publish() {
         <InputItem
           type="text"
           clear
-          placeholder="請輸入Email"
-          onChange={handleEmailChange}
-          value={email}
+          placeholder="請輸入手機號碼"
+          onChange={handlePhoneChange}
+          value={phone}
         >
-          Email
+          手機號碼
         </InputItem>
         <InputItem
           type="digit"

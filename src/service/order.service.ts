@@ -12,7 +12,7 @@ type BuyProps = {
   id: number;
   name: string;
   address: string;
-  phone: string;
+  email: string;
   buyCount: number;
 };
 class OrderService {
@@ -36,10 +36,10 @@ class OrderService {
     );
     return transfer(response.data);
   }
-  async createForMobile(publishId: number, email: string, preCount: number) {
+  async createForMobile(publishId: number, phone: string, preCount: number) {
     let response = await axiosForMobile.axios.post("/api/mobile/orders", {
       publishId,
-      email,
+      phone,
       preCount,
     });
     if (response.data) {
@@ -48,12 +48,12 @@ class OrderService {
       return false;
     }
   }
-  async buyForMobile({ id, name, address, phone, buyCount }: BuyProps) {
+  async buyForMobile({ id, name, address, email, buyCount }: BuyProps) {
     let response = await axiosForMobile.axios.patch("/api/mobile/orders/buy", {
       id,
       name,
       address,
-      phone,
+      email,
       buyCount,
     });
     if (response.data) {
