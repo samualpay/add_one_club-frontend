@@ -9,7 +9,8 @@ import {
 } from "antd-mobile";
 import { useParams, useHistory } from "react-router-dom";
 import orderService from "../../../service/order.service";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 function Order() {
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -17,7 +18,8 @@ function Order() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [image, setImage] = useState("");
+  const [images, setImages] = useState<string[]>([]);
+  const [description, setDescription] = useState<string>("");
   const [isRead, setIsRead] = useState(false);
   const [finalPrice, setFinalPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
@@ -34,8 +36,11 @@ function Order() {
       if (order.status !== "preorder") {
         history.push(`/mobile/order/finish/${id}`);
       }
-      let image = `/images/${order.publish.activity.images[0]}`;
-      setImage(image);
+      let images = order.publish.activity.images.map(
+        (elem) => `/images/${elem}`
+      );
+      setDescription(order.publish.activity.description);
+      setImages(images);
       setFinalPrice(order.publish.activity.finalPrice + "");
       setBuyCount(order.preCount + "");
       if (order.preCount && order.publish.activity.finalPrice) {
@@ -114,17 +119,42 @@ function Order() {
 
   return (
     <WingBlank size="lg">
+      <h2>訂單確認</h2>
       <List>
-        <List.Item>
+        {/* <List.Item>
           <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
             訂單確認
           </div>
-        </List.Item>
+        </List.Item> */}
         <List.Item>
-          <div style={{ width: "100%", textAlign: "center" }}>
-            <img style={{ width: "100%", height: "auto" }} src={image}></img>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              margin: "0px auto",
+              maxWidth: "320px",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
+              {images.map((image) => (
+                <div>
+                  <img
+                    style={{ width: "320px", height: "320px" }}
+                    src={image}
+                  ></img>
+                </div>
+              ))}
+            </Carousel>
           </div>
         </List.Item>
+        <List.Item>
+          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{description}</h3>
+        </List.Item>
+      </List>
+      <WhiteSpace />
+      <List>
         <List.Item extra={finalPrice}>單價</List.Item>
         <InputItem
           type="digit"
@@ -132,10 +162,14 @@ function Order() {
           placeholder="購買數量"
           value={buyCount}
           onChange={handleOnChange("buyCount")}
+          autoFocus={true}
         >
           購買數量
         </InputItem>
         <List.Item extra={totalPrice}>總價</List.Item>
+      </List>
+      <WhiteSpace />
+      <List>
         <List.Item>
           <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
             客戶資料填寫
@@ -151,13 +185,13 @@ function Order() {
           姓名
         </InputItem>
         <InputItem
-          type="number"
+          type="text"
           clear
           placeholder="電子信箱"
           value={email}
           onChange={handleOnChange("email")}
         >
-          電話
+          電子信箱
         </InputItem>
         <InputItem
           type="text"
@@ -169,14 +203,46 @@ function Order() {
           送貨地址
         </InputItem>
       </List>
-      <WhiteSpace />
-      <Button type="primary" onClick={handleReadClick}>
-        預購合約
-      </Button>
-      <WhiteSpace />
-      <Button type="primary" disabled={!isRead} onClick={handleBuyClick}>
-        訂購
-      </Button>
+      <div style={{ height: "65px" }}></div>
+      <div
+        style={{
+          width: "100%",
+          height: "57px",
+          borderTop: "1px solid #CCCCCC",
+          background: "#F5F5F5",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          zIndex: 4,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            alignItems: "center",
+            justifyContent: "center",
+            alignContent: "space-around",
+          }}
+        >
+          <Button
+            style={{ width: "120px", margin: "5px" }}
+            type="primary"
+            onClick={handleReadClick}
+          >
+            預購合約
+          </Button>
+          <Button
+            style={{ width: "120px", margin: "5px" }}
+            type="primary"
+            disabled={!isRead}
+            onClick={handleBuyClick}
+          >
+            訂購
+          </Button>
+        </div>
+      </div>
     </WingBlank>
   );
 }

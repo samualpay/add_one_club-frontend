@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import {
   Button,
   WhiteSpace,
@@ -10,15 +10,20 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import activityMachineService from "../../../service/activity.machine.service";
 import orderService from "../../../service/order.service";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
+import PhoneInputItem from "../../../components/mobile/phoneInputItem";
 function Publish() {
   let { id } = useParams<{ id: string }>();
   const [phone, setPhone] = useState("");
   const [count, setCount] = useState("");
-  const [image, setImage] = useState<string>();
+  const [images, setImages] = useState<string[]>([]);
+  const [description, setDescription] = useState<string>("");
+  const [phoneHasError, setPhoneHasError] = useState<boolean>(false);
   const history = useHistory();
-  function handlePhoneChange(value: string) {
+  function handlePhoneChange(value: string, hasError: boolean) {
     setPhone(value);
+    setPhoneHasError(hasError);
   }
   function handleCountChange(value: string) {
     setCount(value);
@@ -29,8 +34,9 @@ function Publish() {
         parseInt(id)
       );
       if (publish) {
-        let image = `/images/${publish.activity.images[0]}`;
-        setImage(image);
+        let images = publish.activity.images.map((elem) => `/images/${elem}`);
+        setDescription(publish.activity.description);
+        setImages(images);
       } else {
         throw new Error("not found");
       }
@@ -39,14 +45,16 @@ function Publish() {
     }
   }
   async function handleClick() {
-    let result = await orderService.createForMobile(
-      parseInt(id),
-      phone,
-      parseInt(count)
-    );
-    if (result) {
-      Toast.success("預購成功");
-      setCount("");
+    if (phone && count && parseInt(count) > 0 && !phoneHasError) {
+      let result = await orderService.createForMobile(
+        parseInt(id),
+        phone,
+        parseInt(count)
+      );
+      if (result) {
+        Toast.success("預購成功");
+        setCount("");
+      }
     }
   }
 
@@ -56,26 +64,49 @@ function Publish() {
 
   return (
     <WingBlank size="lg">
+      <h2>產品介紹</h2>
       <List>
-        <List.Item>
+        {/* <List.Item>
           <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
             產品介紹
           </div>
-        </List.Item>
+        </List.Item> */}
         <List.Item>
-          <div style={{ width: "100%", textAlign: "center" }}>
-            <img style={{ width: "100%", height: "auto" }} src={image}></img>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              margin: "0px auto",
+              maxWidth: "320px",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
+              {images.map((image) => (
+                <div>
+                  <img
+                    style={{ width: "320px", height: "320px" }}
+                    src={image}
+                  ></img>
+                </div>
+              ))}
+            </Carousel>
           </div>
         </List.Item>
-        <InputItem
-          type="text"
-          clear
-          placeholder="請輸入手機號碼"
-          onChange={handlePhoneChange}
+        <List.Item>
+          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{description}</h3>
+        </List.Item>
+      </List>
+      <WhiteSpace />
+      <List>
+        <PhoneInputItem
           value={phone}
-        >
-          手機號碼
-        </InputItem>
+          hasError={phoneHasError}
+          onChange={handlePhoneChange}
+          autoFocus={true}
+        />
+
         <InputItem
           type="digit"
           clear
@@ -87,10 +118,51 @@ function Publish() {
           數量
         </InputItem>
       </List>
-      <WhiteSpace />
-      <Button type="primary" onClick={handleClick}>
-        預購
-      </Button>
+      <div style={{ height: "65px" }}></div>
+      <div
+        style={{
+          width: "100%",
+          height: "50px",
+          borderTop: "1px solid #CCCCCC",
+          background: "#F5F5F5",
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          zIndex: 4,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            style={{ width: "120px", margin: "5px" }}
+            type="primary"
+            onClick={handleClick}
+          >
+            預購合約
+          </Button>
+          {/* <a
+            style={{
+              background: "#e40580",
+              width: "120px",
+              height: "40px",
+              display: "block",
+              color: "white",
+              margin: "5px auto",
+              textAlign: "center",
+              font: "15px/40px Helvetica",
+            }}
+            href="javascript:void(0)"
+            onClick={handleClick}
+          >
+            預購
+          </a> */}
+        </div>
+      </div>
     </WingBlank>
   );
 }
