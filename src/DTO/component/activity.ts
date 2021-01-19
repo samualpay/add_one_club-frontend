@@ -10,6 +10,7 @@ export type ActivityDto = {
   code: string;
   images: string[];
   videos: string[];
+  name: string;
   description: string;
   timeRange: Moment[] | null;
   price: number | null;
@@ -35,6 +36,7 @@ export function transfer(data: ActivityApiDto): ActivityDto {
     code: data.code,
     images: images,
     videos: videos,
+    name: data.name,
     description: data.description,
     timeRange: [moment(data.start_at * 1000), moment(data.end_at * 1000)],
     price: data.price,

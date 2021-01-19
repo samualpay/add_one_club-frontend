@@ -14,6 +14,7 @@ function Admin() {
     code: "",
     images: [],
     videos: [],
+    name: "",
     description: "",
     timeRange: null,
     discounts: [],

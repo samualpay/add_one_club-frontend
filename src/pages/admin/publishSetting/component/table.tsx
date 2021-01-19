@@ -67,8 +67,8 @@ function MyTable({
           title={
             <div>
               <div>
-                <label>產品資訊:</label>
-                <span>{data.activity.description}</span>
+                <label>產品名稱:</label>
+                <span>{data.activity.name}</span>
               </div>
               <div>
                 <label>活動起訖時間:</label>

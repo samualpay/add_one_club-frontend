@@ -19,6 +19,7 @@ const initalData: ActivityDto = {
   code: "",
   images: [],
   videos: [],
+  name: "",
   description: "",
   timeRange: null,
   discounts: [],
@@ -81,6 +82,15 @@ function MyForm({
         >
           <UploadVideos />
           {/* <Input style={{ width: '100%' }} placeholder="詳細地址" /> */}
+        </Form.Item>
+      </Form.Item>
+      <Form.Item label="產品名稱">
+        <Form.Item
+          name="name"
+          noStyle
+          rules={[{ required: true, message: "未填產品名稱" }]}
+        >
+          <Input style={{ width: "100%" }} placeholder="產品名稱" />
         </Form.Item>
       </Form.Item>
       <Form.Item label="產品資訊">

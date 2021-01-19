@@ -9,6 +9,7 @@ export type DiscountApiDto = {
 export type ActivityApiDto = {
   id: number;
   code: string;
+  name: string;
   description: string;
   start_at: number;
   end_at: number;
@@ -41,12 +42,12 @@ export function transfer(data: ActivityDto): ActivityApiDto {
         return { fileName: elem };
       });
     }
-    debugger;
     return {
       id: data.id,
       code: data.code,
       images: images,
       videos: videos,
+      name: data.name,
       description: data.description,
       start_at: Math.round(start.valueOf() / 1000),
       end_at: Math.round(end.valueOf() / 1000),

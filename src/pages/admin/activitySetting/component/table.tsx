@@ -30,6 +30,11 @@ function MyTable({
       ),
     },
     {
+      title: "產品名稱",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
       title: "產品資訊",
       dataIndex: "description",
       key: "description",
@@ -85,9 +90,13 @@ function MyTable({
       dataIndex: "action",
       render: (_: any, data: ActivityDto) => (
         <Space size="middle">
-          <button className="link-button" onClick={() => onModifyClick(data)}>
-            修改
-          </button>
+          {data.status !== "end" ? (
+            <button className="link-button" onClick={() => onModifyClick(data)}>
+              修改
+            </button>
+          ) : (
+            <></>
+          )}
           <button
             className="link-button"
             onClick={() => onDeleteClick(data.id)}
