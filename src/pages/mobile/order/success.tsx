@@ -98,7 +98,7 @@ function OrderSuccess() {
           </div>
         </List.Item>
         <List.Item extra={name}>姓名</List.Item>
-        <List.Item extra={phone}>電話</List.Item>
+        <List.Item extra={email}>電子信箱</List.Item>
         <List.Item extra={address}>送貨地址</List.Item>
         <List.Item extra={staus}>訂單狀態</List.Item>
       </List>
