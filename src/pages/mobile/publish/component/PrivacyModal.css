@@ -1,0 +1,17 @@
+.normal {
+  font-family: Arial, serif;
+  font-size: 12.1px;
+  color: rgb(102, 101, 102);
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.bold {
+  font-family: Arial, serif;
+  font-size: 12.1px;
+  color: rgb(16, 16, 16);
+  font-weight: bold;
+  font-style: normal;
+  text-decoration: none;
+}

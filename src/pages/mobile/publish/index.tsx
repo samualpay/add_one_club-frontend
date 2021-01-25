@@ -1,11 +1,11 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   WhiteSpace,
   WingBlank,
   List,
   InputItem,
-  Toast,
+  Card,
 } from "antd-mobile";
 import { useHistory, useParams } from "react-router-dom";
 import activityMachineService from "../../../service/activity.machine.service";
@@ -13,13 +13,16 @@ import orderService from "../../../service/order.service";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import PhoneInputItem from "../../../components/mobile/phoneInputItem";
+import PrivacyModal from "./component/PrivacyModal";
 function Publish() {
   let { id } = useParams<{ id: string }>();
   const [phone, setPhone] = useState("");
   const [count, setCount] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>("");
   const [phoneHasError, setPhoneHasError] = useState<boolean>(false);
+  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
   const history = useHistory();
   function handlePhoneChange(value: string, hasError: boolean) {
     setPhone(value);
@@ -35,6 +38,7 @@ function Publish() {
       );
       if (publish) {
         let images = publish.activity.images.map((elem) => `/images/${elem}`);
+        setName(publish.activity.name);
         setDescription(publish.activity.description);
         setImages(images);
       } else {
@@ -46,16 +50,23 @@ function Publish() {
   }
   async function handleClick() {
     if (phone && count && parseInt(count) > 0 && !phoneHasError) {
-      let result = await orderService.createForMobile(
-        parseInt(id),
-        phone,
-        parseInt(count)
-      );
-      if (result) {
-        Toast.success("預購成功");
-        setCount("");
-      }
+      setPrivacyModalVisible(true);
     }
+  }
+  async function handleModalConfirm() {
+    setPrivacyModalVisible(false);
+    let result = await orderService.createForMobile(
+      parseInt(id),
+      phone,
+      parseInt(count)
+    );
+    if (result) {
+      history.push(`/mobile/publish/finish/${id}`);
+    }
+    mount();
+  }
+  function handleModalCancel() {
+    setPrivacyModalVisible(false);
   }
 
   useEffect(() => {
@@ -66,11 +77,6 @@ function Publish() {
     <WingBlank size="lg">
       <h2>產品介紹</h2>
       <List>
-        {/* <List.Item>
-          <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
-            產品介紹
-          </div>
-        </List.Item> */}
         <List.Item>
           <div
             style={{
@@ -95,9 +101,18 @@ function Publish() {
           </div>
         </List.Item>
         <List.Item>
-          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{description}</h3>
+          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{name}</h3>
         </List.Item>
       </List>
+      <WhiteSpace />
+      <Card>
+        <Card.Header title="商品資訊" />
+        <Card.Body>
+          <div style={{ textAlign: "left", wordBreak: "break-word" }}>
+            {description}
+          </div>
+        </Card.Body>
+      </Card>
       <WhiteSpace />
       <List>
         <PhoneInputItem
@@ -122,7 +137,7 @@ function Publish() {
       <div
         style={{
           width: "100%",
-          height: "50px",
+          height: "60px",
           borderTop: "1px solid #CCCCCC",
           background: "#F5F5F5",
           position: "fixed",
@@ -143,26 +158,15 @@ function Publish() {
             type="primary"
             onClick={handleClick}
           >
-            預購合約
-          </Button>
-          {/* <a
-            style={{
-              background: "#e40580",
-              width: "120px",
-              height: "40px",
-              display: "block",
-              color: "white",
-              margin: "5px auto",
-              textAlign: "center",
-              font: "15px/40px Helvetica",
-            }}
-            href="javascript:void(0)"
-            onClick={handleClick}
-          >
             預購
-          </a> */}
+          </Button>
         </div>
       </div>
+      <PrivacyModal
+        visible={privacyModalVisible}
+        onComfirm={handleModalConfirm}
+        onCancel={handleModalCancel}
+      />
     </WingBlank>
   );
 }

@@ -15,6 +15,7 @@ import "./index.css";
 import Order from "./order";
 import OrderSuccess from "./order/success";
 import Publish from "./publish";
+import PublishSuccess from "./publish/success";
 
 function Mobile() {
   let { path, url } = useRouteMatch();
@@ -29,6 +30,9 @@ function Mobile() {
   return (
     <div className="App">
       <Switch>
+        <Route path={`${path}/publish/finish/:id`}>
+          <PublishSuccess />
+        </Route>
         <Route path={`${path}/publish/:id`}>
           <Publish />
         </Route>

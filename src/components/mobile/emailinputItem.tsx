@@ -1,37 +1,38 @@
 import React from "react";
 import { InputItem, Toast } from "antd-mobile";
-type PhoneProp = {
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+type EmailProp = {
   value: string;
   hasError: boolean;
   onChange: (value: string, hasError: boolean) => void;
   autoFocus?: boolean;
 };
-function PhoneInputItem({ value, hasError, onChange, autoFocus }: PhoneProp) {
+function EmailInputItem({ value, hasError, onChange, autoFocus }: EmailProp) {
   function onErrorClick() {
     if (hasError) {
-      Toast.info("請輸入正確手機號碼");
+      Toast.info("請輸入正確電子信箱");
     }
   }
   function onChangeHandle(value: string) {
     let error = false;
-    if (!/^09[0-9]{8}$/.test(value)) {
+    if (!EMAIL_REGEX.test(value)) {
       error = true;
     }
     onChange(value, error);
   }
   return (
     <InputItem
-      type="number"
-      placeholder="手機號碼"
+      type="text"
+      placeholder="電子信箱"
       error={hasError}
       onErrorClick={onErrorClick}
       onChange={onChangeHandle}
       value={value}
       autoFocus={autoFocus}
     >
-      手機號碼
+      電子信箱
     </InputItem>
   );
 }
 
-export default PhoneInputItem;
+export default EmailInputItem;

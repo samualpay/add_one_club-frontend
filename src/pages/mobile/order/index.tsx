@@ -6,11 +6,14 @@ import {
   List,
   InputItem,
   Toast,
+  Card,
 } from "antd-mobile";
 import { useParams, useHistory } from "react-router-dom";
 import orderService from "../../../service/order.service";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import PrivacyModal from "./component/PrivacyModal";
+import EmailInputItem from "../../../components/mobile/emailinputItem";
 function Order() {
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -19,10 +22,12 @@ function Order() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [productName, setProductName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [isRead, setIsRead] = useState(false);
   const [finalPrice, setFinalPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState("");
+  const [emailHasError, setEmailHasError] = useState(false);
+  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
 
   async function mount() {
     try {
@@ -39,6 +44,7 @@ function Order() {
       let images = order.publish.activity.images.map(
         (elem) => `/images/${elem}`
       );
+      setProductName(order.publish.activity.name);
       setDescription(order.publish.activity.description);
       setImages(images);
       setFinalPrice(order.publish.activity.finalPrice + "");
@@ -61,6 +67,10 @@ function Order() {
       history.push("/notfound");
     }
   }
+  function hadleEmailChange(value: string, hasError: boolean) {
+    setEmail(value);
+    setEmailHasError(hasError);
+  }
   function handleOnChange(type: "buyCount" | "name" | "email" | "address") {
     return function (value: string) {
       switch (type) {
@@ -78,29 +88,39 @@ function Order() {
         case "name":
           setName(value);
           break;
-        case "email":
-          setEmail(value);
-          break;
         case "address":
           setAddress(value);
           break;
       }
     };
   }
-  function handleReadClick() {
-    setIsRead(true);
-  }
+
   async function handleBuyClick() {
     if (validForm()) {
-      await orderService.buyForMobile({
-        id: parseInt(id),
-        name,
-        address,
-        email,
-        buyCount: parseInt(buyCount),
-      });
-      mount();
+      setPrivacyModalVisible(true);
+      // await orderService.buyForMobile({
+      //   id: parseInt(id),
+      //   name,
+      //   address,
+      //   email,
+      //   buyCount: parseInt(buyCount),
+      // });
+      // mount();
     }
+  }
+  async function handleModalConfirm() {
+    setPrivacyModalVisible(false);
+    await orderService.buyForMobile({
+      id: parseInt(id),
+      name,
+      address,
+      email,
+      buyCount: parseInt(buyCount),
+    });
+    mount();
+  }
+  function handleModalCancel() {
+    setPrivacyModalVisible(false);
   }
   function validForm() {
     if (!name || !address || !email || !buyCount) {
@@ -150,9 +170,18 @@ function Order() {
           </div>
         </List.Item>
         <List.Item>
-          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{description}</h3>
+          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{productName}</h3>
         </List.Item>
       </List>
+      <WhiteSpace />
+      <Card>
+        <Card.Header title="商品資訊" />
+        <Card.Body>
+          <div style={{ textAlign: "left", wordBreak: "break-word" }}>
+            {description}
+          </div>
+        </Card.Body>
+      </Card>
       <WhiteSpace />
       <List>
         <List.Item extra={finalPrice}>單價</List.Item>
@@ -184,7 +213,7 @@ function Order() {
         >
           姓名
         </InputItem>
-        <InputItem
+        {/* <InputItem
           type="text"
           clear
           placeholder="電子信箱"
@@ -192,7 +221,12 @@ function Order() {
           onChange={handleOnChange("email")}
         >
           電子信箱
-        </InputItem>
+        </InputItem> */}
+        <EmailInputItem
+          value={email}
+          hasError={emailHasError}
+          onChange={hadleEmailChange}
+        />
         <InputItem
           type="text"
           clear
@@ -207,7 +241,7 @@ function Order() {
       <div
         style={{
           width: "100%",
-          height: "57px",
+          height: "60px",
           borderTop: "1px solid #CCCCCC",
           background: "#F5F5F5",
           position: "fixed",
@@ -229,20 +263,17 @@ function Order() {
           <Button
             style={{ width: "120px", margin: "5px" }}
             type="primary"
-            onClick={handleReadClick}
-          >
-            預購合約
-          </Button>
-          <Button
-            style={{ width: "120px", margin: "5px" }}
-            type="primary"
-            disabled={!isRead}
             onClick={handleBuyClick}
           >
             訂購
           </Button>
         </div>
       </div>
+      <PrivacyModal
+        visible={privacyModalVisible}
+        onComfirm={handleModalConfirm}
+        onCancel={handleModalCancel}
+      />
     </WingBlank>
   );
 }

@@ -104,7 +104,7 @@ function MyTable({
             刪除
           </button>
           {onEndClick && data.status === "start" ? (
-            <button className="Link-button" onClick={() => onEndClick(data.id)}>
+            <button className="link-button" onClick={() => onEndClick(data.id)}>
               停止
             </button>
           ) : (

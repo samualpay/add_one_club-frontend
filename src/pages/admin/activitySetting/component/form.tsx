@@ -189,7 +189,7 @@ function MyForm({
                 block
                 icon={<PlusOutlined />}
               >
-                Add field
+                新增
               </Button>
             </Form.Item>
           </>

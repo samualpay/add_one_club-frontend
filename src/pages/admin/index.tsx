@@ -134,12 +134,16 @@ function Pages() {
             className="site-layout-sub-header-background"
             style={{ padding: 0 }}
           >
-            <h1 style={{ color: "white" }}>{menuItem.title}</h1>
+            <h1 style={{ color: "white", margin: 0 }}>{menuItem.title}</h1>
           </Header>
           <Content style={{ margin: "24px 16px 24" }}>
             <div
               className="site-layout-background"
-              style={{ textAlign: "left", padding: 24, minHeight: 640 }}
+              style={{
+                textAlign: "left",
+                padding: 24,
+                minHeight: "calc( 100vh - 130px )",
+              }}
             >
               <Switch>
                 <Route exact path={path}>
