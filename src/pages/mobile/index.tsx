@@ -16,6 +16,7 @@ import Order from "./order";
 import OrderSuccess from "./order/success";
 import Publish from "./publish";
 import PublishSuccess from "./publish/success";
+import Pay from "./order/pay";
 
 function Mobile() {
   let { path, url } = useRouteMatch();
@@ -35,6 +36,9 @@ function Mobile() {
         </Route>
         <Route path={`${path}/publish/:id`}>
           <Publish />
+        </Route>
+        <Route path={`${path}/order/pay/:id`}>
+          <Pay />
         </Route>
         <Route path={`${path}/order/finish/:id`}>
           <OrderSuccess />

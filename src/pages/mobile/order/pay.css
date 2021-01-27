@@ -1,0 +1,39 @@
+.pay-h1 {
+  color: #88b04b;
+  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.pay-p {
+  color: #404f5e;
+  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+  font-size: 1.5rem;
+  margin: 0;
+}
+.pay-card {
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px #c8d0d8;
+  display: inline-block;
+  margin: 0 auto;
+}
+.space {
+  height: 25vh;
+}
+.checkmark {
+  font-size: 5rem;
+  color: #9abc66;
+  line-height: 20vh;
+  margin-left: -1rem;
+}
+.dd {
+  border-radius: 20vh;
+  height: 20vh;
+  width: 20vh;
+  background: #f8faf5;
+  margin: 0 auto;
+}

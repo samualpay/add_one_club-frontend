@@ -117,7 +117,8 @@ function Order() {
       email,
       buyCount: parseInt(buyCount),
     });
-    mount();
+    // mount();
+    history.push(`/mobile/order/pay/${id}`);
   }
   function handleModalCancel() {
     setPrivacyModalVisible(false);
