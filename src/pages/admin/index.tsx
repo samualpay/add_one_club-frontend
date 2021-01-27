@@ -40,14 +40,14 @@ const menuItems = [
   },
   {
     key: "publishSetting",
-    title: "廣告發怖設定",
-    name: "廣告發怖設定",
+    title: "廣告發佈設定",
+    name: "廣告發佈設定",
     icon: <UserOutlined />,
   },
   {
     key: "publishQuery",
-    title: "廣告發怖查詢",
-    name: "廣告發怖查詢",
+    title: "廣告發佈查詢",
+    name: "廣告發佈查詢",
     icon: <UserOutlined />,
   },
   {
