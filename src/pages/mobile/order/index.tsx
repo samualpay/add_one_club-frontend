@@ -193,6 +193,7 @@ function Order() {
           value={buyCount}
           onChange={handleOnChange("buyCount")}
           autoFocus={true}
+          inputMode="numeric"
         >
           購買數量
         </InputItem>

@@ -129,6 +129,7 @@ function Publish() {
           placeholder="請輸入數量"
           onChange={handleCountChange}
           value={count}
+          inputMode="numeric"
         >
           數量
         </InputItem>

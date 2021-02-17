@@ -28,6 +28,7 @@ function PhoneInputItem({ value, hasError, onChange, autoFocus }: PhoneProp) {
       onChange={onChangeHandle}
       value={value}
       autoFocus={autoFocus}
+      inputMode="numeric"
     >
       手機號碼
     </InputItem>
