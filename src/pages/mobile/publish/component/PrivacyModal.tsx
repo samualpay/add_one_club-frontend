@@ -39,7 +39,7 @@ function PrivacyModal({ visible, onComfirm, onCancel }: Props) {
       maskClosable={false}
       onClose={onCancel}
       //   onClose={this.onClose('modal1')}
-      title="Title"
+      title="隱私權保護政策"
       footer={[
         {
           text: "同意",
