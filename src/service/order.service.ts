@@ -2,11 +2,12 @@ import { OrderDto, transfer } from "../DTO/component/order";
 import axiosForAdmin from "../config/axiosForAdmin";
 import { OrderApiDto } from "../DTO/api/order";
 import axiosForMobile from "../config/axiosForMobile";
+import { OrderStatus } from "../enum/OrderStatus";
 
 type FindProps = {
   machineId?: number;
   activityId?: string;
-  status?: "preorder" | "paid" | "finish";
+  status?: OrderStatus;
 };
 type BuyProps = {
   id: number;
@@ -61,6 +62,12 @@ class OrderService {
     } else {
       return false;
     }
+  }
+  async patch(id: number, status: OrderStatus) {
+    let response = await axiosForAdmin.axios.patch("/api/orders", {
+      id,
+      status,
+    });
   }
 }
 

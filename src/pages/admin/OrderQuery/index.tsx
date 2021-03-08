@@ -9,18 +9,31 @@ import orderService from "../../../service/order.service";
 import machineService from "../../../service/machine.service";
 import { MachineDto } from "../../../DTO/component/machine";
 import { ActivityDto } from "../../../DTO/component/activity";
+import { OrderStatus } from "../../../enum/OrderStatus";
 type OnFinshProps = {
   machineId?: number;
   activityId?: string;
-  status?: "preorder" | "paid" | "finish";
+  status?: OrderStatus;
 };
 function Admin() {
   const [datas, setDatas] = useState<OrderDto[]>([]);
   const [machineOptions, setMachineOptions] = useState<MachineDto[]>([]);
   const [activityOptions, setActivityOptions] = useState<ActivityDto[]>([]);
+  const [finishProps, setFinishProps] = useState<OnFinshProps>();
   async function onSearch({ machineId, activityId, status }: OnFinshProps) {
+    setFinishProps({ machineId, activityId, status });
     let result = await orderService.find({ machineId, activityId, status });
     setDatas(result);
+  }
+  async function refresh() {
+    if (finishProps) {
+      let result = await orderService.find(finishProps);
+      setDatas(result);
+    }
+  }
+  async function onPatch(id: number, status: OrderStatus) {
+    await orderService.patch(id, status);
+    await refresh();
   }
   async function findOptions() {
     let machines = await machineService.findAllMachines();
@@ -39,7 +52,7 @@ function Admin() {
         activityOptions={activityOptions}
         onFinish={onSearch}
       />
-      <MyTable datas={datas} />
+      <MyTable datas={datas} onPatchClick={onPatch} />
     </div>
   );
 }

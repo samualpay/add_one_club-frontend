@@ -1,12 +1,14 @@
-import { Table, Tooltip } from "antd";
+import { Table, Tooltip, Space } from "antd";
 import React from "react";
 import { Moment } from "moment";
 import { OrderDto } from "../../../../DTO/component/order";
+import { OrderStatus } from "../../../../enum/OrderStatus";
 const DATE_FORMAT = "YYYY-MM-DD HH:mm";
 type TableProps = {
   datas: Array<OrderDto>;
+  onPatchClick: (id: number, status: OrderStatus) => void;
 };
-function MyTable({ datas: outerDatas }: TableProps) {
+function MyTable({ datas: outerDatas, onPatchClick }: TableProps) {
   function getTimeFormat(timeRange: Moment[] | null): string {
     if (timeRange && timeRange.length === 2) {
       return `${timeRange[0].format(DATE_FORMAT)} ~ ${timeRange[1].format(
@@ -129,6 +131,10 @@ function MyTable({ datas: outerDatas }: TableProps) {
             ? "預約"
             : data.status === "paid"
             ? "已付款"
+            : data.status === "tally"
+            ? "理貨"
+            : data.status === "shipment"
+            ? "出貨"
             : "已完成"}
         </span>
       ),
@@ -138,6 +144,38 @@ function MyTable({ datas: outerDatas }: TableProps) {
       key: "status",
       render: (_: any, data: OrderDto) => (
         <span>{data.status === "preorder" ? "否" : "是"}</span>
+      ),
+    },
+    {
+      title: "動作",
+      dataIndex: "action",
+      render: (_: any, data: OrderDto) => (
+        <Space size="middle">
+          {data.status === "paid" ? (
+            <button
+              className="link-button"
+              onClick={() => onPatchClick(data.id, "tally")}
+            >
+              更新狀態至理貨
+            </button>
+          ) : data.status === "tally" ? (
+            <button
+              className="link-button"
+              onClick={() => onPatchClick(data.id, "shipment")}
+            >
+              更新狀態至出貨
+            </button>
+          ) : data.status === "shipment" ? (
+            <button
+              className="link-button"
+              onClick={() => onPatchClick(data.id, "finish")}
+            >
+              更新狀態至訂單完成
+            </button>
+          ) : (
+            <></>
+          )}
+        </Space>
       ),
     },
   ];

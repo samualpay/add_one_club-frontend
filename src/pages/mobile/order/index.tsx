@@ -39,7 +39,7 @@ function Order() {
         throw new Error("activity not end");
       }
       if (order.status !== "preorder") {
-        history.push(`/mobile/order/finish/${id}`);
+        history.push(`/mobile/order/detail/${id}`);
       }
       let images = order.publish.activity.images.map(
         (elem) => `/images/${elem}`

@@ -13,7 +13,7 @@ import axiosForMobile from "../../config/axiosForMobile";
 
 import "./index.css";
 import Order from "./order";
-import OrderSuccess from "./order/success";
+import OrderDetail from "./order/detail";
 import Publish from "./publish";
 import PublishSuccess from "./publish/success";
 import Pay from "./order/pay";
@@ -40,8 +40,8 @@ function Mobile() {
         <Route path={`${path}/order/pay/:id`}>
           <Pay />
         </Route>
-        <Route path={`${path}/order/finish/:id`}>
-          <OrderSuccess />
+        <Route path={`${path}/order/detail/:id`}>
+          <OrderDetail />
         </Route>
         <Route path={`${path}/order/:id`}>
           <Order />

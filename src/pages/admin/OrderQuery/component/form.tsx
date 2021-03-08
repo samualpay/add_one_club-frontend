@@ -2,11 +2,12 @@ import { Form, Button, Select } from "antd";
 import React from "react";
 import { MachineDto } from "../../../../DTO/component/machine";
 import { ActivityDto } from "../../../../DTO/component/activity";
+import { OrderStatus } from "../../../../enum/OrderStatus";
 const { Option } = Select;
 type OnFinshProps = {
   machineId?: number;
   activityId?: string;
-  status?: "preorder" | "paid" | "finish";
+  status?: OrderStatus;
 };
 type MyFormPropsType = {
   machineOptions: MachineDto[];
@@ -57,7 +58,9 @@ function MyForm({
             <Option value=""> - </Option>
             <Option value="preorder">預定</Option>
             <Option value="paid">已付款</Option>
-            <Option value="finish">已完成</Option>
+            <Option value="tally">理貨</Option>
+            <Option value="shipment">出貨</Option>
+            <Option value="finish">訂單完成</Option>
           </Select>
         </Form.Item>
       </Form.Item>

@@ -9,7 +9,7 @@ function Pay() {
     setInterval(() => {
       setTime((time) => {
         if (time <= 0) {
-          history.push(`/mobile/order/finish/${id}`);
+          history.push(`/mobile/order/detail/${id}`);
         }
         return time - 1;
       });

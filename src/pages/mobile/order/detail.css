@@ -1,0 +1,6 @@
+.stepsExample {
+  overflow: scroll;
+}
+.stepsExample .am-steps-item-icon {
+  margin: 0 auto;
+}
