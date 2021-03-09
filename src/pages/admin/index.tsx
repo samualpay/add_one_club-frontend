@@ -15,6 +15,7 @@ import ActivitySetting from "./activitySetting";
 import MachineSetting from "./machineSetting";
 import PublishQuery from "./publishQuery";
 import PublishSetting from "./publishSetting";
+import ActivityQuery from "./activityQuery";
 import { useDispatch } from "react-redux";
 
 import { logout as logoutAction } from "../../redux/modules/user";
@@ -54,6 +55,12 @@ const menuItems = [
     key: "orderQuery",
     title: "訂單查詢",
     name: "訂單查詢",
+    icon: <UserOutlined />,
+  },
+  {
+    key: "activityQuery",
+    title: "活動查詢",
+    name: "活動查詢",
     icon: <UserOutlined />,
   },
   {
@@ -168,6 +175,9 @@ function Pages() {
                 </Route>
                 <Route path={`${path}/publishSetting`}>
                   <PublishSetting />
+                </Route>
+                <Route path={`${path}/activityQuery`}>
+                  <ActivityQuery />
                 </Route>
               </Switch>
             </div>
