@@ -20,6 +20,12 @@ class ActivityMachineService {
     );
     return response.data.list.map((elem) => transfer(elem));
   }
+  async findCountByActivity(activityId: number): Promise<number> {
+    let response = await axiosForAdmin.axios.get<{ count: number }>(
+      `/api/publishs/activity/${activityId}/count`
+    );
+    return response.data.count;
+  }
   async delete(id: number) {
     await axiosForAdmin.axios.delete(`/api/publishs/${id}`);
   }

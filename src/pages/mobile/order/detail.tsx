@@ -6,6 +6,7 @@ import { Carousel } from "react-responsive-carousel";
 import "./detail.css";
 import { OrderStatus } from "../../../enum/OrderStatus";
 import { ActivityDto } from "../../../DTO/component/activity";
+import activityService from "../../../service/activity.service";
 const Step = Steps.Step;
 const orderStatus = [
   {
@@ -51,17 +52,17 @@ function OrderDetail() {
   const [finalPrice, setFinalPrice] = useState<number | null>();
   const [totalPrice, setTotalPrice] = useState<number | null>();
   const [step, setStep] = useState<number>(0);
-  function getCurrentPrice(act: ActivityDto) {
-    let discounts = act.discounts;
-    let price = act.price || 0;
-    let finalPrice = price;
-    discounts.forEach((discount) => {
-      if (act.registeredCount && act.registeredCount > discount.peopleCount) {
-        finalPrice = (price / 100) * discount.percent;
-      }
-    });
-    return finalPrice;
-  }
+  // function getCurrentPrice(act: ActivityDto) {
+  //   let discounts = act.discounts;
+  //   let price = act.price || 0;
+  //   let finalPrice = price;
+  //   discounts.forEach((discount) => {
+  //     if (act.registeredCount && act.registeredCount > discount.peopleCount) {
+  //       finalPrice = (price / 100) * discount.percent;
+  //     }
+  //   });
+  //   return finalPrice;
+  // }
   function payInfo() {
     return (
       <List>
@@ -103,7 +104,9 @@ function OrderDetail() {
       setPhone(order.customer.phone + "");
       setStep(getOrderStatusIndex(order.status));
       if (order.status === "preorder") {
-        setCurrentPrice(getCurrentPrice(order.publish.activity));
+        setCurrentPrice(
+          activityService.getCurrentPrice(order.publish.activity)
+        );
         setPreCount(order.preCount);
       } else {
         setFinalPrice(order.publish.activity.finalPrice);

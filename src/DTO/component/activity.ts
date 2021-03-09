@@ -20,6 +20,7 @@ export type ActivityDto = {
   linkCount?: number;
   registeredCount?: number;
   buyCount?: number;
+  publishCount?: number;
 };
 
 export function transfer(data: ActivityApiDto): ActivityDto {

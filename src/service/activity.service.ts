@@ -42,5 +42,16 @@ class ActivityService {
   async end(id: number) {
     await axiosForAdmin.axios.patch("/api/activitys/end", { id });
   }
+  getCurrentPrice(act: ActivityDto) {
+    let discounts = act.discounts;
+    let price = act.price || 0;
+    let finalPrice = price;
+    discounts.forEach((discount) => {
+      if (act.registeredCount && act.registeredCount > discount.peopleCount) {
+        finalPrice = (price / 100) * discount.percent;
+      }
+    });
+    return finalPrice;
+  }
 }
 export default new ActivityService();

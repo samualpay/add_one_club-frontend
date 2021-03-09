@@ -1,5 +1,5 @@
 import { Form, Button, Select } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { MachineDto } from "../../../../DTO/component/machine";
 import { ActivityDto } from "../../../../DTO/component/activity";
 import {
@@ -8,13 +8,15 @@ import {
 } from "../../../../enum/ActivityStatus";
 const { Option } = Select;
 type OnFinshProps = {
-  status?: ActivityStatus;
+  status: ActivityStatus;
 };
 type MyFormPropsType = {
+  status: string;
   onFinish: (query: OnFinshProps) => void;
 };
-const defaultValue = { machineId: "", activityId: "", status: "" };
-function MyForm({ onFinish }: MyFormPropsType) {
+
+function MyForm({ status, onFinish }: MyFormPropsType) {
+  const defaultValue = { status };
   return (
     <Form name="complex-form" initialValues={defaultValue} onFinish={onFinish}>
       <Form.Item label="活動狀態">
