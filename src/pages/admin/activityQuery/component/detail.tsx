@@ -1,13 +1,4 @@
-import {
-  Button,
-  Modal,
-  Space,
-  Row,
-  Col,
-  Card,
-  Descriptions,
-  Progress,
-} from "antd";
+import { Button, Row, Col, Card, Descriptions, Progress, Table } from "antd";
 import React, { useEffect } from "react";
 import { ActivityDto } from "../../../../DTO/component/activity";
 import "./detail.css";
@@ -22,6 +13,11 @@ type FieldType = {
   value?: string | number | JSX.Element;
 };
 type ProgressProps = {
+  percent: number;
+};
+type DiscountDTO = {
+  level: number;
+  peopleCount: number;
   percent: number;
 };
 function MyProgress({ percent }: ProgressProps) {
@@ -120,7 +116,29 @@ function ActivityQueryDetail({ data, onBack }: ModifyModalProps) {
       },
     ];
   }
-
+  let discounts: DiscountDTO[] = [];
+  if (data && data.discounts) {
+    discounts = data.discounts.map((elem, index) => {
+      return { level: index, ...elem };
+    });
+  }
+  const columns = [
+    {
+      title: "層數",
+      dataIndex: "level",
+      key: "level",
+    },
+    {
+      title: "人數",
+      dataIndex: "peopleCount",
+      key: "peopleCount",
+    },
+    {
+      title: "折扣",
+      dataIndex: "percent",
+      key: "percent",
+    },
+  ];
   return (
     <div>
       <Button onClick={onBack} type="primary">
@@ -138,6 +156,20 @@ function ActivityQueryDetail({ data, onBack }: ModifyModalProps) {
             </Descriptions.Item>
           ))}
         </Descriptions>
+      </div>
+      <div className="site-card-wrapper">
+        <Row>
+          <Col span={24}>
+            <Card title="降價階層">
+              <Table
+                columns={columns}
+                dataSource={discounts}
+                rowKey="id"
+                pagination={false}
+              />
+            </Card>
+          </Col>
+        </Row>
       </div>
       <div className="site-card-wrapper">
         <Row gutter={16}>
