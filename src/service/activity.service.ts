@@ -47,7 +47,7 @@ class ActivityService {
     let price = act.price || 0;
     let finalPrice = price;
     discounts.forEach((discount) => {
-      if (act.registeredCount && act.registeredCount > discount.peopleCount) {
+      if (act.registeredCount && act.registeredCount >= discount.peopleCount) {
         finalPrice = (price / 100) * discount.percent;
       }
     });
