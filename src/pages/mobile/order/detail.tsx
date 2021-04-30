@@ -5,7 +5,7 @@ import orderService from "../../../service/order.service";
 import { Carousel } from "react-responsive-carousel";
 import "./detail.css";
 import { OrderStatus } from "../../../enum/OrderStatus";
-import { ActivityDto } from "../../../DTO/component/activity";
+import { ActivityDto, DiscountDto } from "../../../DTO/component/activity";
 import activityService from "../../../service/activity.service";
 const Step = Steps.Step;
 const orderStatus = [
@@ -39,6 +39,10 @@ const steps = orderStatus.map((s, i) => <Step key={i} title={s.title} />);
 function OrderDetail() {
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
+  const [activityId, setActivityId] = useState<number>();
+  const [registeredCount, setRegisteredCount] = useState<number>();
+  const [discounts, setDiscounts] = useState<DiscountDto[]>();
+  const [price, setPrice] = useState<number>();
   const [preCount, setPreCount] = useState<number | null>();
   const [buyCount, setBuyCount] = useState<number | null>();
   const [name, setName] = useState<string | null>();
@@ -89,6 +93,14 @@ function OrderDetail() {
       </List>
     );
   }
+  function updateCurrentPrice() {
+    setCurrentPrice(price || 0);
+    if (price && registeredCount && discounts) {
+      setCurrentPrice(
+        activityService.getCurrentPrice({ registeredCount, price, discounts })
+      );
+    }
+  }
   async function mount() {
     try {
       let order = await orderService.findByIdForMobile(parseInt(id));
@@ -98,15 +110,17 @@ function OrderDetail() {
       let images = order.publish.activity.images.map(
         (elem) => `/images/${elem}`
       );
+      const activity = order.publish.activity;
+      setActivityId(activity.id);
+      setRegisteredCount(activity.registeredCount);
+      setDiscounts(activity.discounts);
+      setPrice(activity.price || 0);
       setImages(images);
-      setProductName(order.publish.activity.name);
-      setDescription(order.publish.activity.description);
+      setProductName(activity.name);
+      setDescription(activity.description);
       setPhone(order.customer.phone + "");
       setStep(getOrderStatusIndex(order.status));
       if (order.status === "preorder") {
-        setCurrentPrice(
-          activityService.getCurrentPrice(order.publish.activity)
-        );
         setPreCount(order.preCount);
       } else {
         setFinalPrice(order.publish.activity.finalPrice);
@@ -123,7 +137,20 @@ function OrderDetail() {
   useEffect(() => {
     mount();
   }, []);
-
+  useEffect(() => {
+    updateCurrentPrice();
+  }, [price, registeredCount, discounts]);
+  useEffect(() => {
+    if (activityId != null) {
+      let id = setInterval(async () => {
+        let registeredCount = await activityService.getRegisteredCountById(
+          activityId
+        );
+        setRegisteredCount(registeredCount);
+      }, 10000);
+      return () => clearInterval(id);
+    }
+  }, [activityId]);
   return (
     <WingBlank size="lg">
       <List>
