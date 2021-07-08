@@ -22,8 +22,10 @@ const initalData: ActivityDto = {
   name: "",
   description: "",
   timeRange: null,
+  payEndAt: moment(Date.now()),
   discounts: [],
   price: null,
+  totalCount: undefined,
   finalPrice: null,
 };
 const defaultFooter: JSX.Element = (
@@ -115,6 +117,18 @@ function MyForm({
           />
         </Form.Item>
       </Form.Item>
+      <Form.Item label="購買截止日">
+        <Form.Item
+          name="payEndAt"
+          noStyle
+          rules={[{ required: true, message: "未填購買截止日" }]}
+        >
+          <DatePicker
+            showTime={{ format: "HH:mm:ss" }}
+            format="YYYY-MM-DD HH:mm:ss"
+          />
+        </Form.Item>
+      </Form.Item>
       <Form.Item label="產品定價">
         <Form.Item
           name="price"
@@ -131,7 +145,15 @@ function MyForm({
           />
         </Form.Item>
       </Form.Item>
-
+      <Form.Item label="限量總數">
+        <Form.Item name="totalCount">
+          <InputNumber
+            style={{ width: "100%" }}
+            placeholder="限量總數"
+            min={0}
+          />
+        </Form.Item>
+      </Form.Item>
       <Form.Item label="降價階層數"></Form.Item>
       <Form.List name="discounts">
         {(fields, { add, remove }) => (

@@ -1,8 +1,10 @@
 import { ActivityDto } from "../component/activity";
 export type ImageApiDto = {
   fileName: string;
+  order: number;
 };
 export type DiscountApiDto = {
+  id?: number;
   peopleCount: number;
   percent: number;
 };
@@ -13,7 +15,9 @@ export type ActivityApiDto = {
   description: string;
   start_at: number;
   end_at: number;
+  pay_end_at: number;
   price: number;
+  total_count?: number;
   images: ImageApiDto[];
   videos: ImageApiDto[];
   discounts: DiscountApiDto[];
@@ -30,16 +34,17 @@ export function transfer(data: ActivityDto): ActivityApiDto {
     let end = data.timeRange[1];
     start.set({ second: 0 });
     end.set({ second: 0 });
+    let pay_end_at = Math.round(data.payEndAt.valueOf() / 1000);
     let images: ImageApiDto[] = [];
     let videos: ImageApiDto[] = [];
     if (data.images) {
-      images = data.images.map((elem) => {
-        return { fileName: elem };
+      images = data.images.map((elem, index) => {
+        return { fileName: elem, order: index };
       });
     }
     if (data.videos) {
-      videos = data.videos.map((elem) => {
-        return { fileName: elem };
+      videos = data.videos.map((elem, index) => {
+        return { fileName: elem, order: index };
       });
     }
     return {
@@ -51,7 +56,9 @@ export function transfer(data: ActivityDto): ActivityApiDto {
       description: data.description,
       start_at: Math.round(start.valueOf() / 1000),
       end_at: Math.round(end.valueOf() / 1000),
+      pay_end_at,
       price: data.price,
+      total_count: data.totalCount,
       discounts: data.discounts,
       finalPrice: data.finalPrice,
       status: data.status,

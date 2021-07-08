@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import moment from "moment";
 import { Modal } from "antd";
 import "./index.css";
 import { ActivityDto } from "../../../DTO/component/activity";
@@ -17,8 +17,10 @@ function Admin() {
     name: "",
     description: "",
     timeRange: null,
+    payEndAt: moment(Date.now()),
     discounts: [],
     price: null,
+    totalCount: undefined,
     finalPrice: null,
   };
   const [datas, setDatas] = useState<Array<ActivityDto>>([]);

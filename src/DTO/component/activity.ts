@@ -13,7 +13,9 @@ export type ActivityDto = {
   name: string;
   description: string;
   timeRange: Moment[] | null;
+  payEndAt: Moment;
   price: number | null;
+  totalCount?: number;
   discounts: DiscountDto[];
   finalPrice: number | null;
   status?: "not_started" | "start" | "end";
@@ -26,11 +28,16 @@ export type ActivityDto = {
 export function transfer(data: ActivityApiDto): ActivityDto {
   let images: string[] = [];
   let videos: string[] = [];
+  const payEndAt = moment(data.pay_end_at * 1000);
   if (data.images) {
-    images = data.images.map((elem) => elem.fileName);
+    images = data.images
+      .sort((a, b) => a.order - b.order)
+      .map((elem) => elem.fileName);
   }
   if (data.videos) {
-    videos = data.videos.map((elem) => elem.fileName);
+    videos = data.videos
+      .sort((a, b) => a.order - b.order)
+      .map((elem) => elem.fileName);
   }
   return {
     id: data.id,
@@ -40,7 +47,9 @@ export function transfer(data: ActivityApiDto): ActivityDto {
     name: data.name,
     description: data.description,
     timeRange: [moment(data.start_at * 1000), moment(data.end_at * 1000)],
+    payEndAt,
     price: data.price,
+    totalCount: data.total_count,
     discounts: data.discounts,
     finalPrice: data.finalPrice,
     status: data.status,
