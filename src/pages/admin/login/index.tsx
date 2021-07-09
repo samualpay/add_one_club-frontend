@@ -60,11 +60,9 @@ function Admin() {
     };
   }
   return (
-    <div className="App">
-      {/* <h1>登入頁 </h1>
-      <input placeholder="username" value={username} onChange={inputChange('username')} />
-      <input placeholder="password" value={password} onChange={inputChange('password')} />
-      <button onClick={clickHandle}>登入</button> */}
+    <div style={{ width: 330, margin: "auto", textAlign: "center" }}>
+      <div style={{ height: 250 }} />
+      <h1>加一後台管理系統</h1>
       <Form
         form={form}
         name="normal_login"
@@ -100,28 +98,29 @@ function Admin() {
           Forgot password
         </a>
       </Form.Item> */}
-
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="button"
-            onClick={clickHandle(ButtonEnum.login)}
-            className="login-form-button"
-          >
-            登入
-          </Button>
-        </Form.Item>
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="button"
-            onClick={clickHandle(ButtonEnum.register)}
-            className="login-form-button"
-          >
-            註冊
-          </Button>
-        </Form.Item>
       </Form>
+      <div style={{ margin: "auto", width: 330 }}>
+        <Button
+          type="primary"
+          htmlType="button"
+          onClick={clickHandle(ButtonEnum.login)}
+          style={{ width: 330 }}
+        >
+          登入
+        </Button>
+      </div>
+      <div style={{ height: 10 }}></div>
+      <div style={{ margin: "auto", width: 330 }}>
+        <Button
+          type="primary"
+          htmlType="button"
+          onClick={clickHandle(ButtonEnum.register)}
+          className="login-form-button"
+          style={{ width: 330 }}
+        >
+          註冊
+        </Button>
+      </div>
     </div>
   );
 }
