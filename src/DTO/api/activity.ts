@@ -26,6 +26,7 @@ export type ActivityApiDto = {
   linkCount?: number;
   registeredCount?: number;
   buyCount?: number;
+  preorderProductItem?: number;
 };
 
 export function transfer(data: ActivityDto): ActivityApiDto {
@@ -34,6 +35,7 @@ export function transfer(data: ActivityDto): ActivityApiDto {
     let end = data.timeRange[1];
     start.set({ second: 0 });
     end.set({ second: 0 });
+    data.payEndAt.set({ hour: 23, minute: 59, second: 59 });
     let pay_end_at = Math.round(data.payEndAt.valueOf() / 1000);
     let images: ImageApiDto[] = [];
     let videos: ImageApiDto[] = [];
@@ -65,6 +67,7 @@ export function transfer(data: ActivityDto): ActivityApiDto {
       linkCount: data.linkCount,
       registeredCount: data.registeredCount,
       buyCount: data.buyCount,
+      preorderProductItem: data.preorderProductItem,
     };
   } else {
     throw new Error("data2APIData failed");

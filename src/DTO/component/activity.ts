@@ -23,6 +23,7 @@ export type ActivityDto = {
   registeredCount?: number;
   buyCount?: number;
   publishCount?: number;
+  preorderProductItem?: number;
 };
 
 export function transfer(data: ActivityApiDto): ActivityDto {
@@ -56,5 +57,6 @@ export function transfer(data: ActivityApiDto): ActivityDto {
     linkCount: data.linkCount,
     registeredCount: data.registeredCount,
     buyCount: data.buyCount,
+    preorderProductItem: data.preorderProductItem,
   };
 }

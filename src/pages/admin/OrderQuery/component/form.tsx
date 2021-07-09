@@ -57,7 +57,8 @@ function MyForm({
           <Select>
             <Option value=""> - </Option>
             <Option value="preorder">預定</Option>
-            <Option value="paid">已付款</Option>
+            {/* <Option value="paid">已付款</Option> */}
+            <Option value="paid">確定訂購</Option>
             <Option value="tally">理貨</Option>
             <Option value="shipment">出貨</Option>
             <Option value="finish">訂單完成</Option>

@@ -123,10 +123,7 @@ function MyForm({
           noStyle
           rules={[{ required: true, message: "未填購買截止日" }]}
         >
-          <DatePicker
-            showTime={{ format: "HH:mm:ss" }}
-            format="YYYY-MM-DD HH:mm:ss"
-          />
+          <DatePicker format="YYYY-MM-DD HH:mm:ss" />
         </Form.Item>
       </Form.Item>
       <Form.Item label="產品定價">

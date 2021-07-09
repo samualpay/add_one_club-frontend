@@ -21,7 +21,8 @@ function Pay() {
       <div className="dd">
         <i className="checkmark">✓</i>
       </div>
-      <h1 className="pay-h1">付款成功</h1>
+      {/* <h1 className="pay-h1">付款成功</h1> */}
+      <h1 className="pay-h1">訂購成功</h1>
       <p className="pay-p">{time}秒後自動跳轉</p>
     </div>
   );

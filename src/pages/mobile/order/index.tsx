@@ -14,6 +14,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import PrivacyModal from "./component/PrivacyModal";
 import EmailInputItem from "../../../components/mobile/emailinputItem";
+import moment from "moment";
 function Order() {
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -28,7 +29,7 @@ function Order() {
   const [totalPrice, setTotalPrice] = useState("");
   const [emailHasError, setEmailHasError] = useState(false);
   const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-
+  const [isOutOfPayDate, setIsOutOfPayDate] = useState(false);
   async function mount() {
     try {
       let order = await orderService.findByIdForMobile(parseInt(id));
@@ -37,6 +38,9 @@ function Order() {
       }
       if (order.publish.activity.status != "end") {
         throw new Error("activity not end");
+      }
+      if (order.publish.activity.payEndAt.diff(moment()) < 0) {
+        setIsOutOfPayDate(true);
       }
       if (order.status !== "preorder") {
         history.push(`/mobile/order/detail/${id}`);
@@ -98,14 +102,6 @@ function Order() {
   async function handleBuyClick() {
     if (validForm()) {
       setPrivacyModalVisible(true);
-      // await orderService.buyForMobile({
-      //   id: parseInt(id),
-      //   name,
-      //   address,
-      //   email,
-      //   buyCount: parseInt(buyCount),
-      // });
-      // mount();
     }
   }
   async function handleModalConfirm() {
@@ -117,7 +113,6 @@ function Order() {
       email,
       buyCount: parseInt(buyCount),
     });
-    // mount();
     history.push(`/mobile/order/pay/${id}`);
   }
   function handleModalCancel() {
@@ -137,53 +132,9 @@ function Order() {
   useEffect(() => {
     mount();
   }, []);
-
-  return (
-    <WingBlank size="lg">
-      <h2>訂單確認</h2>
-      <List>
-        {/* <List.Item>
-          <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
-            訂單確認
-          </div>
-        </List.Item> */}
-        <List.Item>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              margin: "0px auto",
-              maxWidth: "320px",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
-              {images.map((image) => (
-                <div>
-                  <img
-                    style={{ width: "320px", height: "320px" }}
-                    src={image}
-                  ></img>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-        </List.Item>
-        <List.Item>
-          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{productName}</h3>
-        </List.Item>
-      </List>
-      <WhiteSpace />
-      <Card>
-        <Card.Header title="商品資訊" />
-        <Card.Body>
-          <div style={{ textAlign: "left", wordBreak: "break-word" }}>
-            {description}
-          </div>
-        </Card.Body>
-      </Card>
-      <WhiteSpace />
+  const payEndAlert = <div>已超過訂購期限</div>;
+  const form = (
+    <div>
       <List>
         <List.Item extra={finalPrice}>單價</List.Item>
         <InputItem
@@ -215,15 +166,6 @@ function Order() {
         >
           姓名
         </InputItem>
-        {/* <InputItem
-          type="text"
-          clear
-          placeholder="電子信箱"
-          value={email}
-          onChange={handleOnChange("email")}
-        >
-          電子信箱
-        </InputItem> */}
         <EmailInputItem
           value={email}
           hasError={emailHasError}
@@ -271,6 +213,55 @@ function Order() {
           </Button>
         </div>
       </div>
+    </div>
+  );
+  return (
+    <WingBlank size="lg">
+      <h2>訂單確認</h2>
+      <List>
+        {/* <List.Item>
+          <div style={{ width: "100%", color: "#000000", textAlign: "center" }}>
+            訂單確認
+          </div>
+        </List.Item> */}
+        <List.Item>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              margin: "0px auto",
+              maxWidth: "320px",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
+              {images.map((image) => (
+                <div>
+                  <img
+                    style={{ width: "320px", height: "320px" }}
+                    src={image}
+                  ></img>
+                </div>
+              ))}
+            </Carousel>
+          </div>
+        </List.Item>
+        <List.Item>
+          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{productName}</h3>
+        </List.Item>
+      </List>
+      <WhiteSpace />
+      <Card>
+        <Card.Header title="商品資訊" />
+        <Card.Body>
+          <div style={{ textAlign: "left", wordBreak: "break-word" }}>
+            {description}
+          </div>
+        </Card.Body>
+      </Card>
+      <WhiteSpace />
+      {isOutOfPayDate ? payEndAlert : form}
       <PrivacyModal
         visible={privacyModalVisible}
         onComfirm={handleModalConfirm}

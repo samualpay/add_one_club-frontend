@@ -15,7 +15,8 @@ const orderStatus = [
   },
   {
     key: "paid",
-    title: "已付款",
+    // title: "已付款",
+    title: "確定訂購",
   },
   {
     key: "tally",

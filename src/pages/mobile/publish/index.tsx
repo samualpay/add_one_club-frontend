@@ -23,6 +23,7 @@ function Publish() {
   const [description, setDescription] = useState<string>("");
   const [phoneHasError, setPhoneHasError] = useState<boolean>(false);
   const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
+  const [isSellout, setIsSellout] = useState(false);
   const history = useHistory();
   function handlePhoneChange(value: string, hasError: boolean) {
     setPhone(value);
@@ -41,6 +42,13 @@ function Publish() {
         setName(publish.activity.name);
         setDescription(publish.activity.description);
         setImages(images);
+        if (
+          publish.activity.totalCount &&
+          publish.activity.preorderProductItem &&
+          publish.activity.totalCount <= publish.activity.preorderProductItem
+        ) {
+          setIsSellout(true);
+        }
       } else {
         throw new Error("not found");
       }
@@ -72,48 +80,9 @@ function Publish() {
   useEffect(() => {
     mount();
   }, []);
-
-  return (
-    <WingBlank size="lg">
-      <h2>產品介紹</h2>
-      <List>
-        <List.Item>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              margin: "0px auto",
-              maxWidth: "320px",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
-              {images.map((image) => (
-                <div>
-                  <img
-                    style={{ width: "320px", height: "320px" }}
-                    src={image}
-                  ></img>
-                </div>
-              ))}
-            </Carousel>
-          </div>
-        </List.Item>
-        <List.Item>
-          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{name}</h3>
-        </List.Item>
-      </List>
-      <WhiteSpace />
-      <Card>
-        <Card.Header title="商品資訊" />
-        <Card.Body>
-          <div style={{ textAlign: "left", wordBreak: "break-word" }}>
-            {description}
-          </div>
-        </Card.Body>
-      </Card>
-      <WhiteSpace />
+  const selloutForm = <div>已銷售一空</div>;
+  const form = (
+    <div>
       <List>
         <PhoneInputItem
           value={phone}
@@ -163,6 +132,50 @@ function Publish() {
           </Button>
         </div>
       </div>
+    </div>
+  );
+  return (
+    <WingBlank size="lg">
+      <h2>產品介紹</h2>
+      <List>
+        <List.Item>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              margin: "0px auto",
+              maxWidth: "320px",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
+              {images.map((image) => (
+                <div>
+                  <img
+                    style={{ width: "320px", height: "320px" }}
+                    src={image}
+                  ></img>
+                </div>
+              ))}
+            </Carousel>
+          </div>
+        </List.Item>
+        <List.Item>
+          <h3 style={{ font: "bold 15px/18px Helvetica" }}>{name}</h3>
+        </List.Item>
+      </List>
+      <WhiteSpace />
+      <Card>
+        <Card.Header title="商品資訊" />
+        <Card.Body>
+          <div style={{ textAlign: "left", wordBreak: "break-word" }}>
+            {description}
+          </div>
+        </Card.Body>
+      </Card>
+      <WhiteSpace />
+      {isSellout ? selloutForm : form}
       <PrivacyModal
         visible={privacyModalVisible}
         onComfirm={handleModalConfirm}
